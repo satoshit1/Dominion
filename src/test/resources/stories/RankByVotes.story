@@ -37,4 +37,4 @@ Then print result
 Then result type is TIE
 Then result has 2 seats
 Then result seat #0 is CandidateA
-Then result seat #1 is CandidateB
+Then result seat #1 is CandidateB 
