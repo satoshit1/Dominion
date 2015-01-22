@@ -20,6 +20,16 @@ public abstract class RankMethod implements SeatAllocationMethod {
 	public Result process(InmutableTally tally, Properties properties,
 			TieBreaker tieBreaker) throws SeatAllocationException {
 
+		if (null == tally) {
+			throw new SeatAllocationException("Received Tally was null");
+		}
+		if (null == tieBreaker) {
+			throw new SeatAllocationException("Received TieBreaker was null");
+		}
+		if (null == properties) {
+			throw new SeatAllocationException("Received Properties was null");
+		}
+
 		int numberOfCandidates = tally.getNumberOfCandidates();
 		int numberOfSeats = Integer.parseInt(properties.getProperty(
 				"numberOfSeats", Integer.toString(numberOfCandidates)));
