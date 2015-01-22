@@ -61,7 +61,6 @@ public class MaxVotesShould {
 		RandomTieBreaker tieBreaker = new RandomTieBreaker();
 		tally.addCandidate(candidateA);
 		tally.addCandidate(new Candidate("candidateB", 0));
-		System.out.println();
 		assertEquals(candidateA, sut.process(tally, properties, tieBreaker).getSeatAt(0));
 	}
 
