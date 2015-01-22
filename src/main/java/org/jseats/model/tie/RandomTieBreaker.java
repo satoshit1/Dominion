@@ -14,6 +14,10 @@ public class RandomTieBreaker extends BaseTieBreaker {
 		return "random-tie-breaker";
 	}
 
+	public void injectRandom(Random random) {
+		rand = random;
+	}
+
 	@Override
 	public Candidate innerBreakTie(List<Candidate> candidates) {
 		return candidates.get(rand.nextInt(candidates.size()));
