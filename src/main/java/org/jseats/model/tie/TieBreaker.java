@@ -27,6 +27,7 @@ public interface TieBreaker {
 	 * @return The top candidate where with more priority according to tie
 	 *         breaker implementation criteria. If unsolvable, null is returned.
 	 */
+	// TODO should not return null but Optional<Candidate>
 	public Candidate breakTie(List<Candidate> candidates);
 	
 	/**
@@ -37,5 +38,6 @@ public interface TieBreaker {
 	 * @return The top candidate where with more priority according to tie
 	 *         breaker implementation criteria. If unsolvable, null is returned.
 	 */
+	// TODO should not return null but Optional<Candidate>
 	public Candidate breakTie(Candidate... candidate);
 }
