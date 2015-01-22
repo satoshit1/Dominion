@@ -25,6 +25,7 @@ public class Result {
 
 	public enum ResultType {
 
+		// TODO AGB missing documentation
 		SINGLE("single-result"), MULTIPLE("multiple-result"), TIE("tie"), UNDECIDED(
 				"undecided");
 
