@@ -13,6 +13,8 @@ package org.jseats.unit;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
 import java.util.Properties;
@@ -46,9 +48,13 @@ public class MaxVotesShould {
 		sut.process(null, mock(Properties.class), mock(TieBreaker.class));
 	}
 
-	@Test(expected = SeatAllocationException.class)
-	public void not_fail_on_null_tibreaker() throws SeatAllocationException {
-		sut.process(mock(Tally.class), mock(Properties.class), null);
+	@Test
+	public void fail_when_no_candidates() throws SeatAllocationException {
+		expectedException.expect(SeatAllocationException.class);
+		expectedException.expectMessage(equalTo("This tally contains no candidates"));
+		Properties mockProperties = mock(Properties.class);
+		doReturn("1").when(mockProperties).getProperty(anyString(), anyString());
+		sut.process(mock(Tally.class), mockProperties, null);
 	}
 	
 	@Test(expected = SeatAllocationException.class)
@@ -64,6 +70,7 @@ public class MaxVotesShould {
 		expectedException.expect(SeatAllocationException.class);
 		expectedException.expectMessage(equalTo("numberOfSeats property is not a number: 'AA'"));
 		properties.put("numberOfSeats", "AA");
+		tally.addCandidate(mock(Candidate.class));
 		RandomTieBreaker tieBreaker = new RandomTieBreaker();
 
 		sut.process(tally, properties, tieBreaker);

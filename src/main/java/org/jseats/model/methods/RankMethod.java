@@ -23,14 +23,13 @@ public abstract class RankMethod implements SeatAllocationMethod {
 		if (null == tally) {
 			throw new SeatAllocationException("Received Tally was null");
 		}
-		if (null == tieBreaker) {
-			throw new SeatAllocationException("Received TieBreaker was null");
-		}
 		if (null == properties) {
 			throw new SeatAllocationException("Received Properties was null");
 		}
-
 		int numberOfCandidates = tally.getNumberOfCandidates();
+		if (numberOfCandidates <= 0) {
+			throw new SeatAllocationException("This tally contains no candidates");
+		}
 		// If numberOfSeats is not defined it is set with a default value
 		// to numberOfCandidates
 		int numberOfSeats = 0;
