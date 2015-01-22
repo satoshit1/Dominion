@@ -41,6 +41,9 @@ public abstract class RankMethod implements SeatAllocationMethod {
 			throw new SeatAllocationException("numberOfSeats property is not a number: '"
 				+ properties.getProperty("numberOfSeats") + "'");
 		}
+		if (numberOfSeats < 0) {
+			throw new SeatAllocationException("numberOfSeats is negative: " + numberOfSeats);
+		}
 
 		int[] candidatePriority = new int[numberOfCandidates];
 

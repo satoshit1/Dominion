@@ -87,6 +87,17 @@ public class MaxVotesShould {
 	}
 
 	@Test
+	public void not_allow_negative_numberOfSeats() throws SeatAllocationException {
+		properties.put("numberOfSeats", "-2");
+		tally.addCandidate(mock(Candidate.class));
+
+		expectedException.expect(SeatAllocationException.class);
+		expectedException.expectMessage(equalTo("numberOfSeats is negative: -2"));
+
+		sut.process(tally, properties, mock(TieBreaker.class));
+	}
+
+	@Test
 	public void elect_candidateA() throws SeatAllocationException {
 		Candidate candidateA = new Candidate("candidateA", 10);
 		properties.put("numberOfSeats", 1);
