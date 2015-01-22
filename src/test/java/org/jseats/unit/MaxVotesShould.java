@@ -25,7 +25,9 @@ import org.jseats.model.methods.ByVotesRankMethod;
 import org.jseats.model.tie.RandomTieBreaker;
 import org.jseats.model.tie.TieBreaker;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class MaxVotesShould {
 
@@ -52,6 +54,29 @@ public class MaxVotesShould {
 	@Test(expected = SeatAllocationException.class)
 	public void not_fail_on_null_properties() throws SeatAllocationException {
 		sut.process(mock(Tally.class), null, mock(TieBreaker.class));
+	}
+
+	@Rule
+	public ExpectedException expectedException = ExpectedException.none();
+
+	@Test
+	public void fail_on_a_unparseable_numberOfSeats_Property() throws SeatAllocationException {
+		expectedException.expect(SeatAllocationException.class);
+		expectedException.expectMessage(equalTo("numberOfSeats property is not a number: 'AA'"));
+		properties.put("numberOfSeats", "AA");
+		RandomTieBreaker tieBreaker = new RandomTieBreaker();
+
+		sut.process(tally, properties, tieBreaker);
+	}
+
+	@Test
+	public void when_not_given_a_numberOfSeats_should_assign_the_same_number_as_numberOfCandidates()
+			throws SeatAllocationException {
+		Candidate candidateA = new Candidate("candidateA", 10);
+		RandomTieBreaker tieBreaker = new RandomTieBreaker();
+		tally.addCandidate(candidateA);
+		// Do not create a property numberOfSeats
+		assertEquals(candidateA, sut.process(tally, properties, tieBreaker).getSeatAt(0));
 	}
 
 	@Test

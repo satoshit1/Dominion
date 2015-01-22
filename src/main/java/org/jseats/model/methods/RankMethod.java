@@ -31,8 +31,17 @@ public abstract class RankMethod implements SeatAllocationMethod {
 		}
 
 		int numberOfCandidates = tally.getNumberOfCandidates();
-		int numberOfSeats = Integer.parseInt(properties.getProperty(
-				"numberOfSeats", Integer.toString(numberOfCandidates)));
+		// If numberOfSeats is not defined it is set with a default value
+		// to numberOfCandidates
+		int numberOfSeats = 0;
+		String numberOfSeatsString_or_NumberOfCandidates =
+			properties.getProperty("numberOfSeats", Integer.toString(numberOfCandidates));
+		try {
+			numberOfSeats = Integer.parseInt(numberOfSeatsString_or_NumberOfCandidates);
+		} catch (NumberFormatException exception) {
+			throw new SeatAllocationException("numberOfSeats property is not a number: '"
+				+ properties.getProperty("numberOfSeats") + "'");
+		}
 
 		int[] candidatePriority = new int[numberOfCandidates];
 
