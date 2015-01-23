@@ -1,15 +1,13 @@
 package org.jseats.model.methods;
 
-import org.hamcrest.MatcherAssert;
-import org.jseats.model.InmutableTally;
-import org.jseats.model.SeatAllocationException;
+import org.jseats.model.*;
 import org.jseats.model.tie.TieBreaker;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import javax.lang.model.util.SimpleElementVisitor6;
+import java.util.Arrays;
 import java.util.Properties;
 
 import static org.hamcrest.Matchers.is;
@@ -18,6 +16,7 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class SimpleMajorityMethodShould {
     
@@ -46,6 +45,25 @@ public class SimpleMajorityMethodShould {
     @Test
     public void not_fail_on_a_null_properties() throws SeatAllocationException {
         assertThat(sut.process(mock(InmutableTally.class), null, mock(TieBreaker.class)), is(not(nullValue())));
+    }
+
+    @Test
+    public void not_fail_on_a_null_tiebreaker() throws SeatAllocationException {
+        assertThat(sut.process(mock(InmutableTally.class), null, mock(TieBreaker.class)), is(not(nullValue())));
+    }
+
+    @Test
+    public void ask_tiebreaker_on_a_tie() throws SeatAllocationException {
+        final Candidate candidateA = new Candidate("A", 10);
+        final Candidate candidateB = new Candidate("B", 10);
+
+        Tally tally = new Tally();
+        Arrays.asList(candidateA, candidateB).stream().forEach(tally::addCandidate);
+
+        final TieBreaker tieBreaker = mock(TieBreaker.class);
+        sut.process(tally, null, tieBreaker);
+
+        verify(tieBreaker).breakTie(Arrays.asList(candidateA, candidateB));
     }
     
 }
