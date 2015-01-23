@@ -41,10 +41,18 @@ public class DHondtShould {
 	private Properties properties;
 	private DHondtHighestAveragesMethod sut;
 
-	final String CANDIDATE_NAME_BOOZE = "Booze";
-	final String CANDIDATE_NAME_ROYALTY = "Royalty";
-	final String CANDIDATE_NAME_ROCK = "Rock";
-	final String CANDIDATE_NAME_POLITICS = "Politics";
+	private static final String CANDIDATE_NAME_BOOZE = "Booze";
+	private static final String CANDIDATE_NAME_ROYALTY = "Royalty";
+	private static final String CANDIDATE_NAME_ROCK = "Rock";
+	private static final String CANDIDATE_NAME_POLITICS = "Politics";
+
+	private static final String CANDIDATE_NAME_red = "Red";
+	private static final String CANDIDATE_NAME_green = "Green";
+	private static final String CANDIDATE_NAME_blue = "Blue";
+	private static final String CANDIDATE_NAME_purple = "Purple";
+	private static final String CANDIDATE_NAME_black = "Black";
+	private static final String CANDIDATE_NAME_yellow = "Yellow";
+	private static final String CANDIDATE_NAME_brown = "Brown";
 
 	@Before
 	public void setUp() {
@@ -123,22 +131,15 @@ public class DHondtShould {
 	public void pass_the_acceptance_test_2() throws SeatAllocationException {
 		// Using test data set from http://icon.cat/util/elections
 		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "50");
-		final String red = "Red";
-		final String green = "Green";
-		final String blue = "Blue";
-		final String purple = "Purple";
-		final String black = "Black";
-		final String yellow = "Yellow";
-		final String brown = "Brown";
-		tally = getTallySheetWith(new Candidate(brown, 1), new Candidate(yellow, 33), new Candidate(black, 22), new Candidate(purple, 12), new Candidate(blue, 75), new Candidate(green, 15), new Candidate(red, 50));
+		tally = getTallySheetWith(new Candidate(CANDIDATE_NAME_brown, 1), new Candidate(CANDIDATE_NAME_yellow, 33), new Candidate(CANDIDATE_NAME_black, 22), new Candidate(CANDIDATE_NAME_purple, 12), new Candidate(CANDIDATE_NAME_blue, 75), new Candidate(CANDIDATE_NAME_green, 15), new Candidate(CANDIDATE_NAME_red, 50));
 		Result result = sut.process(tally, properties, getRandomTieBreaker());
-		assertThat(result.getNumberOfSeatsForCandidate(red), is(4));
-		assertThat(result.getNumberOfSeatsForCandidate(green), is(0));
-		assertThat(result.getNumberOfSeatsForCandidate(blue), is(43));
-		assertThat(result.getNumberOfSeatsForCandidate(purple), is(0));
-		assertThat(result.getNumberOfSeatsForCandidate(black), is(1));
-		assertThat(result.getNumberOfSeatsForCandidate(yellow), is(2));
-		assertThat(result.getNumberOfSeatsForCandidate(brown), is(0));
+		assertThat(result.getNumberOfSeatsForCandidate(CANDIDATE_NAME_red), is(4));
+		assertThat(result.getNumberOfSeatsForCandidate(CANDIDATE_NAME_green), is(0));
+		assertThat(result.getNumberOfSeatsForCandidate(CANDIDATE_NAME_blue), is(43));
+		assertThat(result.getNumberOfSeatsForCandidate(CANDIDATE_NAME_purple), is(0));
+		assertThat(result.getNumberOfSeatsForCandidate(CANDIDATE_NAME_black), is(1));
+		assertThat(result.getNumberOfSeatsForCandidate(CANDIDATE_NAME_yellow), is(2));
+		assertThat(result.getNumberOfSeatsForCandidate(CANDIDATE_NAME_brown), is(0));
 	}
 
 	private RandomTieBreaker getRandomTieBreaker() {
