@@ -31,7 +31,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class MaxVotesShould {
+public class ByVotesRankShould {
 
 	ByVotesRankMethod sut = new ByVotesRankMethod();
 	private Tally tally;
