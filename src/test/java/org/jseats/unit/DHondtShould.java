@@ -33,9 +33,9 @@ import org.junit.rules.ExpectedException;
 
 public class DHondtShould {
 
-	Tally tally;
-	Properties properties;
-	DHondtHighestAveragesMethod sut = new DHondtHighestAveragesMethod();
+	private Tally tally;
+	private Properties properties;
+	private DHondtHighestAveragesMethod sut = new DHondtHighestAveragesMethod();
 
 	@Before
 	public void setUp() {
