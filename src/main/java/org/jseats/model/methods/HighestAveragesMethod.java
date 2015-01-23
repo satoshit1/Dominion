@@ -12,6 +12,8 @@ import org.jseats.model.tie.TieBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.jseats.Properties.*;
+
 public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 
 	static Logger log = LoggerFactory.getLogger(HighestAveragesMethod.class);
@@ -37,12 +39,12 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 		// to numberOfCandidates
 		int numberOfSeats = 0;
 		String numberOfSeatsString_or_NumberOfCandidates =
-			properties.getProperty("numberOfSeats", Integer.toString(numberOfCandidates));
+			properties.getProperty(NUMBER_OF_SEATS, Integer.toString(numberOfCandidates));
 		try {
 			numberOfSeats = Integer.parseInt(numberOfSeatsString_or_NumberOfCandidates);
 		} catch (NumberFormatException exception) {
 			throw new SeatAllocationException("numberOfSeats property is not a number: '"
-				+ properties.getProperty("numberOfSeats") + "'");
+				+ properties.getProperty(NUMBER_OF_SEATS) + "'");
 		}
 		if (numberOfSeats < 0) {
 			throw new SeatAllocationException("numberOfSeats is negative: " + numberOfSeats);
