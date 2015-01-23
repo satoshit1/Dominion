@@ -19,17 +19,40 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 	public abstract double nextDivisor(int round);
 
 	@Override
-	public Result process(InmutableTally tally, Properties properties,
-			TieBreaker tieBreaker) throws SeatAllocationException {
+	public Result process(InmutableTally tally, Properties properties, TieBreaker tieBreaker)
+			throws SeatAllocationException {
 
+		if (null == tally) {
+			throw new SeatAllocationException("Received Tally was null");
+		}
+		if (null == properties) {
+			throw new SeatAllocationException("Received Properties was null");
+		}
 		int numberOfCandidates = tally.getNumberOfCandidates();
-		int numberOfSeats = Integer.parseInt(properties.getProperty(
-				"numberOfSeats", Integer.toString(numberOfCandidates)));
-		double firstDivisor = Double.parseDouble(properties.getProperty(
-				"firstDivisor", "-1"));
+		if (numberOfCandidates <= 0) {
+			throw new SeatAllocationException("This tally contains no candidates");
+		}
+
+		// If numberOfSeats is not defined it is set with a default value
+		// to numberOfCandidates
+		int numberOfSeats = 0;
+		String numberOfSeatsString_or_NumberOfCandidates =
+			properties.getProperty("numberOfSeats", Integer.toString(numberOfCandidates));
+		try {
+			numberOfSeats = Integer.parseInt(numberOfSeatsString_or_NumberOfCandidates);
+		} catch (NumberFormatException exception) {
+			throw new SeatAllocationException("numberOfSeats property is not a number: '"
+				+ properties.getProperty("numberOfSeats") + "'");
+		}
+		if (numberOfSeats < 0) {
+			throw new SeatAllocationException("numberOfSeats is negative: " + numberOfSeats);
+		}
+		// int numberOfSeats = Integer.parseInt(properties.getProperty(
+		// "numberOfSeats", Integer.toString(numberOfCandidates)));
+		double firstDivisor = Double.parseDouble(properties.getProperty("firstDivisor", "-1"));
 		boolean modifiedFirstDivisor = (firstDivisor == -1) ? false : true;
-		boolean groupSeatsPerCandidate = Boolean.parseBoolean(properties
-				.getProperty("groupSeatsPerCandidate", "false"));
+		boolean groupSeatsPerCandidate =
+			Boolean.parseBoolean(properties.getProperty("groupSeatsPerCandidate", "false"));
 
 		int numberOfUnallocatedSeats = numberOfSeats;
 
@@ -58,11 +81,9 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 			averagesForThisRound.append(round + " / " + divisor + " : ");
 
 			for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
-				averagesPerRound[candidate][round] = (tally.getCandidateAt(
-						candidate).getVotes() / divisor);
+				averagesPerRound[candidate][round] = (tally.getCandidateAt(candidate).getVotes() / divisor);
 
-				averagesForThisRound.append(String.format("%.2f",
-						averagesPerRound[candidate][round]) + ",\t");
+				averagesForThisRound.append(String.format("%.2f", averagesPerRound[candidate][round]) + ",\t");
 			}
 
 			// log.debug("Current divisor: " + divisor);
@@ -85,37 +106,31 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 
 					if (averagesPerRound[candidate][round] == maxVotes) {
 
-						log.debug("Tie between  "
-								+ tally.getCandidateAt(maxCandidate) + " and "
-								+ tally.getCandidateAt(candidate));
+						log.debug("Tie between  " + tally.getCandidateAt(maxCandidate) + " and "
+							+ tally.getCandidateAt(candidate));
 
 						if (tieBreaker != null) {
 
-							log.debug("Using tie breaker: "
-									+ tieBreaker.getName());
+							log.debug("Using tie breaker: " + tieBreaker.getName());
 
-							Candidate topCandidate = tieBreaker.breakTie(
-									tally.getCandidateAt(candidate),
-									tally.getCandidateAt(maxCandidate));
+							Candidate topCandidate =
+								tieBreaker
+									.breakTie(tally.getCandidateAt(candidate), tally.getCandidateAt(maxCandidate));
 
 							if (topCandidate == null) {
 								Result tieResult = new Result(ResultType.TIE);
-								tieResult.addSeat(tally
-										.getCandidateAt(maxCandidate));
-								tieResult.addSeat(tally
-										.getCandidateAt(candidate));
+								tieResult.addSeat(tally.getCandidateAt(maxCandidate));
+								tieResult.addSeat(tally.getCandidateAt(candidate));
 
 								return tieResult;
 							} else {
-								maxCandidate = tally
-										.getCandidateIndex(topCandidate);
+								maxCandidate = tally.getCandidateIndex(topCandidate);
 								maxVotes = averagesPerRound[maxCandidate][round];
 							}
 
 						} else {
 							Result tieResult = new Result(ResultType.TIE);
-							tieResult.addSeat(tally
-									.getCandidateAt(maxCandidate));
+							tieResult.addSeat(tally.getCandidateAt(maxCandidate));
 							tieResult.addSeat(tally.getCandidateAt(candidate));
 
 							return tieResult;
@@ -134,9 +149,8 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 			if (!groupSeatsPerCandidate)
 				result.addSeat(tally.getCandidateAt(maxCandidate));
 
-			log.debug("Found maximum " + maxVotes + " at: "
-					+ tally.getCandidateAt(maxCandidate).getName() + " : "
-					+ maxRound);
+			log.debug("Found maximum " + maxVotes + " at: " + tally.getCandidateAt(maxCandidate).getName() + " : "
+				+ maxRound);
 
 			// Eliminate this maximum coordinates and iterate
 			averagesPerRound[maxCandidate][maxRound] = -2;
@@ -144,8 +158,7 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 		}
 
 		for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
-			log.trace(tally.getCandidateAt(candidate) + " has ended with "
-					+ seatsPerCandidate[candidate] + " seats.");
+			log.trace(tally.getCandidateAt(candidate) + " has ended with " + seatsPerCandidate[candidate] + " seats.");
 		}
 
 		if (groupSeatsPerCandidate) {
