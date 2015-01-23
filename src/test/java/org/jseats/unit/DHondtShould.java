@@ -19,12 +19,14 @@ import static org.mockito.Mockito.mock;
 import java.util.Properties;
 
 import org.jseats.model.Candidate;
+import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.Tally;
 import org.jseats.model.methods.DHondtHighestAveragesMethod;
 import org.jseats.model.tie.RandomTieBreaker;
 import org.jseats.model.tie.TieBreaker;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -95,5 +97,49 @@ public class DHondtShould {
 		sut.process(tally, properties, mock(TieBreaker.class));
 	}
 
+	@Test
+	@Ignore
+	public void pass_the_acceptance_test_1() throws SeatAllocationException {
+		// Using test data set from US: https://redmine.scytl.net/issues/94064
+		properties.clear();
+		properties.put("numberOfSeats", "5");
+		Candidate candidateBooze = new Candidate("Booze", 40);
+		Candidate candidateRoyalty = new Candidate("Royalty", 70);
+		Candidate candidateRock = new Candidate("Rock",30);
+		Candidate candidatePolitics = new Candidate("Politics",20);
+		tally = new Tally();
+		tally.addCandidate(candidateBooze);
+		tally.addCandidate(candidateRoyalty);
+		tally.addCandidate(candidateRock);
+		tally.addCandidate(candidatePolitics);
+		Result result = sut.process(tally, properties, new RandomTieBreaker());
+		assertEquals(result.getNumberOfSeatsForCandidate("Booze"), 1);
+		assertEquals(result.getNumberOfSeatsForCandidate("Rock"), 1);
+		assertEquals(result.getNumberOfSeatsForCandidate("Royalty"), 3);
+	}
 
+	@Test
+	public void pass_the_acceptance_test_2() throws SeatAllocationException {
+		// Using test data set from http://icon.cat/util/elections
+		properties.clear();
+		properties.put("numberOfSeats", "50");
+		Candidate candidateRed = new Candidate("Red", 50);
+		Candidate candidateGreen = new Candidate("Green", 15);
+		Candidate candidateBlue = new Candidate("Blue", 75);
+		Candidate candidatePurple = new Candidate("Purple", 12);
+		Candidate candidateBlack = new Candidate("Black", 22);
+		Candidate candidateYellow = new Candidate("Yellow", 33);
+		Candidate candidateBrown = new Candidate("Brown", 1);
+		tally = new Tally();
+		tally.addCandidate(candidateBrown);
+		tally.addCandidate(candidateYellow);
+		tally.addCandidate(candidateBlack);
+		tally.addCandidate(candidatePurple);
+		tally.addCandidate(candidateBlue);
+		tally.addCandidate(candidateGreen);
+		tally.addCandidate(candidateRed);
+		Result result = sut.process(tally, properties, new RandomTieBreaker());
+		System.out.println(result.getNumberOfSeatsForCandidate("Red"));
+		// assertEquals(result.getNumberOfSeatsForCandidate("Red"), 12);
+	}
 }
