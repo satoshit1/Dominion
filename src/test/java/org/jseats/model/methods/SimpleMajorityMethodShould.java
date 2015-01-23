@@ -1,6 +1,7 @@
 package org.jseats.model.methods;
 
 import org.hamcrest.MatcherAssert;
+import org.jseats.model.InmutableTally;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.tie.TieBreaker;
 import org.junit.Before;
@@ -12,7 +13,10 @@ import javax.lang.model.util.SimpleElementVisitor6;
 import java.util.Properties;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.mock;
 
 public class SimpleMajorityMethodShould {
@@ -37,6 +41,11 @@ public class SimpleMajorityMethodShould {
         expectedException.expectMessage("Cannot process a null tallysheet");
         
         sut.process(null, mock(Properties.class), mock(TieBreaker.class));
+    }
+
+    @Test
+    public void not_fail_on_a_null_properties() throws SeatAllocationException {
+        assertThat(sut.process(mock(InmutableTally.class), null, mock(TieBreaker.class)), is(not(nullValue())));
     }
     
 }
