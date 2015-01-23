@@ -112,11 +112,7 @@ public class DHondtShould {
 	public void pass_the_acceptance_test_1() throws SeatAllocationException {
 		// Using test data set from US: https://redmine.scytl.net/issues/94064
 		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "5");
-		Candidate candidateBooze = new Candidate(CANDIDATE_NAME_BOOZE, 40);
-		Candidate candidateRoyalty = new Candidate(CANDIDATE_NAME_ROYALTY, 70);
-		Candidate candidateRock = new Candidate(CANDIDATE_NAME_ROCK,30);
-		Candidate candidatePolitics = new Candidate(CANDIDATE_NAME_POLITICS,20);
-		tally = getTallySheetWith(candidateBooze, candidateRoyalty, candidateRock, candidatePolitics);
+		tally = getTallySheetWith(new Candidate(CANDIDATE_NAME_BOOZE, 40), new Candidate(CANDIDATE_NAME_ROYALTY, 70), new Candidate(CANDIDATE_NAME_ROCK,30), new Candidate(CANDIDATE_NAME_POLITICS,20));
 		Result result = sut.process(tally, properties, new RandomTieBreaker());
 		assertEquals(result.getNumberOfSeatsForCandidate(CANDIDATE_NAME_BOOZE), 1);
 		assertEquals(result.getNumberOfSeatsForCandidate(CANDIDATE_NAME_ROCK), 1);
