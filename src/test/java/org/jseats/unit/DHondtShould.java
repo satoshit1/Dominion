@@ -11,13 +11,16 @@
 package org.jseats.unit;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.Random;
 
 import org.jseats.model.Candidate;
 import org.jseats.model.Result;
@@ -132,9 +135,20 @@ public class DHondtShould {
 		Candidate candidateYellow = new Candidate("Yellow", 33);
 		Candidate candidateBrown = new Candidate("Brown", 1);
 		tally = getTallySheetWith(candidateBrown, candidateYellow, candidateBlack, candidatePurple, candidateBlue, candidateGreen, candidateRed);
-		Result result = sut.process(tally, properties, new RandomTieBreaker());
-		System.out.println(result.getNumberOfSeatsForCandidate("Red"));
-		// assertEquals(result.getNumberOfSeatsForCandidate("Red"), 12);
+		Result result = sut.process(tally, properties, getRandomTieBreaker());
+		assertThat(result.getNumberOfSeatsForCandidate("Red"), is(4));
+		assertThat(result.getNumberOfSeatsForCandidate("Green"), is(0));
+		assertThat(result.getNumberOfSeatsForCandidate("Blue"), is(43));
+		assertThat(result.getNumberOfSeatsForCandidate("Purple"), is(0));
+		assertThat(result.getNumberOfSeatsForCandidate("Black"), is(1));
+		assertThat(result.getNumberOfSeatsForCandidate("Yellow"), is(2));
+		assertThat(result.getNumberOfSeatsForCandidate("Brown"), is(0));
+	}
+
+	private RandomTieBreaker getRandomTieBreaker() {
+		final RandomTieBreaker tieBreaker = new RandomTieBreaker();
+		tieBreaker.injectRandom(new Random(1L));
+		return tieBreaker;
 	}
 
 	private Tally getTallySheetWith(Candidate... candidates) {
