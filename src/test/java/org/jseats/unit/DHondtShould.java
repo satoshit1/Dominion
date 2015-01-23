@@ -127,22 +127,22 @@ public class DHondtShould {
 	public void pass_the_acceptance_test_2() throws SeatAllocationException {
 		// Using test data set from http://icon.cat/util/elections
 		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "50");
-		Candidate candidateRed = new Candidate("Red", 50);
-		Candidate candidateGreen = new Candidate("Green", 15);
-		Candidate candidateBlue = new Candidate("Blue", 75);
-		Candidate candidatePurple = new Candidate("Purple", 12);
-		Candidate candidateBlack = new Candidate("Black", 22);
-		Candidate candidateYellow = new Candidate("Yellow", 33);
-		Candidate candidateBrown = new Candidate("Brown", 1);
-		tally = getTallySheetWith(candidateBrown, candidateYellow, candidateBlack, candidatePurple, candidateBlue, candidateGreen, candidateRed);
+		final String red = "Red";
+		final String green = "Green";
+		final String blue = "Blue";
+		final String purple = "Purple";
+		final String black = "Black";
+		final String yellow = "Yellow";
+		final String brown = "Brown";
+		tally = getTallySheetWith(new Candidate(brown, 1), new Candidate(yellow, 33), new Candidate(black, 22), new Candidate(purple, 12), new Candidate(blue, 75), new Candidate(green, 15), new Candidate(red, 50));
 		Result result = sut.process(tally, properties, getRandomTieBreaker());
-		assertThat(result.getNumberOfSeatsForCandidate("Red"), is(4));
-		assertThat(result.getNumberOfSeatsForCandidate("Green"), is(0));
-		assertThat(result.getNumberOfSeatsForCandidate("Blue"), is(43));
-		assertThat(result.getNumberOfSeatsForCandidate("Purple"), is(0));
-		assertThat(result.getNumberOfSeatsForCandidate("Black"), is(1));
-		assertThat(result.getNumberOfSeatsForCandidate("Yellow"), is(2));
-		assertThat(result.getNumberOfSeatsForCandidate("Brown"), is(0));
+		assertThat(result.getNumberOfSeatsForCandidate(red), is(4));
+		assertThat(result.getNumberOfSeatsForCandidate(green), is(0));
+		assertThat(result.getNumberOfSeatsForCandidate(blue), is(43));
+		assertThat(result.getNumberOfSeatsForCandidate(purple), is(0));
+		assertThat(result.getNumberOfSeatsForCandidate(black), is(1));
+		assertThat(result.getNumberOfSeatsForCandidate(yellow), is(2));
+		assertThat(result.getNumberOfSeatsForCandidate(brown), is(0));
 	}
 
 	private RandomTieBreaker getRandomTieBreaker() {
