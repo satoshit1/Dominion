@@ -37,6 +37,11 @@ public class DHondtShould {
 	private Properties properties;
 	private DHondtHighestAveragesMethod sut;
 
+	final String CANDIDATE_NAME_BOOZE = "Booze";
+	final String CANDIDATE_NAME_ROYALTY = "Royalty";
+	final String CANDIDATE_NAME_ROCK = "Rock";
+	final String CANDIDATE_NAME_POLITICS = "Politics";
+
 	@Before
 	public void setUp() {
 		tally = new Tally();
@@ -70,7 +75,7 @@ public class DHondtShould {
 	public void fail_on_a_unparseable_numberOfSeats_Property() throws SeatAllocationException {
 		expectedException.expect(SeatAllocationException.class);
 		expectedException.expectMessage(equalTo("numberOfSeats property is not a number: 'AA'"));
-		properties.put("numberOfSeats", "AA");
+		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "AA");
 		tally.addCandidate(mock(Candidate.class));
 		RandomTieBreaker tieBreaker = new RandomTieBreaker();
 
@@ -89,7 +94,7 @@ public class DHondtShould {
 
 	@Test
 	public void not_allow_negative_numberOfSeats() throws SeatAllocationException {
-		properties.put("numberOfSeats", "-2");
+		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "-2");
 		tally.addCandidate(mock(Candidate.class));
 
 		expectedException.expect(SeatAllocationException.class);
@@ -103,27 +108,27 @@ public class DHondtShould {
 	public void pass_the_acceptance_test_1() throws SeatAllocationException {
 		// Using test data set from US: https://redmine.scytl.net/issues/94064
 		properties.clear();
-		properties.put("numberOfSeats", "5");
-		Candidate candidateBooze = new Candidate("Booze", 40);
-		Candidate candidateRoyalty = new Candidate("Royalty", 70);
-		Candidate candidateRock = new Candidate("Rock",30);
-		Candidate candidatePolitics = new Candidate("Politics",20);
+		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "5");
+		Candidate candidateBooze = new Candidate(CANDIDATE_NAME_BOOZE, 40);
+		Candidate candidateRoyalty = new Candidate(CANDIDATE_NAME_ROYALTY, 70);
+		Candidate candidateRock = new Candidate(CANDIDATE_NAME_ROCK,30);
+		Candidate candidatePolitics = new Candidate(CANDIDATE_NAME_POLITICS,20);
 		tally = new Tally();
 		tally.addCandidate(candidateBooze);
 		tally.addCandidate(candidateRoyalty);
 		tally.addCandidate(candidateRock);
 		tally.addCandidate(candidatePolitics);
 		Result result = sut.process(tally, properties, new RandomTieBreaker());
-		assertEquals(result.getNumberOfSeatsForCandidate("Booze"), 1);
-		assertEquals(result.getNumberOfSeatsForCandidate("Rock"), 1);
-		assertEquals(result.getNumberOfSeatsForCandidate("Royalty"), 3);
+		assertEquals(result.getNumberOfSeatsForCandidate(CANDIDATE_NAME_BOOZE), 1);
+		assertEquals(result.getNumberOfSeatsForCandidate(CANDIDATE_NAME_ROCK), 1);
+		assertEquals(result.getNumberOfSeatsForCandidate(CANDIDATE_NAME_ROYALTY), 3);
 	}
 
 	@Test
 	public void pass_the_acceptance_test_2() throws SeatAllocationException {
 		// Using test data set from http://icon.cat/util/elections
 		properties.clear();
-		properties.put("numberOfSeats", "50");
+		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "50");
 		Candidate candidateRed = new Candidate("Red", 50);
 		Candidate candidateGreen = new Candidate("Green", 15);
 		Candidate candidateBlue = new Candidate("Blue", 75);
