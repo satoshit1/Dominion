@@ -237,7 +237,7 @@ public class Steps {
 	@Then("result has $number seats for $candidate")
 	@Alias("result has $number seat for $candidate")
 	public void resultNumberOfSeatsForCandidate(int number, String candidate) {
-		assertEquals(number, result.getNumerOfSeatsForCandidate(candidate));
+		assertEquals(number, result.getNumberOfSeatsForCandidate(candidate));
 	}
 
 	@Then("result seats do not contain $candidate")
