@@ -16,6 +16,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 import org.jseats.model.Candidate;
@@ -107,17 +108,12 @@ public class DHondtShould {
 	@Ignore
 	public void pass_the_acceptance_test_1() throws SeatAllocationException {
 		// Using test data set from US: https://redmine.scytl.net/issues/94064
-		properties.clear();
 		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "5");
 		Candidate candidateBooze = new Candidate(CANDIDATE_NAME_BOOZE, 40);
 		Candidate candidateRoyalty = new Candidate(CANDIDATE_NAME_ROYALTY, 70);
 		Candidate candidateRock = new Candidate(CANDIDATE_NAME_ROCK,30);
 		Candidate candidatePolitics = new Candidate(CANDIDATE_NAME_POLITICS,20);
-		tally = new Tally();
-		tally.addCandidate(candidateBooze);
-		tally.addCandidate(candidateRoyalty);
-		tally.addCandidate(candidateRock);
-		tally.addCandidate(candidatePolitics);
+		tally = getTallySheetWith(candidateBooze, candidateRoyalty, candidateRock, candidatePolitics);
 		Result result = sut.process(tally, properties, new RandomTieBreaker());
 		assertEquals(result.getNumberOfSeatsForCandidate(CANDIDATE_NAME_BOOZE), 1);
 		assertEquals(result.getNumberOfSeatsForCandidate(CANDIDATE_NAME_ROCK), 1);
@@ -127,7 +123,6 @@ public class DHondtShould {
 	@Test
 	public void pass_the_acceptance_test_2() throws SeatAllocationException {
 		// Using test data set from http://icon.cat/util/elections
-		properties.clear();
 		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "50");
 		Candidate candidateRed = new Candidate("Red", 50);
 		Candidate candidateGreen = new Candidate("Green", 15);
@@ -136,16 +131,16 @@ public class DHondtShould {
 		Candidate candidateBlack = new Candidate("Black", 22);
 		Candidate candidateYellow = new Candidate("Yellow", 33);
 		Candidate candidateBrown = new Candidate("Brown", 1);
-		tally = new Tally();
-		tally.addCandidate(candidateBrown);
-		tally.addCandidate(candidateYellow);
-		tally.addCandidate(candidateBlack);
-		tally.addCandidate(candidatePurple);
-		tally.addCandidate(candidateBlue);
-		tally.addCandidate(candidateGreen);
-		tally.addCandidate(candidateRed);
+		tally = getTallySheetWith(candidateBrown, candidateYellow, candidateBlack, candidatePurple, candidateBlue, candidateGreen, candidateRed);
 		Result result = sut.process(tally, properties, new RandomTieBreaker());
 		System.out.println(result.getNumberOfSeatsForCandidate("Red"));
 		// assertEquals(result.getNumberOfSeatsForCandidate("Red"), 12);
 	}
+
+	private Tally getTallySheetWith(Candidate... candidates) {
+		Tally tally = new Tally();
+		Arrays.asList(candidates).stream().forEach(tally::addCandidate);
+		return tally;
+	}
+
 }
