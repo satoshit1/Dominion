@@ -8,13 +8,19 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static java.util.Arrays.*;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.notNull;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -54,16 +60,65 @@ public class SimpleMajorityMethodShould {
 
     @Test
     public void ask_tiebreaker_on_a_tie() throws SeatAllocationException {
-        final Candidate candidateA = new Candidate("A", 10);
-        final Candidate candidateB = new Candidate("B", 10);
+        final int amountOfVotesToTie = 10;
+        List<Candidate> allCandidates = asList(new Candidate("A", amountOfVotesToTie), new Candidate("B", amountOfVotesToTie), new Candidate("C", 1));
+        List<Candidate> tiedCandidates = allCandidates.stream().filter(x -> x.getVotes() == amountOfVotesToTie).collect(Collectors.<Candidate>toList());
 
         Tally tally = new Tally();
-        Arrays.asList(candidateA, candidateB).stream().forEach(tally::addCandidate);
+        allCandidates.stream().forEach(tally::addCandidate);
 
         final TieBreaker tieBreaker = mock(TieBreaker.class);
         sut.process(tally, null, tieBreaker);
 
-        verify(tieBreaker).breakTie(Arrays.asList(candidateA, candidateB));
+        verify(tieBreaker).breakTie(tiedCandidates);
     }
-    
+
+    @Test
+    public void return_the_tied_candidates_on_tie() throws SeatAllocationException {
+        final int amountOfVotesToTie = 10;
+
+        List<Candidate> allCandidates = asList(new Candidate("A", amountOfVotesToTie), new Candidate("B", amountOfVotesToTie), new Candidate("C", 1));
+        List<Candidate> tiedCandidates = allCandidates.stream().filter(x -> x.getVotes() == amountOfVotesToTie).collect(Collectors.<Candidate>toList());
+
+        Tally tally = new Tally();
+        allCandidates.stream().forEach(tally::addCandidate);
+
+        final TieBreaker tieBreaker = mock(TieBreaker.class);
+        Result result = sut.process(tally, null, tieBreaker);
+
+        assertThat(result.getType(), is(Result.ResultType.TIE));
+        assertThat(result.getSeats(), is(tiedCandidates));
+    }
+
+    @Test
+    public void not_tie_when_tiebreaker_solves_the_tie() throws SeatAllocationException {
+
+        Tally tally = new Tally();
+
+        final TieBreaker tieBreaker = mock(TieBreaker.class);
+        final Candidate candidateA = new Candidate("A", 10);
+        doReturn(candidateA).when(tieBreaker).breakTie((List<Candidate>) anyObject());
+        Result result = sut.process(tally, null, tieBreaker);
+        
+        assertThat(result.getType(), is(Result.ResultType.SINGLE));
+        assertThat(result.getSeats(), contains(candidateA));
+    }
+
+    @Test
+    public void tie_given_zero_candidates() throws SeatAllocationException {
+        Tally tally = new Tally();
+
+        System.out.println(sut.process(tally, null, null));
+    }
+
+    @Test
+    public void not_tie_given_one_candidate() throws SeatAllocationException {
+        Tally tally = new Tally();
+        final Candidate candidateA = new Candidate("A", 10);
+        asList(candidateA).stream().forEach(tally::addCandidate);
+
+        System.out.println(sut.process(tally, null, null));
+    }
+
+
 }
