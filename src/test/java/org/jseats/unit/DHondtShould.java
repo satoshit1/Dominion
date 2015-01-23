@@ -35,12 +35,13 @@ public class DHondtShould {
 
 	private Tally tally;
 	private Properties properties;
-	private DHondtHighestAveragesMethod sut = new DHondtHighestAveragesMethod();
+	private DHondtHighestAveragesMethod sut;
 
 	@Before
 	public void setUp() {
 		tally = new Tally();
 		properties = new Properties();
+		sut = new DHondtHighestAveragesMethod();
 	}
 
 	@Rule
