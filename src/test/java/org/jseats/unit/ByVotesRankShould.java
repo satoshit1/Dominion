@@ -31,7 +31,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class MaxVotesShould {
+public class ByVotesRankShould {
 
 	ByVotesRankMethod sut = new ByVotesRankMethod();
 	private Tally tally;
@@ -69,7 +69,7 @@ public class MaxVotesShould {
 	public void fail_on_a_unparseable_numberOfSeats_Property() throws SeatAllocationException {
 		expectedException.expect(SeatAllocationException.class);
 		expectedException.expectMessage(equalTo("numberOfSeats property is not a number: 'AA'"));
-		properties.put("numberOfSeats", "AA");
+		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "AA");
 		tally.addCandidate(mock(Candidate.class));
 		RandomTieBreaker tieBreaker = new RandomTieBreaker();
 
@@ -88,7 +88,7 @@ public class MaxVotesShould {
 
 	@Test
 	public void not_allow_negative_numberOfSeats() throws SeatAllocationException {
-		properties.put("numberOfSeats", "-2");
+		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "-2");
 		tally.addCandidate(mock(Candidate.class));
 
 		expectedException.expect(SeatAllocationException.class);
@@ -100,7 +100,7 @@ public class MaxVotesShould {
 	@Test
 	public void elect_candidateA() throws SeatAllocationException {
 		Candidate candidateA = new Candidate("candidateA", 10);
-		properties.put("numberOfSeats", 1);
+		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, 1);
 		RandomTieBreaker tieBreaker = new RandomTieBreaker();
 		tally.addCandidate(candidateA);
 		tally.addCandidate(new Candidate("candidateB", 0));
@@ -110,7 +110,7 @@ public class MaxVotesShould {
 	@Test
 	public void pick_random_candidate_on_tie() throws SeatAllocationException {
 		Candidate candidateF = new Candidate("candidateF", 10);
-		properties.put("numberOfSeats", 1);
+		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, 1);
 		RandomTieBreaker tieBreaker = new RandomTieBreaker();
 		tieBreaker.injectRandom(new Random(1));
 		tally.addCandidate(new Candidate("candidateA", 10));

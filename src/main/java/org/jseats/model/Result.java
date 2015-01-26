@@ -72,7 +72,7 @@ public class Result {
 		return seats.size();
 	}
 	
-	public int getNumerOfSeatsForCandidate(String candidate) {
+	public int getNumberOfSeatsForCandidate(String candidate) {
 
 		int count = 0;
 		for(Candidate innerCandidate : seats)

@@ -15,6 +15,8 @@ import org.jseats.model.tie.TieBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.jseats.Properties.*;
+
 public class EqualProportionsMethod implements SeatAllocationMethod {
 
 	Logger log = LoggerFactory.getLogger(EqualProportionsMethod.class);
@@ -40,7 +42,7 @@ public class EqualProportionsMethod implements SeatAllocationMethod {
 
 		int numberOfCandidates = tally.getNumberOfCandidates();
 		int numberOfSeats = Integer.parseInt(properties.getProperty(
-				"numberOfSeats", Integer.toString(numberOfCandidates)));
+				NUMBER_OF_SEATS, Integer.toString(numberOfCandidates)));
 		int numberOfInitialSeats = Integer.parseInt(properties.getProperty(
 				"numberOfInitialSeats", Integer.toString(0)));
 

@@ -34,12 +34,12 @@ public abstract class RankMethod implements SeatAllocationMethod {
 		// to numberOfCandidates
 		int numberOfSeats = 0;
 		String numberOfSeatsString_or_NumberOfCandidates =
-			properties.getProperty("numberOfSeats", Integer.toString(numberOfCandidates));
+			properties.getProperty(org.jseats.Properties.NUMBER_OF_SEATS, Integer.toString(numberOfCandidates));
 		try {
 			numberOfSeats = Integer.parseInt(numberOfSeatsString_or_NumberOfCandidates);
 		} catch (NumberFormatException exception) {
 			throw new SeatAllocationException("numberOfSeats property is not a number: '"
-				+ properties.getProperty("numberOfSeats") + "'");
+				+ properties.getProperty(org.jseats.Properties.NUMBER_OF_SEATS) + "'");
 		}
 		if (numberOfSeats < 0) {
 			throw new SeatAllocationException("numberOfSeats is negative: " + numberOfSeats);
