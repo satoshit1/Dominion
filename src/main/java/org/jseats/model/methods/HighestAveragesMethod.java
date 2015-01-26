@@ -127,9 +127,7 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 								return tieResult;
 							} else {
 								maxCandidate = tally.getCandidateIndex(topCandidate);
-								// Bug #1 : that breaks logic? -> maxVotes = averagesPerRound[maxCandidate][round];
-								// Bug #2: maxRound setting is missing (important when clearing cell)
-								maxRound = (maxCandidate == candidate) ? round : maxRound;
+								maxVotes = averagesPerRound[maxCandidate][round];
 							}
 
 						} else {
