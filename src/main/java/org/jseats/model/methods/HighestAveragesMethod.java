@@ -1,5 +1,7 @@
 package org.jseats.model.methods;
 
+import static org.jseats.Properties.NUMBER_OF_SEATS;
+
 import java.util.Properties;
 
 import org.jseats.model.Candidate;
@@ -12,8 +14,6 @@ import org.jseats.model.tie.TieBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.jseats.Properties.*;
-
 public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 
 	static Logger log = LoggerFactory.getLogger(HighestAveragesMethod.class);
@@ -21,8 +21,7 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 	public abstract double nextDivisor(int round);
 
 	@Override
-	public Result process(InmutableTally tally, Properties properties, TieBreaker tieBreaker)
-			throws SeatAllocationException {
+	public Result process(InmutableTally tally, Properties properties, TieBreaker tieBreaker) throws SeatAllocationException {
 
 		if (null == tally) {
 			throw new SeatAllocationException("Received Tally was null");
@@ -43,8 +42,8 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 		try {
 			numberOfSeats = Integer.parseInt(numberOfSeatsString_or_NumberOfCandidates);
 		} catch (NumberFormatException exception) {
-			throw new SeatAllocationException("numberOfSeats property is not a number: '"
-				+ properties.getProperty(NUMBER_OF_SEATS) + "'");
+			throw new SeatAllocationException("numberOfSeats property is not a number: '" +
+				properties.getProperty(NUMBER_OF_SEATS) + "'");
 		}
 		if (numberOfSeats < 0) {
 			throw new SeatAllocationException("numberOfSeats is negative: " + numberOfSeats);
@@ -53,8 +52,7 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 		// "numberOfSeats", Integer.toString(numberOfCandidates)));
 		double firstDivisor = Double.parseDouble(properties.getProperty("firstDivisor", "-1"));
 		boolean modifiedFirstDivisor = (firstDivisor == -1) ? false : true;
-		boolean groupSeatsPerCandidate =
-			Boolean.parseBoolean(properties.getProperty("groupSeatsPerCandidate", "false"));
+		boolean groupSeatsPerCandidate = Boolean.parseBoolean(properties.getProperty("groupSeatsPerCandidate", "false"));
 
 		int numberOfUnallocatedSeats = numberOfSeats;
 
@@ -108,16 +106,15 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 
 					if (averagesPerRound[candidate][round] == maxVotes) {
 
-						log.debug("Tie between  " + tally.getCandidateAt(maxCandidate) + " and "
-							+ tally.getCandidateAt(candidate));
+						log.debug("Tie between  " + tally.getCandidateAt(maxCandidate) + " and " +
+							tally.getCandidateAt(candidate));
 
 						if (tieBreaker != null) {
 
 							log.debug("Using tie breaker: " + tieBreaker.getName());
 
 							Candidate topCandidate =
-								tieBreaker
-									.breakTie(tally.getCandidateAt(candidate), tally.getCandidateAt(maxCandidate));
+								tieBreaker.breakTie(tally.getCandidateAt(candidate), tally.getCandidateAt(maxCandidate));
 
 							if (topCandidate == null) {
 								Result tieResult = new Result(ResultType.TIE);
@@ -127,7 +124,9 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 								return tieResult;
 							} else {
 								maxCandidate = tally.getCandidateIndex(topCandidate);
-								maxVotes = averagesPerRound[maxCandidate][round];
+								// Bug #1 : that breaks logic? -> maxVotes = averagesPerRound[maxCandidate][round];
+								// Bug #2: maxRound setting is missing (important when clearing cell)
+								maxRound = (maxCandidate == candidate) ? round : maxRound;
 							}
 
 						} else {
@@ -151,8 +150,8 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 			if (!groupSeatsPerCandidate)
 				result.addSeat(tally.getCandidateAt(maxCandidate));
 
-			log.debug("Found maximum " + maxVotes + " at: " + tally.getCandidateAt(maxCandidate).getName() + " : "
-				+ maxRound);
+			log.debug("Found maximum " + maxVotes + " at: " + tally.getCandidateAt(maxCandidate).getName() + " : " +
+				maxRound);
 
 			// Eliminate this maximum coordinates and iterate
 			averagesPerRound[maxCandidate][maxRound] = -2;
