@@ -18,24 +18,24 @@ import org.jseats.model.Candidate;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.Tally;
-import org.jseats.model.tie.FirstOccurenceTieBreaker;
-import org.jseats.model.tie.LastOccurenceTieBreaker;
+import org.jseats.model.tie.FirstOccurrenceTieBreaker;
+import org.jseats.model.tie.LastOccurrenceTieBreaker;
 import org.jseats.model.tie.MaxVotesTieBreaker;
 import org.jseats.model.tie.MinVotesTieBreaker;
 import org.jseats.model.tie.TieBreaker;
 import org.junit.Test;
 
-public class TestHighestAvgsTieBreaks {
+public class HighestAvgsTieBreaksTest {
 
 	@Test
 	public void testFirstOccurenceTieBreaker() throws SeatAllocationException {
 		// Default in previous projects
-		testTieBWins(runTestCase(new FirstOccurenceTieBreaker()));
+		testTieBWins(runTestCase(new FirstOccurrenceTieBreaker()));
 	}
 
 	@Test
 	public void testLastOccurenceTieBreaker() throws SeatAllocationException {
-		testTieAWins(runTestCase(new LastOccurenceTieBreaker()));
+		testTieAWins(runTestCase(new LastOccurrenceTieBreaker()));
 	}
 
 	@Test

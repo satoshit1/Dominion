@@ -15,16 +15,16 @@ import java.util.List;
 
 import org.jseats.model.Candidate;
 
-public class FirstOccurenceTieBreaker extends BaseTieBreaker {
+public class LastOccurrenceTieBreaker extends BaseTieBreaker {
 
 	@Override
 	public String getName() {
-		return "First Occurence Tie Breaker";
+		return "Last Occurence Tie Breaker";
 	}
 
 	@Override
 	public Candidate innerBreakTie(List<Candidate> candidates) {
-		return candidates.get(1);
+		return candidates.get(0);
 	}
 
 }

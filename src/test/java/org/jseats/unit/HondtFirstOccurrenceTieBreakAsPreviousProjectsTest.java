@@ -18,17 +18,18 @@ import org.jseats.model.Candidate;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.Tally;
-import org.jseats.model.tie.FirstOccurenceTieBreaker;
+import org.jseats.model.tie.FirstOccurrenceTieBreaker;
 import org.junit.Test;
 
-public class HondtMethodAsEcuShould {
+public class HondtFirstOccurrenceTieBreakAsPreviousProjectsTest {
 
 	@Test
-	public void allocate_two_candidates_and_15_seats() throws SeatAllocationException {
+	public void allocate_two_candidates_and_fifteen_seats() throws SeatAllocationException {
+
 		SeatAllocatorProcessor jSeatsProcessorHondt = new SeatAllocatorProcessor();
 		jSeatsProcessorHondt.setMethodByName("DHondt");
-		jSeatsProcessorHondt.setTieBreaker(new FirstOccurenceTieBreaker());
-		jSeatsProcessorHondt.setProperty("groupSeatsPerCandidate", "true");
+		jSeatsProcessorHondt.setTieBreaker(new FirstOccurrenceTieBreaker());
+		jSeatsProcessorHondt.setProperty("groupSeatsPerCandidate", "true"); // Indexes do not matter by our testcase
 
 		Tally tally = new Tally();
 		tally.addCandidate(new Candidate("Winner", 50));
@@ -50,8 +51,8 @@ public class HondtMethodAsEcuShould {
 	public void allocate_two_candidates_and_three_seats() throws SeatAllocationException {
 		SeatAllocatorProcessor jSeatsProcessorHondt = new SeatAllocatorProcessor();
 		jSeatsProcessorHondt.setMethodByName("DHondt");
-		jSeatsProcessorHondt.setTieBreaker(new FirstOccurenceTieBreaker());
-		jSeatsProcessorHondt.setProperty("groupSeatsPerCandidate", "true"); // Indexes does not mather for now
+		jSeatsProcessorHondt.setTieBreaker(new FirstOccurrenceTieBreaker());
+		jSeatsProcessorHondt.setProperty("groupSeatsPerCandidate", "true"); // Indexes do not matter by our testcase
 
 		Tally tally = new Tally();
 		tally.addCandidate(new Candidate("Winner", 50));
@@ -73,8 +74,8 @@ public class HondtMethodAsEcuShould {
 	public void allocate_two_candidates_and_two_seats() throws SeatAllocationException {
 		SeatAllocatorProcessor jSeatsProcessorHondt = new SeatAllocatorProcessor();
 		jSeatsProcessorHondt.setMethodByName("DHondt");
-		jSeatsProcessorHondt.setTieBreaker(new FirstOccurenceTieBreaker());
-		jSeatsProcessorHondt.setProperty("groupSeatsPerCandidate", "true");
+		jSeatsProcessorHondt.setTieBreaker(new FirstOccurrenceTieBreaker());
+		jSeatsProcessorHondt.setProperty("groupSeatsPerCandidate", "true"); // Indexes do not matter by our testcase
 
 		Tally tally = new Tally();
 		tally.addCandidate(new Candidate("Winner", 50));
