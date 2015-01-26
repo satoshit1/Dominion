@@ -42,8 +42,8 @@ public class HondtMethodAsEcuShould {
 
 		System.out.println(result.getSeats());
 
-		assertThat(result.getNumerOfSeatsForCandidate("Winner"), is(10));
-		assertThat(result.getNumerOfSeatsForCandidate("NonWinner"), is(5));
+		assertThat(result.getNumberOfSeatsForCandidate("Winner"), is(10));
+		assertThat(result.getNumberOfSeatsForCandidate("NonWinner"), is(5));
 	}
 
 	@Test
@@ -65,8 +65,8 @@ public class HondtMethodAsEcuShould {
 
 		System.out.println(result.getSeats());
 
-		assertThat(result.getNumerOfSeatsForCandidate("Winner"), is(2));
-		assertThat(result.getNumerOfSeatsForCandidate("NonWinner"), is(1));
+		assertThat(result.getNumberOfSeatsForCandidate("Winner"), is(2));
+		assertThat(result.getNumberOfSeatsForCandidate("NonWinner"), is(1));
 	}
 
 	@Test
@@ -88,8 +88,8 @@ public class HondtMethodAsEcuShould {
 
 		System.out.println(result.getSeats());
 
-		assertThat(result.getNumerOfSeatsForCandidate("Winner"), is(1));
-		assertThat(result.getNumerOfSeatsForCandidate("NonWinner"), is(1));
+		assertThat(result.getNumberOfSeatsForCandidate("Winner"), is(1));
+		assertThat(result.getNumberOfSeatsForCandidate("NonWinner"), is(1));
 	}
 
 }
