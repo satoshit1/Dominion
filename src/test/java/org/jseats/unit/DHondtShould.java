@@ -128,6 +128,16 @@ public class DHondtShould {
 	}
 
 	@Test
+	public void return_no_seats_at_election_start() throws SeatAllocationException {
+		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "2");
+		tally =
+			getTallySheetWith(new Candidate(CANDIDATE_NAME_BOOZE, 0), new Candidate(CANDIDATE_NAME_ROYALTY, 0),
+				new Candidate(CANDIDATE_NAME_ROCK, 0), new Candidate(CANDIDATE_NAME_POLITICS, 0));
+		Result result = sut.process(tally, properties, null);
+		assertEquals(Result.ResultType.TIE, result.getType());
+	}
+
+	@Test
 	@Ignore
 	// Using test data set from http://icon.cat/util/elections is not possible
 	// due to limitations with online d'Hondt calculators and draw management
