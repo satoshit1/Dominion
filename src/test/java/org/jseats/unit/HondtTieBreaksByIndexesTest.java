@@ -25,7 +25,7 @@ import org.jseats.model.tie.MinVotesTieBreaker;
 import org.jseats.model.tie.TieBreaker;
 import org.junit.Test;
 
-//TODO MMP: Integrate both HondtTieBreak tests in a good way
+//TODO MMP: Integrate both HondtTieBreak tests in a proper way
 public class HondtTieBreaksByIndexesTest {
 
 	@Test

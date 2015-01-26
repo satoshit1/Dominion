@@ -21,7 +21,7 @@ import org.jseats.model.Tally;
 import org.jseats.model.tie.FirstOccurrenceTieBreaker;
 import org.junit.Test;
 
-//TODO MMP: Integrate both HondtTieBreak tests in a good way
+//TODO MMP: Integrate both HondtTieBreak tests in a proper way
 public class HondtTieBreakBySeats_withFirstOccurrenceAsPreviousProjectsTest {
 
 	@Test
