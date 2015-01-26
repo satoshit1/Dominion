@@ -87,10 +87,10 @@ public class SimpleMajorityTieBreakBySeatsTest {
 		jSeatsProcessorMaxVotes.setMethodByName("SimpleMajority");
 		if (tieBreaker != null)
 			jSeatsProcessorMaxVotes.setTieBreaker(tieBreaker);
-		jSeatsProcessorMaxVotes.setProperty("groupSeatsPerCandidate", "false"); // Indexes do not matter by our testcase,
-																				// but
-																				// anyway
-																				// there is never further than the first
+		jSeatsProcessorMaxVotes.setProperty("groupSeatsPerCandidate", "true"); // Indexes do not matter by our testcase,
+																				// but anyway there is never further than
+																				// the first unless a TIE exception is
+																				// thrown
 		Tally tally = new Tally();
 		tally.addCandidate(new Candidate("Winner", 50));
 		tally.addCandidate(new Candidate("NonWinner", 50));
