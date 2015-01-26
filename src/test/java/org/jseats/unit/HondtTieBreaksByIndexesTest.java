@@ -25,7 +25,8 @@ import org.jseats.model.tie.MinVotesTieBreaker;
 import org.jseats.model.tie.TieBreaker;
 import org.junit.Test;
 
-public class HighestAvgsTieBreaksTest {
+//TODO MMP: Integrate both HondtTieBreak tests in a good way
+public class HondtTieBreaksByIndexesTest {
 
 	@Test
 	public void testFirstOccurenceTieBreaker() throws SeatAllocationException {
@@ -63,7 +64,7 @@ public class HighestAvgsTieBreaksTest {
 	private Result runTestCase(TieBreaker tieBreaker) throws SeatAllocationException {
 		SeatAllocatorProcessor tallier = new SeatAllocatorProcessor();
 		tallier.setMethodByName("DHondt");
-		tallier.setProperty("groupSeatsPerCandidate", "false");// indexes mather
+		tallier.setProperty("groupSeatsPerCandidate", "false");// Indexes do matter by our testcase
 		tallier.setProperty("numberOfSeats", "3");
 		tallier.setTieBreaker(tieBreaker);
 

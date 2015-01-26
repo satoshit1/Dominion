@@ -21,57 +21,37 @@ import org.jseats.model.Tally;
 import org.jseats.model.tie.FirstOccurrenceTieBreaker;
 import org.junit.Test;
 
-public class HondtFirstOccurrenceTieBreakAsPreviousProjectsTest {
+//TODO MMP: Integrate both HondtTieBreak tests in a good way
+public class HondtTieBreakBySeats_withFirstOccurrenceAsPreviousProjectsTest {
 
 	@Test
 	public void allocate_two_candidates_and_fifteen_seats() throws SeatAllocationException {
+		Result result = execute_testcase(15);
 
-		SeatAllocatorProcessor jSeatsProcessorHondt = new SeatAllocatorProcessor();
-		jSeatsProcessorHondt.setMethodByName("DHondt");
-		jSeatsProcessorHondt.setTieBreaker(new FirstOccurrenceTieBreaker());
-		jSeatsProcessorHondt.setProperty("groupSeatsPerCandidate", "true"); // Indexes do not matter by our testcase
-
-		Tally tally = new Tally();
-		tally.addCandidate(new Candidate("Winner", 50));
-		tally.addCandidate(new Candidate("NonWinner", 25));
-		jSeatsProcessorHondt.setProperty("numberOfSeats", "15");
-
-		jSeatsProcessorHondt.setTally(tally);
-
-		Result result = jSeatsProcessorHondt.process();
 		assertThat(result.getType(), is(Result.ResultType.MULTIPLE));
-
-		System.out.println(result.getSeats());
-
 		assertThat(result.getNumberOfSeatsForCandidate("Winner"), is(10));
 		assertThat(result.getNumberOfSeatsForCandidate("NonWinner"), is(5));
 	}
 
 	@Test
 	public void allocate_two_candidates_and_three_seats() throws SeatAllocationException {
-		SeatAllocatorProcessor jSeatsProcessorHondt = new SeatAllocatorProcessor();
-		jSeatsProcessorHondt.setMethodByName("DHondt");
-		jSeatsProcessorHondt.setTieBreaker(new FirstOccurrenceTieBreaker());
-		jSeatsProcessorHondt.setProperty("groupSeatsPerCandidate", "true"); // Indexes do not matter by our testcase
+		Result result = execute_testcase(3);
 
-		Tally tally = new Tally();
-		tally.addCandidate(new Candidate("Winner", 50));
-		tally.addCandidate(new Candidate("NonWinner", 25));
-		jSeatsProcessorHondt.setProperty("numberOfSeats", "3");
-
-		jSeatsProcessorHondt.setTally(tally);
-
-		Result result = jSeatsProcessorHondt.process();
 		assertThat(result.getType(), is(Result.ResultType.MULTIPLE));
-
-		System.out.println(result.getSeats());
-
 		assertThat(result.getNumberOfSeatsForCandidate("Winner"), is(2));
 		assertThat(result.getNumberOfSeatsForCandidate("NonWinner"), is(1));
 	}
 
 	@Test
 	public void allocate_two_candidates_and_two_seats() throws SeatAllocationException {
+		Result result = execute_testcase(2);
+
+		assertThat(result.getType(), is(Result.ResultType.MULTIPLE));
+		assertThat(result.getNumberOfSeatsForCandidate("Winner"), is(1));
+		assertThat(result.getNumberOfSeatsForCandidate("NonWinner"), is(1));
+	}
+
+	private Result execute_testcase(int numberOfSeats) throws SeatAllocationException {
 		SeatAllocatorProcessor jSeatsProcessorHondt = new SeatAllocatorProcessor();
 		jSeatsProcessorHondt.setMethodByName("DHondt");
 		jSeatsProcessorHondt.setTieBreaker(new FirstOccurrenceTieBreaker());
@@ -80,17 +60,12 @@ public class HondtFirstOccurrenceTieBreakAsPreviousProjectsTest {
 		Tally tally = new Tally();
 		tally.addCandidate(new Candidate("Winner", 50));
 		tally.addCandidate(new Candidate("NonWinner", 25));
-		jSeatsProcessorHondt.setProperty("numberOfSeats", "2");
 
+		jSeatsProcessorHondt.setProperty("numberOfSeats", String.valueOf(numberOfSeats));
 		jSeatsProcessorHondt.setTally(tally);
 
 		Result result = jSeatsProcessorHondt.process();
-		assertThat(result.getType(), is(Result.ResultType.MULTIPLE));
-
-		System.out.println(result.getSeats());
-
-		assertThat(result.getNumberOfSeatsForCandidate("Winner"), is(1));
-		assertThat(result.getNumberOfSeatsForCandidate("NonWinner"), is(1));
+		return result;
 	}
 
 }
