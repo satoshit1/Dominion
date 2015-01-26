@@ -24,6 +24,7 @@ public class MinVotesTieBreaker extends BaseTieBreaker {
 
 	@Override
 	public Candidate innerBreakTie(List<Candidate> candidates) {
+		// TODO MMP: Test case when they both contain same votes value
 		return candidates.stream().min((c1, c2) -> Integer.compare(c1.getVotes(), c2.getVotes())).get();
 	}
 

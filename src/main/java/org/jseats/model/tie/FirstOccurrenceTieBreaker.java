@@ -24,7 +24,7 @@ public class FirstOccurrenceTieBreaker extends BaseTieBreaker {
 
 	@Override
 	public Candidate innerBreakTie(List<Candidate> candidates) {
-		return candidates.get(candidates.size() - 1);
+		return candidates.get(0);
 	}
 
 }

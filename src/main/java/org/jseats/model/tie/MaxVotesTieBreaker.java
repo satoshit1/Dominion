@@ -24,6 +24,7 @@ public class MaxVotesTieBreaker extends BaseTieBreaker {
 
 	@Override
 	public Candidate innerBreakTie(List<Candidate> candidates) {
+		// TODO MMP: Test case when they both contain same votes value
 		return candidates.stream().max((c1, c2) -> Integer.compare(c1.getVotes(), c2.getVotes())).get();
 	}
 
