@@ -21,6 +21,10 @@ public class SimpleMajorityMethod implements SeatAllocationMethod {
 	@Override
 	public Result process(InmutableTally tally, Properties properties,
 			TieBreaker tieBreaker) throws SeatAllocationException {
+		
+		if(null == tally){
+			throw new SeatAllocationException("Cannot process a null tallysheet");
+		}
 
 		List<Candidate> candidates = new ArrayList<Candidate>();
 

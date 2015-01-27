@@ -24,7 +24,7 @@ public abstract class LargestRemainderMethod implements SeatAllocationMethod {
 
 		int numberOfCandidates = tally.getNumberOfCandidates();
 		int numberOfSeats = Integer.parseInt(properties.getProperty(
-				"numberOfSeats",
+				org.jseats.Properties.NUMBER_OF_SEATS,
 				Integer.toString(tally.getNumberOfCandidates())));
 		int numberOfUnallocatedSeats = numberOfSeats;
 

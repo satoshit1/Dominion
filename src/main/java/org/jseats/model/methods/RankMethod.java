@@ -20,9 +20,30 @@ public abstract class RankMethod implements SeatAllocationMethod {
 	public Result process(InmutableTally tally, Properties properties,
 			TieBreaker tieBreaker) throws SeatAllocationException {
 
+		if (null == tally) {
+			throw new SeatAllocationException("Received Tally was null");
+		}
+		if (null == properties) {
+			throw new SeatAllocationException("Received Properties was null");
+		}
 		int numberOfCandidates = tally.getNumberOfCandidates();
-		int numberOfSeats = Integer.parseInt(properties.getProperty(
-				"numberOfSeats", Integer.toString(numberOfCandidates)));
+		if (numberOfCandidates <= 0) {
+			throw new SeatAllocationException("This tally contains no candidates");
+		}
+		// If numberOfSeats is not defined it is set with a default value
+		// to numberOfCandidates
+		int numberOfSeats = 0;
+		String numberOfSeatsString_or_NumberOfCandidates =
+			properties.getProperty(org.jseats.Properties.NUMBER_OF_SEATS, Integer.toString(numberOfCandidates));
+		try {
+			numberOfSeats = Integer.parseInt(numberOfSeatsString_or_NumberOfCandidates);
+		} catch (NumberFormatException exception) {
+			throw new SeatAllocationException("numberOfSeats property is not a number: '"
+				+ properties.getProperty(org.jseats.Properties.NUMBER_OF_SEATS) + "'");
+		}
+		if (numberOfSeats < 0) {
+			throw new SeatAllocationException("numberOfSeats is negative: " + numberOfSeats);
+		}
 
 		int[] candidatePriority = new int[numberOfCandidates];
 

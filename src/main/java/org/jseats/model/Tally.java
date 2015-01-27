@@ -17,8 +17,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "tally")
 @XmlAccessorType(XmlAccessType.FIELD)
+// TODO This class Tally is not immutable
 public class Tally implements InmutableTally {
 
+	// TODO warning: this jaxb context, being static, may cause some concurrency
+	// issues
 	static JAXBContext jc;
 	static Marshaller marshaller;
 	static Unmarshaller unmarshaller;
@@ -94,6 +97,7 @@ public class Tally implements InmutableTally {
 	/*
 	 * Serialization
 	 */
+	@Override
 	public void toXML(OutputStream out) throws JAXBException {
 
 		if (jc == null)

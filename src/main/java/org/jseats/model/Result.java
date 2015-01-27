@@ -25,6 +25,7 @@ public class Result {
 
 	public enum ResultType {
 
+		// TODO AGB missing documentation
 		SINGLE("single-result"), MULTIPLE("multiple-result"), TIE("tie"), UNDECIDED(
 				"undecided");
 
@@ -71,7 +72,7 @@ public class Result {
 		return seats.size();
 	}
 	
-	public int getNumerOfSeatsForCandidate(String candidate) {
+	public int getNumberOfSeatsForCandidate(String candidate) {
 
 		int count = 0;
 		for(Candidate innerCandidate : seats)
