@@ -22,7 +22,11 @@ import org.jseats.model.result.NullResultDecorator;
 import org.jseats.model.result.SuffixTextToCandidateNameDecorator;
 import org.jseats.model.tally.NullTallyFilter;
 import org.jseats.model.tally.RemoveCandidatesBelow;
+import org.jseats.model.tie.FirstOccurrenceTieBreaker;
 import org.jseats.model.tie.InteractiveTieBreaker;
+import org.jseats.model.tie.LastOccurrenceTieBreaker;
+import org.jseats.model.tie.MaxVotesTieBreaker;
+import org.jseats.model.tie.MinVotesTieBreaker;
 import org.jseats.model.tie.MinorityTieBreaker;
 import org.jseats.model.tie.RandomTieBreaker;
 import org.jseats.model.tie.TieBreaker;
@@ -62,6 +66,10 @@ public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 		tieBreakers.put("random-tie-breaker", RandomTieBreaker.class);
 		tieBreakers.put("console-tie-breaker", InteractiveTieBreaker.class);
 		tieBreakers.put("minority-tie-breaker", MinorityTieBreaker.class);
+		tieBreakers.put("first-occurrence-tie-breaker", FirstOccurrenceTieBreaker.class);
+		tieBreakers.put("last-occurrence-tie-breaker", LastOccurrenceTieBreaker.class);
+		tieBreakers.put("max-votes-tie-breaker", MaxVotesTieBreaker.class);
+		tieBreakers.put("min-votes-tie-breaker", MinVotesTieBreaker.class);
 	}
 
 	@Override

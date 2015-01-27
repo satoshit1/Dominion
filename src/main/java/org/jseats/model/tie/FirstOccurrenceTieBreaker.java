@@ -19,7 +19,7 @@ public class FirstOccurrenceTieBreaker extends BaseTieBreaker {
 
 	@Override
 	public String getName() {
-		return "First Occurence Tie Breaker";
+		return "First Occurrence Tie Breaker";
 	}
 
 	@Override
