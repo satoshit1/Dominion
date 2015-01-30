@@ -15,6 +15,7 @@ import org.jbehave.core.annotations.Alias;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
+import org.jseats.SeatAllocatorDefaultResolver;
 import org.jseats.SeatAllocatorLauncher;
 import org.jseats.SeatAllocatorProcessor;
 import org.jseats.model.Candidate;
@@ -146,8 +147,8 @@ public class Steps {
 	}
 
 	@Given("use tie breaker $breaker")
-	public void useTieBreaker(String breaker) {
-		tieBreaker = new MinorityTieBreaker();
+	public void useTieBreaker(String breaker) throws SeatAllocationException {
+		tieBreaker = new SeatAllocatorDefaultResolver().resolveTieBreaker(breaker);
 
 	}
 

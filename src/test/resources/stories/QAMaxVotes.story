@@ -175,7 +175,7 @@ Given tally has candidate Tony Tan Keng Yam with 745693 votes
 Given tally has candidate Tan Cheng Bock with 738311 votes
 Given tally has candidate Tan Jee Say with 530441 votes
 Given tally has candidate Tan Kin Lian with 104095 votes
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with SimpleMajority algorithm
 Then result type is SINGLE
 Then result seat #0 is Tony Tan Keng Yam
@@ -193,7 +193,7 @@ Given tally has candidate Tan Kin Lian with 104095 votes
 Given tally has candidate Tan Jee Say with 530441 votes
 Given tally has candidate Tan Cheng Bock with 738311 votes
 Given tally has candidate Tony Tan Keng Yam with 745693 votes
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with SimpleMajority algorithm
 Then result type is SINGLE
 Then result seat #0 is Tony Tan Keng Yam
@@ -211,7 +211,7 @@ Given tally has candidate Tan Cheng Bock with 738311 votes
 Given tally has candidate Tony Tan Keng Yam with 745693 votes
 Given tally has candidate Tan Kin Lian with 104095 votes
 Given tally has candidate Tan Jee Say with 530441 votes
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with SimpleMajority algorithm
 Then result type is SINGLE
 Then result seat #0 is Tony Tan Keng Yam
@@ -229,7 +229,7 @@ Given tally has candidate CandidateA with 200 votes
 Given tally has candidate CandidateB with 150 votes
 Given tally has candidate CandidateC with 200 votes
 Given tally has candidate CandidateD with 125 votes
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with SimpleMajority algorithm
 Then result type is SINGLE
 Then result seats contain CandidateA
@@ -243,7 +243,7 @@ Given tally has candidate CandidateA with 200 votes
 Given tally has candidate CandidateB with 1500 votes
 Given tally has candidate CandidateC with 200 votes
 Given tally has candidate CandidateD with 1250 votes
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with SimpleMajority algorithm
 Then result type is SINGLE
 Then result seat #0 is CandidateB
@@ -257,7 +257,7 @@ Given tally has candidate CandidateA with 2000 votes
 Given tally has candidate CandidateB with 2000 votes
 Given tally has candidate CandidateC with 200 votes
 Given tally has candidate CandidateD with 3000 votes
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with SimpleMajority algorithm
 Then result type is SINGLE
 Then result seat #0 is CandidateD
@@ -271,7 +271,7 @@ Given tally has candidate CandidateA with 2000 votes
 Given tally has candidate CandidateB with 2000 votes
 Given tally has candidate CandidateC with 2000 votes
 Given tally has candidate CandidateD with 1300 votes
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with SimpleMajority algorithm
 Then result type is SINGLE
 Then result seats contain CandidateA
@@ -285,7 +285,7 @@ Given tally has candidate CandidateA with 1600 votes
 Given tally has candidate CandidateB with 2000 votes
 Given tally has candidate CandidateC with 2000 votes
 Given tally has candidate CandidateD with 2000 votes
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with SimpleMajority algorithm
 Then result type is SINGLE
 Then result seats contain CandidateB
@@ -299,7 +299,7 @@ Given tally has candidate CandidateA with 2000 votes
 Given tally has candidate CandidateB with 2000 votes
 Given tally has candidate CandidateC with 1600 votes
 Given tally has candidate CandidateD with 2000 votes
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with SimpleMajority algorithm
 Then result type is SINGLE
 Then result seats contain CandidateA
@@ -313,7 +313,7 @@ Given tally has candidate CandidateA with 200 votes
 Given tally has candidate CandidateB with 200 votes
 Given tally has candidate CandidateC with 200 votes
 Given tally has candidate CandidateD with 200 votes
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with SimpleMajority algorithm
 Then result type is SINGLE
 Then result seats contain CandidateA
@@ -327,6 +327,7 @@ Given tally has candidate CandidateA with 0 votes
 Given tally has candidate CandidateB with 0 votes
 Given tally has candidate CandidateC with 0 votes
 Given tally has candidate CandidateD with 0 votes
+Given use tie breaker first-occurrence-tie-breaker
 When process with SimpleMajority algorithm
 Then result type is SINGLE
 Then result seats contain CandidateA
@@ -342,9 +343,9 @@ Given tally has candidate CandidateA with 200 votes
 Given tally has candidate CandidateB with 200 votes
 Given tally has candidate CandidateC with 100 votes
 Given tally has candidate CandidateD with 20 votes
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with SimpleMajority algorithm
-Then result type is SIMPLE
+Then result type is SINGLE
 Then result seat #0 is CandidateA
 
 Scenario: Candidate list with a tie at bottom
@@ -353,9 +354,9 @@ Given tally has candidate CandidateA with 20 votes
 Given tally has candidate CandidateB with 10 votes
 Given tally has candidate CandidateC with 200 votes
 Given tally has candidate CandidateD with 200 votes
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with SimpleMajority algorithm
-Then result type is SIMPLE
+Then result type is SINGLE
 Then result seat #0 is CandidateC
 
 

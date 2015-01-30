@@ -187,7 +187,7 @@ Given tally has candidate CandidateF with 800 votes
 Given tally has candidate CandidateG with 1000 votes and property minority=no
 Given tally has candidate CandidateH with 100 votes
 Given algorithm has property numberOfSeats set to 3
-Given use tie breaker MinorityTieBreaker
+Given use tie breaker minority-tie-breaker
 When process with RankByVotes method
 Then result type is MULTIPLE
 Then result has 3 seats
@@ -206,7 +206,7 @@ Given tally has candidate CandidateF with 800 votes
 Given tally has candidate CandidateG with 1000 votes
 Given tally has candidate CandidateH with 100 votes
 Given algorithm has property numberOfSeats set to 3
-Given use tie breaker MinorityTieBreaker
+Given use tie breaker minority-tie-breaker
 When process with RankByVotes method
 Then result type is MULTIPLE
 Then result has 3 seats
@@ -225,7 +225,7 @@ Given tally has candidate CandidateF with 800 votes
 Given tally has candidate CandidateG with 1000 votes and properties minority=no
 Given tally has candidate CandidateH with 100 votes
 Given algorithm has property numberOfSeats set to 3
-Given use tie breaker MinorityTieBreaker
+Given use tie breaker minority-tie-breaker
 When process with RankByVotes method
 Then result type is TIE
 Then result has 2 seats
@@ -243,7 +243,7 @@ Given tally has candidate CandidateF with 800 votes
 Given tally has candidate CandidateG with 1000 votes and property minority=no
 Given tally has candidate CandidateH with 100 votes
 Given algorithm has property numberOfSeats set to 3
-Given use tie breaker RandomTieBreaker
+Given use tie breaker random-tie-breaker
 When process with RankByVotes method
 Then result type is MULTIPLE
 Then result has 3 seats
@@ -278,22 +278,15 @@ Given tally has candidate CandidateF with 800 votes
 Given tally has candidate CandidateG with 1000 votes 
 Given tally has candidate CandidateH with 100 votes
 Given algorithm has property numberOfSeats set to 3
-Given use tie breaker RandomTieBreaker
+Given use tie breaker random-tie-breaker
 When process with RankByVotes method
 !-- WRONG 
-Then result type is TIE
-Then result has 2 seats
-Then result seat #0 is CandidateA
-Then result seat #1 is CandidateG
-!-- RIGHT Scenario: TIE BREAKER: Random - Assign three seats to multiple candidates, tie on 3rd
-!-- Then result type is MULTIPLE
-!-- Then result has 3 seats
-!-- Then result seat #0 is CandidateD
-!-- Then result seat #1 is CandidateE
-!-- Then result seats do not contain CandidateB
-!-- Then result seats do not contain CandidateC
-!-- Then result seats do not contain CandidateF
-!-- Then result seats do not contain CandidateH
+Then result type is MULTIPLE
+Then result has 3 seats
+Then result seat #0 is CandidateD
+Then result seat #1 is CandidateE
+Then result seat #2 is CandidateA
+
 
 Scenario: TIE BREAKER: Random - Assign three seats to multiple candidates, tie on 5th
 Given empty scenario
@@ -306,7 +299,7 @@ Given tally has candidate CandidateF with 800 votes
 Given tally has candidate CandidateG with 1200 votes 
 Given tally has candidate CandidateH with 800 votes
 Given algorithm has property numberOfSeats set to 3
-Given use tie breaker RandomTieBreaker
+Given use tie breaker random-tie-breaker
 When process with RankByVotes method
 Then result type is MULTIPLE
 Then result has 3 seats

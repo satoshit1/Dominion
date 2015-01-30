@@ -282,7 +282,7 @@ Given tally has candidate Blues with 5000 votes
 Given tally has candidate Pinks with 3100 votes
 Given tally has 100000 potential votes
 Given algorithm has property numberOfSeats set to 10
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with DHondt algorithm
 Then result type is MULTIPLE
 Then result has 10 seats
@@ -325,7 +325,7 @@ Given tally has candidate Party B with 80000 votes
 Given tally has candidate Party C with 30000 votes
 Given tally has candidate Party D with 20000 votes
 Given algorithm has property numberOfSeats set to 8
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with DHondt algorithm
 Then result type is MULTIPLE
 Then result has 8 seats
@@ -365,7 +365,7 @@ Given tally has candidate Party E with 27000 votes
 Given tally has candidate Party F with 12000 votes
 Given tally has candidate Party G with 2000 votes
 Given algorithm has property numberOfSeats set to 21
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with DHondt algorithm
 Then result type is MULTIPLE
 Then result has 21 seats
@@ -428,13 +428,13 @@ Given tally has candidate Party B with 20000 votes
 Given tally has candidate Party C with 3000 votes
 Given tally has candidate Party D with 2500 votes
 Given algorithm has property numberOfSeats set to 3
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with DHondt algorithm
 Then result type is MULTIPLE
 Then result has 3 seats
-Then result seat #0 Party A
-Then result seat #1 Party B
-Then result seat #2 Party A
+Then result seat #0 is Party A
+Then result seat #1 is Party B
+Then result seat #2 is Party A
 Then tally has 45500 effective votes
 
 Scenario: TIE on votes and BUT NOT last seat 
@@ -445,15 +445,14 @@ Given tally has candidate Party B with 20000 votes
 Given tally has candidate Party C with 3000 votes
 Given tally has candidate Party D with 2500 votes
 Given algorithm has property numberOfSeats set to 4
-Given algorithm has property groupSeatsPerCandidate set to true
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with DHondt algorithm
 Then result type is MULTIPLE
 Then result has 4 seats
-Then result seat #0 Party A
-Then result seat #1 Party B
-Then result seat #2 Party A
-Then result seat #3 Party B
+Then result seat #0 is Party A
+Then result seat #1 is Party B
+Then result seat #2 is Party A
+Then result seat #3 is Party B
 Then tally has 45500 effective votes
 
 Scenario: TIE on last seat but not on votes, tie on last seat
@@ -463,12 +462,12 @@ Given tally has candidate Party B with 10000 votes
 Given tally has candidate Party C with 3000 votes
 Given tally has candidate Party D with 2500 votes
 Given algorithm has property numberOfSeats set to 2
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with DHondt algorithm
 Then result type is MULTIPLE
 Then result has 2 seats
-Then result seat #0 Party A
-Then result seat #1 Party B
+Then result seat #0 is Party A
+Then result seat #1 is Party B
 Then tally has 35500 effective votes
 
 Scenario: TIE on last seat but not on votes, don't tie on last seat
@@ -478,20 +477,20 @@ Given tally has candidate Party B with 10000 votes
 Given tally has candidate Party C with 3000 votes
 Given tally has candidate Party D with 2500 votes
 Given algorithm has property numberOfSeats set to 3
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with DHondt algorithm
 Then result type is MULTIPLE
 Then result has 3 seats
-Then result seat #0 Party A
-Then result seat #1 Party B
-Then result seat #0 Party A
+Then result seat #0 is Party A
+Then result seat #1 is Party B
+Then result seat #0 is Party A
 Then tally has 35500 effective votes
 
 Scenario: Only one candidate
 Given empty scenario
 Given tally has candidate Party A with 20000 votes
 Given algorithm has property numberOfSeats set to 4
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with DHondt algorithm
 Then result type is MULTIPLE
 Then result has 4 seats
@@ -508,7 +507,7 @@ Given tally has candidate Party B with 9000 votes
 Given tally has candidate Party C with 12000 votes
 Given algorithm has property numberOfSeats set to 4
 Given tally has 35000 potential votes
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with DHondt algorithm
 Then result type is MULTIPLE
 Then result has 4 seats
@@ -525,12 +524,12 @@ Given tally has candidate Party B with 0 votes
 Given tally has candidate Party C with 0 votes
 Given algorithm has property numberOfSeats set to 2
 Given tally has 0 potential votes
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with DHondt algorithm
 Then result type is MULTIPLE
 Then result has 2 seats
 Then result seat #0 is Party A
-Then result seat #1 is Party B
+Then result seat #1 is Party A
 Then tally has 0 effective votes
 
 Scenario: Tie out of chosen candidates
@@ -540,7 +539,7 @@ Given tally has candidate Party B with 200 votes
 Given tally has candidate Party C with 100 votes
 Given algorithm has property numberOfSeats set to 2
 Given tally has 600 potential votes
-Given use tie breaker FirstOccurrenceTieBreaker
+Given use tie breaker first-occurrence-tie-breaker
 When process with DHondt algorithm
 Then result type is MULTIPLE
 Then result has 2 seats

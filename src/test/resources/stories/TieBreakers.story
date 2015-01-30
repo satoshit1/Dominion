@@ -21,7 +21,7 @@ Then result type is TIE
 Then result has 2 seats
 Then result seat #0 is CandidateB
 Then result seat #1 is CandidateD
-Given use tie breaker MinorityTieBreaker
+Given use tie breaker minority-tie-breaker
 When process with RankByVotes method
 Then result type is MULTIPLE
 Then result has 4 seats
@@ -42,7 +42,7 @@ Then result type is TIE
 Then result has 2 seats
 Then result seat #0 is CandidateA
 Then result seat #1 is CandidateB
-Given use tie breaker MinorityTieBreaker
+Given use tie breaker minority-tie-breaker
 When process with RankByVotes method
 Then result type is MULTIPLE
 Then result has 4 seats
@@ -77,7 +77,7 @@ Then result type is TIE
 Then result has 2 seats
 Then result seat #0 is Massachusetts
 Then result seat #1 is Pennsylvania
-Given use tie breaker MinorityTieBreaker
+Given use tie breaker minority-tie-breaker
 When process with EqualProportions method
 Then result type is MULTIPLE
 Then result has 105 seats
@@ -114,7 +114,7 @@ Then result type is TIE
 Then result has 2 seats
 Then result seat #0 is Whites
 Then result seat #1 is Reds
-Given use tie breaker MinorityTieBreaker
+Given use tie breaker minority-tie-breaker
 When process with DHondt algorithm
 Then result type is MULTIPLE
 Then result has 10 seats
@@ -145,7 +145,7 @@ Then result type is TIE
 Then result has 2 seats
 Then result seat #0 is Whites
 Then result seat #1 is Reds
-Given use tie breaker MinorityTieBreaker
+Given use tie breaker minority-tie-breaker
 Given algorithm has property groupSeatsPerCandidate set to true
 When process with Droop algorithm
 Then result type is MULTIPLE
@@ -173,7 +173,7 @@ Then result seats contain CandidateA
 Then result seats contain CandidateC
 Then result seats do not contain CandidateB
 Then result seats do not contain CandidateD
-Given use tie breaker MinorityTieBreaker
+Given use tie breaker minority-tie-breaker
 When process with SimpleMajority algorithm
 Then result type is SINGLE
 Then result seat #0 is CandidateC
@@ -186,7 +186,7 @@ Given tally has candidate CandidateC with 75 votes
 Given tally has candidate CandidateD with 200 votes and property minority=no
 Given algorithm has property numberOfSeats set to 4
 Given algorithm has property groupSeatsPerCandidate set to true
-Given use tie breaker MinorityTieBreaker
+Given use tie breaker minority-tie-breaker
 When process with SimpleMajority method
 Then result type is TIE
 Then result has 2 seats
