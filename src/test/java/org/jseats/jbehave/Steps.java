@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Random;
 
 import javax.xml.bind.JAXBException;
 
@@ -28,6 +29,7 @@ import org.jseats.model.result.SuffixTextToCandidateNameDecorator;
 import org.jseats.model.tally.NullTallyFilter;
 import org.jseats.model.tally.RemoveCandidatesBelow;
 import org.jseats.model.tie.MinorityTieBreaker;
+import org.jseats.model.tie.RandomTieBreaker;
 import org.jseats.model.tie.TieBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,6 +151,9 @@ public class Steps {
 	@Given("use tie breaker $breaker")
 	public void useTieBreaker(String breaker) throws SeatAllocationException {
 		tieBreaker = new SeatAllocatorDefaultResolver().resolveTieBreaker(breaker);
+		if("random-tie-breaker".equals(breaker)){
+			((RandomTieBreaker) tieBreaker).injectRandom(new Random(1L));
+		}
 
 	}
 
