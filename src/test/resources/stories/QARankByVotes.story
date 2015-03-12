@@ -267,7 +267,7 @@ Then result seats do not contain CandidateH
 !-- Then result seats do not contain CandidateF
 !-- Then result seats do not contain CandidateH
 
-Scenario: WRONG TIE BREAKER: Random - Assign three seats to multiple candidates, tie on 3rd
+Scenario: TIE BREAKER: Random - Assign three seats to multiple candidates, tie on 3rd
 Given empty scenario
 Given tally has candidate CandidateA with 1000 votes
 Given tally has candidate CandidateB with 150 votes
@@ -280,7 +280,6 @@ Given tally has candidate CandidateH with 100 votes
 Given algorithm has property numberOfSeats set to 3
 Given use tie breaker random-tie-breaker
 When process with RankByVotes method
-!-- WRONG 
 Then result type is MULTIPLE
 Then result has 3 seats
 Then result seat #0 is CandidateD
@@ -321,7 +320,6 @@ Given algorithm has property numberOfSeats set to 2
 Given algorithm has property groupSeatsPerCandidate set to true
 When process with RankByVotes method
 Then result type is TIE
-!-- WRONG: Returns two seats instead of 3
 !-- Then result has 3 seats
 !-- Then result seat #0 is CandidateD
 !-- Then result seat #1 is CandidateE

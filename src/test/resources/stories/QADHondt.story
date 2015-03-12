@@ -248,12 +248,9 @@ Given algorithm has property numberOfSeats set to 2
 Given tally has 0 potential votes
 When process with DHondt algorithm
 Then result type is TIE
-!-- WRONG
-!-- Then result has 3 seats
 Then result has 2 seats
 Then result seat #0 is Party A
 Then result seat #1 is Party B
-!-- Then result seat #2 is Party C
 Then tally has 0 effective votes
 
 Scenario: Tie out of chosen candidates

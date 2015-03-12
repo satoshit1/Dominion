@@ -1,4 +1,4 @@
-JSeats [![Build Status](https://travis-ci.org/pau-minoves/jseats.svg?branch=master)](https://travis-ci.org/pau-minoves/jseats)
+JSeats
 ======
 
 JSeats is a java implementation of common electoral seat allocation algorithms.
@@ -7,7 +7,7 @@ JSeats is a java implementation of common electoral seat allocation algorithms.
 
 The JSeats library offers a seat allocation processor based on the following simple architecture:
 
-![alt text](https://github.com/pau-minoves/jseats/blob/master/src/site/resources/jseats_architecture.png "JSeats architecture")
+![alt text](jseats_architecture.png)
 
 You can have example usages here:
 
@@ -15,7 +15,15 @@ You can have example usages here:
  * BDD [stories](src/test/resources/stories)
 
 ## Supported methods
- 
+ * [D'Hondt](http://en.wikipedia.org/wiki/D%27Hondt_method)
+ * Simple Majority
+
+## Supported tie breakers
+Tie breakers resolve the tie between two voting options, if more than two are tied then resolve two by two.
+ * first-occurrence-tie-breaker: Resolve the tie to the first candidate passed
+ * max-votes-tie-breaker: Resolve the tie to the voting option with more votes, in case both have the same votes resolve by first occurrence.
+
+## Implemented methods
  * Majority Method
  	* Simple (MaxVotes, FPTP or [First-Past-The-Post](http://en.wikipedia.org/wiki/First-past-the-post_voting))
     * Qualified
