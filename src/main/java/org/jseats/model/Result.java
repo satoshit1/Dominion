@@ -27,7 +27,7 @@ public class Result {
 
 		// TODO AGB missing documentation
 		SINGLE("single-result"), MULTIPLE("multiple-result"), TIE("tie"), UNDECIDED(
-				"undecided"), NO_CANDIDATES_INPUTED("no-candidates-inputed"), CANDIDATES_NO_VOTES("no-candidate-with-votes");
+				"undecided"), NO_CANDIDATES_INPUTTED("no-candidates-inputted"), CANDIDATES_NO_VOTES("no-candidate-with-votes");
 
 		@SuppressWarnings("unused")
 		private final String type;
