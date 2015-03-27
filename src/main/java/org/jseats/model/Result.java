@@ -27,7 +27,7 @@ public class Result {
 
 		// TODO AGB missing documentation
 		SINGLE("single-result"), MULTIPLE("multiple-result"), TIE("tie"), UNDECIDED(
-				"undecided");
+				"undecided"), VOID("void");
 
 		@SuppressWarnings("unused")
 		private final String type;
