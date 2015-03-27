@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.jseats.model.Result;
+import org.jseats.model.Result.ResultType;
 import org.jseats.model.ResultDecorator;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
@@ -165,12 +166,21 @@ public class SeatAllocatorProcessor {
 				config.setTally(filter.filter(config.getTally()));
 			}
 		}
-
-		Result result = config.getMethod().process(config.getTally(),
-				config.getProperties(), config.getTieBreaker());
-
-		log.trace("Processed");
-
+		boolean candidatesExist =   (config.getTally().getCandidates().size() > 0);
+		boolean candidatesWithoutVotes = !config.getTally().getCandidates().stream().anyMatch(c -> c.getVotes()> 0);
+		
+		Result result = null;
+				
+		if (!candidatesExist){
+			result = new Result(ResultType.NO_CANDIDATES_INPUTTED);
+		} 
+		else if (candidatesWithoutVotes){
+			result = new Result(ResultType.CANDIDATES_NO_VOTES);
+		} else {
+			result = config.getMethod().process(config.getTally(), config.getProperties(), config.getTieBreaker());
+			log.trace("Processed");
+		}
+		
 		if (!config.getResultDecorator().isEmpty()) {
 			log.trace("Executing decorators");
 			for (ResultDecorator decorator : config.getResultDecorator()) {
