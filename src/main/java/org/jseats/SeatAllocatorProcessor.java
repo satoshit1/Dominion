@@ -166,12 +166,12 @@ public class SeatAllocatorProcessor {
 				config.setTally(filter.filter(config.getTally()));
 			}
 		}
-		boolean candidatesExist =   (config.getTally().getCandidates().size() < 1);
+		boolean candidatesExist =   (config.getTally().getCandidates().size() > 0);
 		boolean candidatesWithoutVotes = !config.getTally().getCandidates().stream().anyMatch(c -> c.getVotes()> 0);
 		
 		Result result = null;
 				
-		if (candidatesExist){
+		if (!candidatesExist){
 			result = new Result(ResultType.NO_CANDIDATES_INPUTTED);
 		} 
 		else if (candidatesWithoutVotes){
