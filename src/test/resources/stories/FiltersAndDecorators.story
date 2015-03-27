@@ -33,7 +33,7 @@ Given tally has candidate CandidateD with 125 votes
 Given tally has filter RemoveCandidatesBelow 1000
 Given result has decorator Null 
 When process with SimpleMajority algorithm
-Then result type is TIE
+Then result type is NO_CANDIDATES_INPUTED
 Then result seats do not contain CandidateA
 Then result seats do not contain CandidateB
 Then result seats do not contain CandidateC
