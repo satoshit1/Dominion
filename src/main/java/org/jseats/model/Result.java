@@ -48,16 +48,16 @@ public class Result {
 
 	@XmlElementWrapper(name = "seats")
 	@XmlElement(name = "seat")
-	List<Candidate> seats;
+	List<Seat> seats;
 
 	public Result() {
-		seats = new ArrayList<Candidate>();
+		seats = new ArrayList<Seat>();
 	}
 
 	public Result(ResultType type) {
 		this.type = type;
 
-		seats = new ArrayList<Candidate>();
+		seats = new ArrayList<Seat>();
 	}
 
 	public ResultType getType() {
@@ -75,35 +75,38 @@ public class Result {
 	public int getNumberOfSeatsForCandidate(String candidate) {
 
 		int count = 0;
-		for(Candidate innerCandidate : seats)
+		for(Seat innerCandidate : seats)
 		{
-			if(innerCandidate.getName().contentEquals(candidate))
+			if(innerCandidate.getCandidate().getName().contentEquals(candidate))
 				count++;
 				
 		}
 		return count;
 	}
 
-	public List<Candidate> getSeats() {
+	public List<Seat> getSeats() {
 		return seats;
 	}
 
 	public Candidate getSeatAt(int position) {
-		return seats.get(position);
+		return seats.get(position).getCandidate();
 	}
 
 	public void addSeat(Candidate candidate) {
-		this.seats.add(candidate);
+		Seat seat = new Seat(candidate,this.getNumerOfSeats() + 1);
+		this.seats.add(seat);
 	}
 
 	public void setSeats(List<Candidate> candidates) {
-		this.seats = candidates;
+		for (Candidate candidate : candidates) {
+			addSeat(candidate);
+		}
 	}
 
 	public boolean containsSeatForCandidate(Candidate candidate) {
 
-		for (Candidate seat : seats) {
-			if (seat.equals(candidate))
+		for (Seat seat : seats) {
+			if (seat.getCandidate().equals(candidate))
 				return true;
 		}
 
@@ -112,8 +115,8 @@ public class Result {
 
 	public boolean containsSeatForCandidate(String candidate) {
 
-		for (Candidate seat : seats) {
-			if (seat.getName().contentEquals(candidate))
+		for (Seat seat : seats) {
+			if (seat.getCandidate().getName().contentEquals(candidate))
 				return true;
 		}
 
@@ -128,8 +131,9 @@ public class Result {
 		str.append("):C=");
 		str.append(seats.size());
 		str.append("=>");
-		for (Candidate seat : seats) {
-			str.append(seat.toString());
+		for (Seat seat : seats) {
+			str.append(seat.getCandidate().toString());
+			str.append(seat.getSeatNumber());
 			str.append(",");
 		}
 
