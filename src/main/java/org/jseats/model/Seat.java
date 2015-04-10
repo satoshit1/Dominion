@@ -21,7 +21,12 @@ public class Seat {
 	private Candidate candidate;
 	@XmlAttribute
 	private int seatNumber;
-	
+
+	@SuppressWarnings("unused")
+	//Used by Unmarshaller
+	private Seat() {
+	}
+
 	public Seat(Candidate candidate, int seatNumber) {
 		if (candidate == null) {
 			throw new IllegalArgumentException("Candidate cannot be null");
