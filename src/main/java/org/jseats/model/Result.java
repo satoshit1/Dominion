@@ -1,23 +1,18 @@
 package org.jseats.model;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.xml.bind.annotation.*;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -27,12 +22,12 @@ public class Result {
 
 		// TODO AGB missing documentation
 		SINGLE("single-result"), MULTIPLE("multiple-result"), TIE("tie"), UNDECIDED(
-				"undecided");
+				"undecided"), NO_CANDIDATES_INPUTTED("no-candidates-inputted"), CANDIDATES_NO_VOTES("no-candidate-with-votes");
 
 		@SuppressWarnings("unused")
 		private final String type;
 
-		private ResultType(String name) {
+		ResultType(String name) {
 			this.type = name;
 		}
 	}
@@ -48,16 +43,16 @@ public class Result {
 
 	@XmlElementWrapper(name = "seats")
 	@XmlElement(name = "seat")
-	List<Candidate> seats;
+	List<Seat> seats;
 
 	public Result() {
-		seats = new ArrayList<Candidate>();
+		seats = new ArrayList<Seat>();
 	}
 
 	public Result(ResultType type) {
 		this.type = type;
 
-		seats = new ArrayList<Candidate>();
+		seats = new ArrayList<Seat>();
 	}
 
 	public ResultType getType() {
@@ -75,35 +70,38 @@ public class Result {
 	public int getNumberOfSeatsForCandidate(String candidate) {
 
 		int count = 0;
-		for(Candidate innerCandidate : seats)
+		for(Seat innerCandidate : seats)
 		{
-			if(innerCandidate.getName().contentEquals(candidate))
+			if(innerCandidate.getCandidate().getName().contentEquals(candidate))
 				count++;
 				
 		}
 		return count;
 	}
 
-	public List<Candidate> getSeats() {
+	public List<Seat> getSeats() {
 		return seats;
 	}
 
 	public Candidate getSeatAt(int position) {
-		return seats.get(position);
+		return seats.get(position).getCandidate();
 	}
 
 	public void addSeat(Candidate candidate) {
-		this.seats.add(candidate);
+		Seat seat = new Seat(candidate,this.getNumerOfSeats());
+		this.seats.add(seat);
 	}
 
 	public void setSeats(List<Candidate> candidates) {
-		this.seats = candidates;
+		for (Candidate candidate : candidates) {
+			addSeat(candidate);
+		}
 	}
 
 	public boolean containsSeatForCandidate(Candidate candidate) {
 
-		for (Candidate seat : seats) {
-			if (seat.equals(candidate))
+		for (Seat seat : seats) {
+			if (seat.getCandidate().equals(candidate))
 				return true;
 		}
 
@@ -112,8 +110,8 @@ public class Result {
 
 	public boolean containsSeatForCandidate(String candidate) {
 
-		for (Candidate seat : seats) {
-			if (seat.getName().contentEquals(candidate))
+		for (Seat seat : seats) {
+			if (seat.getCandidate().getName().contentEquals(candidate))
 				return true;
 		}
 
@@ -128,8 +126,10 @@ public class Result {
 		str.append("):C=");
 		str.append(seats.size());
 		str.append("=>");
-		for (Candidate seat : seats) {
-			str.append(seat.toString());
+		for (Seat seat : seats) {
+			str.append(seat.getSeatNumber());
+			str.append(" - ");
+			str.append(seat.getCandidate().toString());
 			str.append(",");
 		}
 
@@ -161,7 +161,10 @@ public class Result {
 		if (unmarshaller == null)
 			unmarshaller = jc.createUnmarshaller();
 
-		return (Result) unmarshaller.unmarshal(is);
+		final Result result = (Result) unmarshaller.unmarshal(is);
+		//Enforce seats order
+		result.getSeats().sort(Comparator.<Seat>naturalOrder());
+		return result;
 	}
 
 }

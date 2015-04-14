@@ -28,7 +28,6 @@ import org.jseats.model.result.NullResultDecorator;
 import org.jseats.model.result.SuffixTextToCandidateNameDecorator;
 import org.jseats.model.tally.NullTallyFilter;
 import org.jseats.model.tally.RemoveCandidatesBelow;
-import org.jseats.model.tie.MinorityTieBreaker;
 import org.jseats.model.tie.RandomTieBreaker;
 import org.jseats.model.tie.TieBreaker;
 import org.slf4j.Logger;

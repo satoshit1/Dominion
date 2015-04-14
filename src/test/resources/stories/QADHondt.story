@@ -247,10 +247,10 @@ Given tally has candidate Party C with 0 votes
 Given algorithm has property numberOfSeats set to 2
 Given tally has 0 potential votes
 When process with DHondt algorithm
-Then result type is TIE
-Then result has 2 seats
-Then result seat #0 is Party A
-Then result seat #1 is Party B
+Then result type is CANDIDATES_NO_VOTES
+Then result has 0 seats
+Then result seats do not contain Party A
+Then result seats do not contain Party B
 Then tally has 0 effective votes
 
 Scenario: Tie out of chosen candidates
@@ -523,10 +523,10 @@ Given algorithm has property numberOfSeats set to 2
 Given tally has 0 potential votes
 Given use tie breaker first-occurrence-tie-breaker
 When process with DHondt algorithm
-Then result type is MULTIPLE
-Then result has 2 seats
-Then result seat #0 is Party A
-Then result seat #1 is Party A
+Then result type is CANDIDATES_NO_VOTES
+Then result has 0 seats
+Then result seats do not contain Party A
+Then result seats do not contain Party B
 Then tally has 0 effective votes
 
 Scenario: Tie out of chosen candidates

@@ -160,11 +160,11 @@ Given tally has candidate CandidateB with 0 votes
 Given tally has candidate CandidateC with 0 votes
 Given tally has candidate CandidateD with 0 votes
 When process with SimpleMajority algorithm
-Then result type is TIE
-Then result seats contain CandidateA
-Then result seats contain CandidateB
-Then result seats contain CandidateC
-Then result seats contain CandidateD
+Then result type is CANDIDATES_NO_VOTES
+Then result seats do not contain CandidateA
+Then result seats do not contain CandidateB
+Then result seats do not contain CandidateC
+Then result seats do not contain CandidateD
 
 
 !-- TIE BREAKER: First Occurrence. Same scenarios but with tiebreaker FirstOccurrence
@@ -329,8 +329,8 @@ Given tally has candidate CandidateC with 0 votes
 Given tally has candidate CandidateD with 0 votes
 Given use tie breaker first-occurrence-tie-breaker
 When process with SimpleMajority algorithm
-Then result type is SINGLE
-Then result seats contain CandidateA
+Then result type is CANDIDATES_NO_VOTES
+Then result seats do not contain CandidateA
 Then result seats do not contain CandidateB
 Then result seats do not contain CandidateC
 Then result seats do not contain CandidateD

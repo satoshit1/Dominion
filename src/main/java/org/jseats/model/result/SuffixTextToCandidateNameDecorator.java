@@ -2,9 +2,9 @@ package org.jseats.model.result;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.jseats.model.Candidate;
 import org.jseats.model.Result;
 import org.jseats.model.ResultDecorator;
+import org.jseats.model.Seat;
 
 @XmlRootElement
 public class SuffixTextToCandidateNameDecorator implements ResultDecorator {
@@ -18,8 +18,8 @@ public class SuffixTextToCandidateNameDecorator implements ResultDecorator {
 	@Override
 	public Result decorate(Result result) {
 
-		for (Candidate candidate : result.getSeats())
-			candidate.setName(text + candidate.getName());
+		for (Seat seat : result.getSeats())
+			seat.getCandidate().setName(text + seat.getName());
 
 		return result;
 	}

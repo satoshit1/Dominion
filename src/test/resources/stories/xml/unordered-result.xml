@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<result type="MULTIPLE">
+    <seats>
+        <seat seatNumber="3">
+            <candidate name="Party3" votes="50">
+                <properties/>
+            </candidate>
+        </seat>
+        <seat seatNumber="1">
+            <candidate name="Party3" votes="50">
+                <properties/>
+            </candidate>
+        </seat>
+        <seat seatNumber="2">
+            <candidate name="Party1" votes="50">
+                <properties/>
+            </candidate>
+        </seat>
+        <seat seatNumber="0">
+            <candidate name="Party2" votes="15">
+                <properties/>
+            </candidate>
+        </seat>
+    </seats>
+</result>
