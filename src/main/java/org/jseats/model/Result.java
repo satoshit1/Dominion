@@ -11,11 +11,10 @@ import javax.xml.bind.annotation.*;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.NONE)
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Result {
 
 	public enum ResultType {
@@ -41,6 +40,8 @@ public class Result {
 	static Marshaller marshaller;
 	static Unmarshaller unmarshaller;
 
+	@XmlElementWrapper(name = "seats")
+	@XmlElement(name = "seat")
 	List<Seat> seats;
 
 	public Result() {
@@ -77,8 +78,6 @@ public class Result {
 		return count;
 	}
 
-	@XmlElementWrapper(name = "seats")
-	@XmlElement(name = "seat")
 	public List<Seat> getSeats() {
 		return seats;
 	}
@@ -90,11 +89,6 @@ public class Result {
 	public void addSeat(Candidate candidate) {
 		Seat seat = new Seat(candidate,this.getNumerOfSeats());
 		this.seats.add(seat);
-	}
-
-	public void setSeats(Seat[] seats) {
-		Arrays.sort(seats);
-		this.seats = Arrays.asList(seats);
 	}
 
 	public void setSeats(List<Candidate> candidates) {
