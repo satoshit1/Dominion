@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.*;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @XmlRootElement
@@ -160,7 +161,10 @@ public class Result {
 		if (unmarshaller == null)
 			unmarshaller = jc.createUnmarshaller();
 
-		return (Result) unmarshaller.unmarshal(is);
+		final Result result = (Result) unmarshaller.unmarshal(is);
+		//Enforce seats order
+		result.getSeats().sort(Comparator.<Seat>naturalOrder());
+		return result;
 	}
 
 }
