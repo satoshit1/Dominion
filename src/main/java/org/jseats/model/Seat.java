@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Seat {
+public class Seat implements Comparable<Seat> {
 	
 	private Candidate candidate;
 	@XmlAttribute
@@ -49,5 +49,12 @@ public class Seat {
 
 	public String getName() {
 		return this.candidate.getName();
+	}
+
+	@Override
+	public int compareTo(Seat o) {
+		if(o == null)
+			return -1;
+		return seatNumber - o.seatNumber;
 	}
 }
