@@ -27,7 +27,7 @@ public class Result {
 		@SuppressWarnings("unused")
 		private final String type;
 
-		private ResultType(String name) {
+		ResultType(String name) {
 			this.type = name;
 		}
 	}
@@ -132,8 +132,9 @@ public class Result {
 		str.append(seats.size());
 		str.append("=>");
 		for (Seat seat : seats) {
-			str.append(seat.getCandidate().toString());
 			str.append(seat.getSeatNumber());
+			str.append(" - ");
+			str.append(seat.getCandidate().toString());
 			str.append(",");
 		}
 
