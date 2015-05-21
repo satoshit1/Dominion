@@ -24,23 +24,18 @@
 			<name>Pau Minoves</name>
 			<organizationUrl>https://github.com/pau-minoves</organizationUrl>
 		</developer>
+		<developer>
+			<name>Scytl</name>
+			<organizationUrl>http://www.scytl.com/</organizationUrl>
+		</developer>
 	</developers>
-
+	
 	<scm>
-		<connection>scm:git:git@github.com:pau-minoves/jseats.git</connection>
-		<developerConnection>scm:git:git@github.com:pau-minoves/jseats.git</developerConnection>
-		<url>git@github.com:pau-minoves/jseats.git</url>
+		<connection>scm:git:ssh://git@scm.scytl.net:7999/proj/20120080-rc-jseats.git</connection>
+		<developerConnection>scm:git:ssh://git@scm.scytl.net:7999/proj/20120080-rc-jseats.git</developerConnection>
+		<url>https://scm.scytl.net/stash/projects/PROJ/repos/20120080-rc-jseats/browse</url>
+		<tag>HEAD</tag>
 	</scm>
-
-	<issueManagement>
-		<system>Github</system>
-		<url>https://github.com/pau-minoves/jseats/issues</url>
-	</issueManagement>
-
-	<ciManagement>
-		<system>Travis CI</system>
-		<url>https://travis-ci.org/pau-minoves/jseats</url>
-	</ciManagement>
 
 	<properties>
 		<java.version>1.8</java.version>
