@@ -215,11 +215,6 @@
             <name>Scytl Snapshots</name>
             <url>https://nexus.scytl.net/content/repositories/snapshots</url>
         </snapshotRepository>
-        <site>
-            <id>1</id>
-            <name>Scytl Distribution Repository</name>
-            <url>dav:http://sauron.scytl.net/maven/reports/result-consolidation/result-consolidation-sa-impl/</url>
-        </site>
     </distributionManagement>
 </project>
 
