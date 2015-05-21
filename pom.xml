@@ -204,6 +204,22 @@
 			</plugin>
 		</plugins>
 	</build>
-
+    <distributionManagement>
+        <repository>
+            <id>scytl-nexus</id>
+            <name>Scytl Releases</name>
+            <url>https://nexus.scytl.net/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>scytl-nexus</id>
+            <name>Scytl Snapshots</name>
+            <url>https://nexus.scytl.net/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <site>
+            <id>1</id>
+            <name>Scytl Distribution Repository</name>
+            <url>dav:http://sauron.scytl.net/maven/reports/result-consolidation/result-consolidation-sa-impl/</url>
+        </site>
+    </distributionManagement>
 </project>
 
