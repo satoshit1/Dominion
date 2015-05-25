@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.Arrays.*;
 import static org.hamcrest.Matchers.*;
@@ -87,10 +86,7 @@ public class SimpleMajorityMethodShould {
         Result result = sut.process(tally, null, tieBreaker);
 
         assertThat(result.getType(), is(Result.ResultType.TIE));
-        assertThat(result.getSeats().size(), is(2));
-        for (int i = 0; i < result.getNumerOfSeats(); i++) {
-            assertThat(result.getSeats().get(i).getCandidate(), is(tiedCandidates.get(i)));
-        }
+        assertThatCandidatesAreEqual(tiedCandidates, result, 2);
     }
 
     @Test
@@ -105,7 +101,11 @@ public class SimpleMajorityMethodShould {
         Result result = sut.process(tally, null, tieBreaker);
         
         assertThat(result.getType(), is(Result.ResultType.SINGLE));
-        assertThat(result.getSeats().size(), is(1));
+        assertThatCandidatesAreEqual(candidates, result, 1);
+    }
+
+    private void assertThatCandidatesAreEqual(List<Candidate> candidates, Result result, int expectedSize) {
+        assertThat(result.getSeats().size(), is(expectedSize));
         for (int i = 0; i < result.getNumerOfSeats(); i++) {
             assertThat(result.getSeats().get(i).getCandidate(), is(candidates.get(i)));
         }
