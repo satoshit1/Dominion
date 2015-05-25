@@ -82,7 +82,7 @@ public abstract class RankMethod implements SeatAllocationMethod {
 								tally.getCandidateAt(candidate),
 								tally.getCandidateAt(maxCandidate));
 
-						if (topCandidate == null) {
+						if (topCandidate == null || topCandidate.isEmpty()) {
 							Result tieResult = new Result(ResultType.TIE);
 							tieResult.addSeat(tally
 									.getCandidateAt(maxCandidate));

@@ -2,6 +2,7 @@ package org.jseats.model.methods;
 
 import static org.jseats.Properties.NUMBER_OF_SEATS;
 
+import java.util.List;
 import java.util.Properties;
 
 import org.jseats.model.Candidate;
@@ -114,17 +115,17 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 							log.debug("Using tie breaker: " + tieBreaker.getName());
 
 							// Inputs Swapped, to natural matrix traversing order so it's coherent with maxVotes
-							Candidate topCandidate =
-								tieBreaker.breakTie(tally.getCandidateAt(maxCandidate), tally.getCandidateAt(candidate)).get(0);
+							List<Candidate> topCandidate =
+								tieBreaker.breakTie(tally.getCandidateAt(maxCandidate), tally.getCandidateAt(candidate));
 
-							if (topCandidate == null) {
+							if (topCandidate == null || topCandidate.isEmpty()) {
 								Result tieResult = new Result(ResultType.TIE);
 								tieResult.addSeat(tally.getCandidateAt(maxCandidate));
 								tieResult.addSeat(tally.getCandidateAt(candidate));
 
 								return tieResult;
 							} else {
-								maxCandidate = tally.getCandidateIndex(topCandidate);
+								maxCandidate = tally.getCandidateIndex(topCandidate.get(0));
 								// Bug #1 : that breaks logic? -> maxVotes = averagesPerRound[maxCandidate][round];
 								// Bug #2: maxRound setting is missing (important when clearing cell)
 								maxRound = (maxCandidate == candidate) ? round : maxRound;
