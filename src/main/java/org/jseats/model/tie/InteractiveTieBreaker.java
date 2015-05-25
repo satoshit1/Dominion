@@ -51,8 +51,7 @@ public class InteractiveTieBreaker extends BaseTieBreaker {
 		do {
 			try {
 				out.debug("Select candidate index (-1 for none):");
-				c = Integer.parseInt(in.readLine());
-
+				c = getChosenCandidate(candidates.size());
 			} catch (NumberFormatException e) {
 				continue;
 			} catch (IOException e) {
@@ -67,5 +66,9 @@ public class InteractiveTieBreaker extends BaseTieBreaker {
 			arrayList.add(candidates.get(c));
 			return new TieScenario(arrayList, TieScenario.SOLVED);
 		}
+	}
+
+	protected int getChosenCandidate(int candidatesSize) throws IOException {
+		return Integer.parseInt(in.readLine());
 	}
 }
