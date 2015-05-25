@@ -1,5 +1,6 @@
 package org.jseats.model.methods;
 
+import java.util.List;
 import java.util.Properties;
 
 import org.jseats.model.Candidate;
@@ -77,7 +78,7 @@ public abstract class RankMethod implements SeatAllocationMethod {
 
 						log.debug("Using tie breaker: " + tieBreaker.getName());
 
-						Candidate topCandidate = tieBreaker.breakTie(
+						List<Candidate> topCandidate = tieBreaker.breakTie(
 								tally.getCandidateAt(candidate),
 								tally.getCandidateAt(maxCandidate));
 
@@ -90,7 +91,7 @@ public abstract class RankMethod implements SeatAllocationMethod {
 							return tieResult;
 						} else {
 							maxCandidate = tally
-									.getCandidateIndex(topCandidate);
+									.getCandidateIndex(topCandidate.get(0));
 							maxPriority = candidatePriority[maxCandidate];
 						}
 

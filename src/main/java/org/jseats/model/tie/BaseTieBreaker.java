@@ -1,6 +1,7 @@
 package org.jseats.model.tie;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.jseats.model.Candidate;
@@ -8,22 +9,15 @@ import org.jseats.model.Candidate;
 public abstract class BaseTieBreaker implements TieBreaker {
 
 	@Override
-	public Candidate breakTie(List<Candidate> candidates) {
-		return innerBreakTie(new ArrayList<Candidate>(candidates));
+	public List<Candidate> breakTie(List<Candidate> candidates) {
+		return innerBreakTie(new ArrayList<>(candidates));
 	}
 	
 	@Override
-	public Candidate breakTie(Candidate... candidates) {
-		
-		List<Candidate> innerCandidates = new ArrayList<Candidate>(
-				candidates.length);
-		
-		for (Candidate candidate : candidates)
-			innerCandidates.add(candidate);
-
-		return innerBreakTie(innerCandidates);
+	public List<Candidate> breakTie(Candidate... candidates) {
+		return innerBreakTie(new ArrayList<>(Arrays.asList(candidates)));
 	}
 
-	public abstract Candidate innerBreakTie(List<Candidate> candidates);
+	public abstract List<Candidate> innerBreakTie(List<Candidate> candidates);
 
 }

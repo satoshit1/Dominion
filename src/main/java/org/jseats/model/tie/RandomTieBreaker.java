@@ -1,5 +1,6 @@
 package org.jseats.model.tie;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -19,8 +20,11 @@ public class RandomTieBreaker extends BaseTieBreaker {
 	}
 
 	@Override
-	public Candidate innerBreakTie(List<Candidate> candidates) {
-		return candidates.get(rand.nextInt(candidates.size()));
+	public List<Candidate> innerBreakTie(List<Candidate> candidates) {
+		final Candidate winner = candidates.get(rand.nextInt(candidates.size()));
+		List<Candidate> solvedTie = new ArrayList<>();
+		solvedTie.add(winner);
+		return solvedTie;
 	}
 
 }

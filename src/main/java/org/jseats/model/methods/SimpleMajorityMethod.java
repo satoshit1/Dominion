@@ -56,14 +56,14 @@ public class SimpleMajorityMethod implements SeatAllocationMethod {
 
 				log.debug("Using tie breaker: " + tieBreaker.getName());
 
-				Candidate topCandidate = tieBreaker.breakTie(candidates);
+				List<Candidate> topCandidate = tieBreaker.breakTie(candidates);
 
 				log.debug("top candidate: " + topCandidate);
 
-				if (topCandidate != null) {
+				if (topCandidate != null && topCandidate.size() > 0) {
 
 					candidates.clear();
-					candidates.add(topCandidate);
+					candidates.add(topCandidate.get(0));
 					result = new Result(ResultType.SINGLE);
 				} else
 					result = new Result(ResultType.TIE);

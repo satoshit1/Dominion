@@ -23,8 +23,8 @@ public class FirstOccurrenceTieBreaker extends BaseTieBreaker {
 	}
 
 	@Override
-	public Candidate innerBreakTie(List<Candidate> candidates) {
-		return candidates.get(0);
+	public List<Candidate> innerBreakTie(List<Candidate> candidates) {
+		return candidates;
 	}
 
 }

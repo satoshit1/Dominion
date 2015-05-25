@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jseats.model.Candidate;
@@ -39,7 +40,7 @@ public class InteractiveTieBreaker extends BaseTieBreaker {
 	}
 
 	@Override
-	public Candidate innerBreakTie(List<Candidate> candidates) {
+	public List<Candidate> innerBreakTie(List<Candidate> candidates) {
 
 		out.debug("Candidates:");
 		for (int i = 0; i < candidates.size(); i++) {
@@ -61,7 +62,10 @@ public class InteractiveTieBreaker extends BaseTieBreaker {
 
 		if (c == -1)
 			return null;
-		else
-			return candidates.get(c);
+		else {
+			final ArrayList arrayList = new ArrayList<>();
+			arrayList.add(candidates.get(c));
+			return arrayList;
+		}
 	}
 }

@@ -115,7 +115,7 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 
 							// Inputs Swapped, to natural matrix traversing order so it's coherent with maxVotes
 							Candidate topCandidate =
-								tieBreaker.breakTie(tally.getCandidateAt(maxCandidate), tally.getCandidateAt(candidate));
+								tieBreaker.breakTie(tally.getCandidateAt(maxCandidate), tally.getCandidateAt(candidate)).get(0);
 
 							if (topCandidate == null) {
 								Result tieResult = new Result(ResultType.TIE);

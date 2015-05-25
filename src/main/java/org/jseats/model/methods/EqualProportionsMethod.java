@@ -105,7 +105,7 @@ public class EqualProportionsMethod implements SeatAllocationMethod {
 
 						Candidate topCandidate = tieBreaker.breakTie(
 								tally.getCandidateAt(candidate),
-								tally.getCandidateAt(maxCandidate));
+								tally.getCandidateAt(maxCandidate)).get(0);
 
 						if (topCandidate == null) {
 							Result tieResult = new Result(ResultType.TIE);
