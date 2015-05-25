@@ -1,5 +1,6 @@
 package org.jseats.model.tie;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class MinorityTieBreaker extends BaseTieBreaker {
 	static Logger log = LoggerFactory.getLogger(MinorityTieBreaker.class);
 
 	@Override
-	public Candidate innerBreakTie(List<Candidate> candidates) {
+	public TieScenario innerBreakTie(List<Candidate> candidates) {
 
 		log.debug("Called Minority Tie Breaker with " + candidates.size()
 				+ " candidates.");
@@ -39,9 +40,12 @@ public class MinorityTieBreaker extends BaseTieBreaker {
 
 		if (candidates.size() == 1) {
 			log.debug("Top candidate: " + candidates.get(0));
-			return candidates.get(0);
+			List<Candidate> singleCandidate = new ArrayList<>();
+			final Candidate candidate = candidates.get(0);
+			singleCandidate.add(candidate);
+			return new TieScenario(singleCandidate, TieScenario.SOLVED);
 		} else
-			return null;
+			return new TieScenario(candidates, TieScenario.TIED);
 	}
 
 }

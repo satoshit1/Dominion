@@ -3,6 +3,7 @@ package org.jseats.model.methods;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Properties;
 
 import org.jseats.model.Candidate;
@@ -12,6 +13,7 @@ import org.jseats.model.Result.ResultType;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.tie.TieBreaker;
+import org.jseats.model.tie.TieScenario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -103,11 +105,11 @@ public class EqualProportionsMethod implements SeatAllocationMethod {
 
 						log.debug("Using tie breaker: " + tieBreaker.getName());
 
-						Candidate topCandidate = tieBreaker.breakTie(
+						TieScenario topCandidates = tieBreaker.breakTie(
 								tally.getCandidateAt(candidate),
 								tally.getCandidateAt(maxCandidate));
 
-						if (topCandidate == null) {
+						if (topCandidates == null || topCandidates.isTied()) {
 							Result tieResult = new Result(ResultType.TIE);
 							tieResult.addSeat(tally
 									.getCandidateAt(maxCandidate));
@@ -116,7 +118,7 @@ public class EqualProportionsMethod implements SeatAllocationMethod {
 							return tieResult;
 						} else {
 							maxCandidate = tally
-									.getCandidateIndex(topCandidate);
+									.getCandidateIndex(topCandidates.get(0));
 							maxPriority = candidatePriority[maxCandidate];
 						}
 

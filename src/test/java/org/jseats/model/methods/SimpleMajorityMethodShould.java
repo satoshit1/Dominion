@@ -2,6 +2,7 @@ package org.jseats.model.methods;
 
 import org.jseats.model.*;
 import org.jseats.model.tie.TieBreaker;
+import org.jseats.model.tie.TieScenario;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -11,7 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.Arrays.*;
 import static org.hamcrest.Matchers.*;
@@ -87,7 +87,7 @@ public class SimpleMajorityMethodShould {
         Result result = sut.process(tally, null, tieBreaker);
 
         assertThat(result.getType(), is(Result.ResultType.TIE));
-        assertThat(result.getSeats(), is(tiedCandidates));
+        assertThatCandidatesAreEqual(tiedCandidates, result, 2);
     }
 
     @Test
@@ -97,11 +97,19 @@ public class SimpleMajorityMethodShould {
 
         final TieBreaker tieBreaker = mock(TieBreaker.class);
         final Candidate candidateA = new Candidate("A", 10);
-        doReturn(candidateA).when(tieBreaker).breakTie((List<Candidate>) anyObject());
+        final List<Candidate> candidates = Arrays.asList(candidateA);
+        doReturn(new TieScenario(candidates, TieScenario.SOLVED)).when(tieBreaker).breakTie((List<Candidate>) anyObject());
         Result result = sut.process(tally, null, tieBreaker);
         
         assertThat(result.getType(), is(Result.ResultType.SINGLE));
-        assertThat(result.getSeats(), contains(candidateA));
+        assertThatCandidatesAreEqual(candidates, result, 1);
+    }
+
+    private void assertThatCandidatesAreEqual(List<Candidate> candidates, Result result, int expectedSize) {
+        assertThat(result.getSeats().size(), is(expectedSize));
+        for (int i = 0; i < result.getNumerOfSeats(); i++) {
+            assertThat(result.getSeats().get(i).getCandidate(), is(candidates.get(i)));
+        }
     }
 
     @Test
