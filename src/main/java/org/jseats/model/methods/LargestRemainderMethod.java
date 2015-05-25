@@ -10,6 +10,7 @@ import org.jseats.model.Result.ResultType;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.tie.TieBreaker;
+import org.jseats.model.tie.TieScenario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,11 +71,11 @@ public abstract class LargestRemainderMethod implements SeatAllocationMethod {
 
 						log.debug("Using tie breaker: " + tieBreaker.getName());
 
-						List<Candidate> topCandidates = tieBreaker.breakTie(
+						TieScenario topCandidates = tieBreaker.breakTie(
 								tally.getCandidateAt(candidate),
 								tally.getCandidateAt(maxCandidate));
 
-						if (topCandidates == null || topCandidates.isEmpty()) {
+						if (topCandidates == null || topCandidates.isTied()) {
 							Result tieResult = new Result(ResultType.TIE);
 							tieResult.addSeat(tally
 									.getCandidateAt(maxCandidate));

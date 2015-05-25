@@ -40,7 +40,7 @@ public class InteractiveTieBreaker extends BaseTieBreaker {
 	}
 
 	@Override
-	public List<Candidate> innerBreakTie(List<Candidate> candidates) {
+	public TieScenario innerBreakTie(List<Candidate> candidates) {
 
 		out.debug("Candidates:");
 		for (int i = 0; i < candidates.size(); i++) {
@@ -65,7 +65,7 @@ public class InteractiveTieBreaker extends BaseTieBreaker {
 		else {
 			final ArrayList arrayList = new ArrayList<>();
 			arrayList.add(candidates.get(c));
-			return arrayList;
+			return new TieScenario(arrayList, TieScenario.SOLVED);
 		}
 	}
 }

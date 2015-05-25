@@ -12,6 +12,7 @@ import org.jseats.model.Result.ResultType;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.tie.TieBreaker;
+import org.jseats.model.tie.TieScenario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -115,10 +116,10 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 							log.debug("Using tie breaker: " + tieBreaker.getName());
 
 							// Inputs Swapped, to natural matrix traversing order so it's coherent with maxVotes
-							List<Candidate> topCandidate =
+							TieScenario topCandidate =
 								tieBreaker.breakTie(tally.getCandidateAt(maxCandidate), tally.getCandidateAt(candidate));
 
-							if (topCandidate == null || topCandidate.isEmpty()) {
+							if (topCandidate == null || topCandidate.isTied()) {
 								Result tieResult = new Result(ResultType.TIE);
 								tieResult.addSeat(tally.getCandidateAt(maxCandidate));
 								tieResult.addSeat(tally.getCandidateAt(candidate));

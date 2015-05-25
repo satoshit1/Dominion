@@ -28,7 +28,7 @@ public interface TieBreaker {
 	 *         breaker implementation criteria. If unsolvable, the original list is returned
 	 */
 	// TODO should not return null but Optional<Candidate>
-	public List<Candidate> breakTie(List<Candidate> candidates);
+	public TieScenario breakTie(List<Candidate> candidates);
 	
 	/**
 	 * Same as breakTie(List<Candidate> candidates) but using varargs.
@@ -39,5 +39,5 @@ public interface TieBreaker {
 	 *         breaker implementation criteria. If unsolvable, the original list is returned.
 	 */
 	// TODO should not return null but Optional<Candidate>
-	public List<Candidate> breakTie(Candidate... candidate);
+	public TieScenario breakTie(Candidate... candidate);
 }

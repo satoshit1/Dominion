@@ -24,8 +24,8 @@ public class LastOccurrenceTieBreaker extends BaseTieBreaker {
 	}
 
 	@Override
-	public List<Candidate> innerBreakTie(List<Candidate> candidates) {
+	public TieScenario innerBreakTie(List<Candidate> candidates) {
 		Collections.reverse(candidates);
-		return candidates;
+		return new TieScenario(candidates, TieScenario.SOLVED);
 	}
 }

@@ -9,15 +9,15 @@ import org.jseats.model.Candidate;
 public abstract class BaseTieBreaker implements TieBreaker {
 
 	@Override
-	public List<Candidate> breakTie(List<Candidate> candidates) {
+	public TieScenario breakTie(List<Candidate> candidates) {
 		return innerBreakTie(new ArrayList<>(candidates));
 	}
 	
 	@Override
-	public List<Candidate> breakTie(Candidate... candidates) {
+	public TieScenario breakTie(Candidate... candidates) {
 		return innerBreakTie(new ArrayList<>(Arrays.asList(candidates)));
 	}
 
-	public abstract List<Candidate> innerBreakTie(List<Candidate> candidates);
+	public abstract TieScenario innerBreakTie(List<Candidate> candidates);
 
 }

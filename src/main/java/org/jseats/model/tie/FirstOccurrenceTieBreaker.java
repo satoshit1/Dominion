@@ -23,8 +23,8 @@ public class FirstOccurrenceTieBreaker extends BaseTieBreaker {
 	}
 
 	@Override
-	public List<Candidate> innerBreakTie(List<Candidate> candidates) {
-		return candidates;
+	public TieScenario innerBreakTie(List<Candidate> candidates) {
+		return new TieScenario(candidates, TieScenario.SOLVED);
 	}
 
 }

@@ -11,6 +11,7 @@ import org.jseats.model.Result.ResultType;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.tie.TieBreaker;
+import org.jseats.model.tie.TieScenario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,11 +57,11 @@ public class SimpleMajorityMethod implements SeatAllocationMethod {
 
 				log.debug("Using tie breaker: " + tieBreaker.getName());
 
-				List<Candidate> topCandidate = tieBreaker.breakTie(candidates);
+				TieScenario topCandidate = tieBreaker.breakTie(candidates);
 
 				log.debug("top candidate: " + topCandidate);
 
-				if (topCandidate != null && topCandidate.size() > 0) {
+				if (topCandidate != null && !topCandidate.isTied()) {
 
 					candidates.clear();
 					candidates.add(topCandidate.get(0));

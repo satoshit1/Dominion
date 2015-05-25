@@ -2,6 +2,7 @@ package org.jseats.model.methods;
 
 import org.jseats.model.*;
 import org.jseats.model.tie.TieBreaker;
+import org.jseats.model.tie.TieScenario;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -97,7 +98,7 @@ public class SimpleMajorityMethodShould {
         final TieBreaker tieBreaker = mock(TieBreaker.class);
         final Candidate candidateA = new Candidate("A", 10);
         final List<Candidate> candidates = Arrays.asList(candidateA);
-        doReturn(candidates).when(tieBreaker).breakTie((List<Candidate>) anyObject());
+        doReturn(new TieScenario(candidates, TieScenario.SOLVED)).when(tieBreaker).breakTie((List<Candidate>) anyObject());
         Result result = sut.process(tally, null, tieBreaker);
         
         assertThat(result.getType(), is(Result.ResultType.SINGLE));

@@ -25,11 +25,11 @@ public class MinVotesTieBreaker extends BaseTieBreaker {
 	}
 
 	@Override
-	public List<Candidate> innerBreakTie(List<Candidate> candidates) {
+	public TieScenario innerBreakTie(List<Candidate> candidates) {
 		// TODO MMP: Test case when they both contain same votes value
 		final Comparator<Candidate> candidateComparator = (c1, c2) -> Integer.compare(c1.getVotes(), c2.getVotes());
 		Collections.sort(candidates, candidateComparator);
-		return candidates;
+		return new TieScenario(candidates, TieScenario.SOLVED);
 	}
 
 }

@@ -20,11 +20,11 @@ public class RandomTieBreaker extends BaseTieBreaker {
 	}
 
 	@Override
-	public List<Candidate> innerBreakTie(List<Candidate> candidates) {
+	public TieScenario innerBreakTie(List<Candidate> candidates) {
 		final Candidate winner = candidates.get(rand.nextInt(candidates.size()));
 		List<Candidate> solvedTie = new ArrayList<>();
 		solvedTie.add(winner);
-		return solvedTie;
+		return new TieScenario(solvedTie, TieScenario.SOLVED);
 	}
 
 }
