@@ -24,20 +24,20 @@ public interface TieBreaker {
 	 * 
 	 * @param candidates
 	 *            (This object not modified).
-	 * @return The top candidate where with more priority according to tie
-	 *         breaker implementation criteria. If unsolvable, null is returned.
+	 * @return The top candidate(s) where with more priority according to tie
+	 *         breaker implementation criteria. If unsolvable, the original list is returned
 	 */
 	// TODO should not return null but Optional<Candidate>
-	public Candidate breakTie(List<Candidate> candidates);
+	public TieScenario breakTie(List<Candidate> candidates);
 	
 	/**
 	 * Same as breakTie(List<Candidate> candidates) but using varargs.
 	 * 
 	 * @param candidate
 	 *            a variable lists of Candidate parameters.
-	 * @return The top candidate where with more priority according to tie
-	 *         breaker implementation criteria. If unsolvable, null is returned.
+	 * @return The top candidate(s) where with more priority according to tie
+	 *         breaker implementation criteria. If unsolvable, the original list is returned.
 	 */
 	// TODO should not return null but Optional<Candidate>
-	public Candidate breakTie(Candidate... candidate);
+	public TieScenario breakTie(Candidate... candidate);
 }

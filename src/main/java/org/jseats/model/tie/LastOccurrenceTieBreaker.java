@@ -11,6 +11,7 @@
 
 package org.jseats.model.tie;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.jseats.model.Candidate;
@@ -23,8 +24,8 @@ public class LastOccurrenceTieBreaker extends BaseTieBreaker {
 	}
 
 	@Override
-	public Candidate innerBreakTie(List<Candidate> candidates) {
-		return candidates.get(candidates.size() - 1);
+	public TieScenario innerBreakTie(List<Candidate> candidates) {
+		Collections.reverse(candidates);
+		return new TieScenario(candidates, TieScenario.SOLVED);
 	}
-
 }
