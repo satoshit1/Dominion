@@ -87,9 +87,10 @@ public class SimpleMajorityMethodShould {
         Result result = sut.process(tally, null, tieBreaker);
 
         assertThat(result.getType(), is(Result.ResultType.TIE));
-        assertThat(result.getNumerOfSeats(), is(2));
-        assertThat(result.getSeats().get(0).getCandidate(), is(tiedCandidates.get(0)));
-        assertThat(result.getSeats().get(1).getCandidate(), is(tiedCandidates.get(1)));
+        assertThat(result.getSeats().size(), is(2));
+        for (int i = 0; i < result.getNumerOfSeats(); i++) {
+            assertThat(result.getSeats().get(i).getCandidate(), is(tiedCandidates.get(i)));
+        }
     }
 
     @Test
@@ -99,12 +100,15 @@ public class SimpleMajorityMethodShould {
 
         final TieBreaker tieBreaker = mock(TieBreaker.class);
         final Candidate candidateA = new Candidate("A", 10);
-        doReturn(Arrays.asList(candidateA)).when(tieBreaker).breakTie((List<Candidate>) anyObject());
+        final List<Candidate> candidates = Arrays.asList(candidateA);
+        doReturn(candidates).when(tieBreaker).breakTie((List<Candidate>) anyObject());
         Result result = sut.process(tally, null, tieBreaker);
         
         assertThat(result.getType(), is(Result.ResultType.SINGLE));
-        assertThat(result.getNumerOfSeats(), is(1));
-        assertThat(result.getSeats().get(0).getCandidate(), equalTo(candidateA));
+        assertThat(result.getSeats().size(), is(1));
+        for (int i = 0; i < result.getNumerOfSeats(); i++) {
+            assertThat(result.getSeats().get(i).getCandidate(), is(candidates.get(i)));
+        }
     }
 
     @Test
