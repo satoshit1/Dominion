@@ -25,7 +25,9 @@ public class MinorityTieBreaker extends BaseTieBreaker {
 
 		log.trace("Candidates:");
 
-		Iterator<Candidate> i = candidates.iterator();
+	
+		List<Candidate> candidatesToUntie = new ArrayList(candidates);
+		Iterator<Candidate> i = candidatesToUntie.iterator();
 
 		while (i.hasNext()) {
 			Candidate candidate = i.next();
@@ -36,16 +38,20 @@ public class MinorityTieBreaker extends BaseTieBreaker {
 				i.remove();
 		}
 
+		
 		log.debug(candidates.size() + " candidates left after filtering.");
 
-		if (candidates.size() == 1) {
-			log.debug("Top candidate: " + candidates.get(0));
+		if (candidatesToUntie.size() == 0){
+			return new TieScenario(candidates, TieScenario.TIED);
+		} else if (candidatesToUntie.size() == 1) {
+			log.debug("Top candidate: " + candidatesToUntie.get(0));
 			List<Candidate> singleCandidate = new ArrayList<>();
-			final Candidate candidate = candidates.get(0);
+			final Candidate candidate = candidatesToUntie.get(0);
 			singleCandidate.add(candidate);
 			return new TieScenario(singleCandidate, TieScenario.SOLVED);
-		} else
-			return new TieScenario(candidates, TieScenario.TIED);
+		} else {
+			return new TieScenario(candidatesToUntie, TieScenario.TIED);
+		}
 	}
 
 }

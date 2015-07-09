@@ -17,12 +17,10 @@ Given algorithm has property numberOfSeats set to 4
 Given tally has 400 potential votes
 Given use tie breaker max-votes-tie-breaker
 When process with DHondt algorithm
-Then result type is MULTIPLE
-Then result has 4 seats
+Then result type is TIE
+Then result has 2 seats
 Then result seat #0 is Party A
 Then result seat #1 is Party B
-Then result seat #2 is Party A
-Then result seat #3 is Party B
 Then tally has 230 effective votes
 
 Scenario: #2 Tie on total votes, odd number of seats
@@ -35,11 +33,10 @@ Given algorithm has property numberOfSeats set to 3
 Given tally has 400 potential votes
 Given use tie breaker max-votes-tie-breaker
 When process with DHondt algorithm
-Then result type is MULTIPLE
-Then result has 3 seats
+Then result type is TIE
+Then result has 2 seats
 Then result seat #0 is Party A
 Then result seat #1 is Party B
-Then result seat #2 is Party A
 
 
 Scenario: #3 Tie on second seat, one of the ties is out
@@ -135,7 +132,7 @@ Given algorithm has property numberOfSeats set to 2
 Given tally has 200 potential votes
 Given use tie breaker max-votes-tie-breaker
 When process with DHondt algorithm
-Then result type is MULTIPLE
+Then result type is TIE
 Then result has 2 seats
 Then result seat #0 is Party A
 Then result seat #1 is Party C

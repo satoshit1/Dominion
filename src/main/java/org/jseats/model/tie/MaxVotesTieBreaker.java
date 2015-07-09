@@ -11,9 +11,9 @@
 
 package org.jseats.model.tie;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.jseats.model.Candidate;
 
@@ -26,10 +26,17 @@ public class MaxVotesTieBreaker extends BaseTieBreaker {
 
 	@Override
 	public TieScenario innerBreakTie(List<Candidate> candidates) {
-		// TODO MMP: Test case when they both contain same votes value
-		final Comparator<Candidate> candidateComparator = (c1, c2) -> Integer.compare(c2.getVotes(), c1.getVotes());
-		Collections.sort(candidates, candidateComparator);
-		return new TieScenario(candidates, TieScenario.SOLVED);
+			
+		final Comparator<Candidate> candidateComparator = (c1, c2) -> Integer.compare(c1.getVotes(), c2.getVotes());
+			
+		int maxVotes = candidates.stream().max(candidateComparator).get().getVotes();
+		List<Candidate> untiedCandidates = candidates.stream().filter(candidate -> candidate.getVotes() == maxVotes).collect(Collectors.toList());
+		
+		if(untiedCandidates.size() == 1){
+			return new TieScenario(untiedCandidates, TieScenario.SOLVED);
+		} else {
+			return new TieScenario(untiedCandidates, TieScenario.TIED);
+		}
 	}
 
 }

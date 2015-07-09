@@ -1,14 +1,13 @@
 package org.jseats.model.tie;
 
-import org.hamcrest.MatcherAssert;
-import org.jseats.model.Candidate;
-import org.junit.Test;
+import static org.hamcrest.Matchers.is;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import org.hamcrest.MatcherAssert;
+import org.jseats.model.Candidate;
+import org.junit.Test;
 
 /**
  * $Id$
@@ -33,8 +32,8 @@ public class MaxVotesTieBreakerShould {
 						candidateA
 				));
 
+		MatcherAssert.assertThat(sortedCandidates.size(), is(1));
 		MatcherAssert.assertThat(sortedCandidates.get(0), is(candidateB));
-		MatcherAssert.assertThat(sortedCandidates.get(1), is(candidateA));
 	}
 
 }
