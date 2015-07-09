@@ -27,10 +27,10 @@ public class MinVotesTieBreaker extends BaseTieBreaker {
 	@Override
 	public TieScenario innerBreakTie(List<Candidate> candidates) {
 		
-		final Comparator<Candidate> candidateComparator = (c1, c2) -> Integer.compare(c1.getVotes(), c2.getVotes());
+		final Comparator<Candidate> candidateComparator = Comparator.comparingInt(Candidate::getVotes);;
 		
-		int maxVotes = candidates.stream().min(candidateComparator).get().getVotes();
-		List<Candidate> untiedCandidates = candidates.stream().filter(candidate -> candidate.getVotes() == maxVotes).collect(Collectors.toList());
+		int minVotes = candidates.stream().min(candidateComparator).get().getVotes();
+		List<Candidate> untiedCandidates = candidates.stream().filter(candidate -> candidate.getVotes() == minVotes).collect(Collectors.toList());
 		
 		if(untiedCandidates.size() == 1){
 			return new TieScenario(untiedCandidates, TieScenario.SOLVED);

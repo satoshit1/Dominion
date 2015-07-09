@@ -27,7 +27,7 @@ public class MaxVotesTieBreaker extends BaseTieBreaker {
 	@Override
 	public TieScenario innerBreakTie(List<Candidate> candidates) {
 			
-		final Comparator<Candidate> candidateComparator = (c1, c2) -> Integer.compare(c1.getVotes(), c2.getVotes());
+		final Comparator<Candidate> candidateComparator = Comparator.comparingInt(Candidate::getVotes);
 			
 		int maxVotes = candidates.stream().max(candidateComparator).get().getVotes();
 		List<Candidate> untiedCandidates = candidates.stream().filter(candidate -> candidate.getVotes() == maxVotes).collect(Collectors.toList());
