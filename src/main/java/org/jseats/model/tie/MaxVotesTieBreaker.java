@@ -12,12 +12,12 @@
 package org.jseats.model.tie;
 
 import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.jseats.model.Candidate;
 
-public class MaxVotesTieBreaker extends BaseTieBreaker {
+public class MaxVotesTieBreaker extends ByVotesTieBreaker {
 
 	@Override
 	public String getName() {
@@ -25,18 +25,8 @@ public class MaxVotesTieBreaker extends BaseTieBreaker {
 	}
 
 	@Override
-	public TieScenario innerBreakTie(List<Candidate> candidates) {
-			
-		final Comparator<Candidate> candidateComparator = Comparator.comparingInt(Candidate::getVotes);
-			
-		int maxVotes = candidates.stream().max(candidateComparator).get().getVotes();
-		List<Candidate> untiedCandidates = candidates.stream().filter(candidate -> candidate.getVotes() == maxVotes).collect(Collectors.toList());
-		
-		if(untiedCandidates.size() == 1){
-			return new TieScenario(untiedCandidates, TieScenario.SOLVED);
-		} else {
-			return new TieScenario(untiedCandidates, TieScenario.TIED);
-		}
+	public Optional<Candidate> filterFunction(Stream<Candidate> candidatesStream, Comparator<Candidate> candidateComparator) {
+		return candidatesStream.max(candidateComparator);
 	}
 
 }
