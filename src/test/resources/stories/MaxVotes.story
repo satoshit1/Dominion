@@ -59,11 +59,9 @@ Given tally has candidate CandidateC with 2 votes
 Given algorithm has property numberOfSeats set to 1
 Given algorithm has property groupSeatsPerCandidate set to true
 When process with RankByVotes method
-!-- Unsure behaviour on this result type - shouldn't it be WINNER (MULTIPLE)?
-Then result type is TIE
-Then result has 2 seats
-Then result seat #0 is CandidateA
-Then result seat #1 is CandidateB
+Then result type is MULTIPLE
+Then result has 1 seats
+Then result seat #0 is CandidateC
 
 Scenario: Assign one seat to three candidates, from which two are tied non-winners
 Given empty scenario
@@ -73,8 +71,6 @@ Given tally has candidate CandidateC with 2 votes
 Given algorithm has property numberOfSeats set to 1
 Given algorithm has property groupSeatsPerCandidate set to false
 When process with RankByVotes method
-!-- Unsure behaviour on this result type - shouldn't it be WINNER (MULTIPLE)?
-Then result type is TIE
-Then result has 2 seats
-Then result seat #0 is CandidateA
-Then result seat #1 is CandidateB
+Then result type is MULTIPLE
+Then result has 1 seats
+Then result seat #0 is CandidateC

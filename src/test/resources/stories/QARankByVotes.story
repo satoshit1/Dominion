@@ -153,11 +153,9 @@ Given tally has candidate CandidateH with 90000 votes
 Given algorithm has property numberOfSeats set to 1
 Given algorithm has property groupSeatsPerCandidate set to true
 When process with RankByVotes method
-!-- Then result type is MULTIPLE
-!-- Then result has 1 seats
-!-- Then result seat #0 is CandidateH
-!-- WRONG
-Then result type is TIE
+Then result type is MULTIPLE
+Then result has 1 seats
+Then result seat #0 is CandidateH
 
 Scenario: Assign one seat to three candidates, from which two are tied non-winners
 Given empty scenario
