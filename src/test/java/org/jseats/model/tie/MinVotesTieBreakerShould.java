@@ -14,33 +14,32 @@ import org.junit.Test;
  * Copyright (C) 2015 Scytl Secure Electronic Voting SA
  * All rights reserved.
  */
-public class MaxVotesTieBreakerShould extends ByVotesTieBreakerShould {
+public class MinVotesTieBreakerShould extends ByVotesTieBreakerShould {
 
-
-	private ByVotesTieBreaker maxVotesTieBreaker = new MaxVotesTieBreaker();
+	private ByVotesTieBreaker minVotesTieBreaker = new MinVotesTieBreaker();
 	
 	@Test
 	public void testWinner() {
 		Candidate candidateA = new Candidate("A",50);
 		Candidate candidateB = new Candidate("B",100);
-		TieScenario tieScenario = testTieBreak(maxVotesTieBreaker,candidateA,candidateB);
+		TieScenario tieScenario = testTieBreak(minVotesTieBreaker,candidateA,candidateB);
 		assertThat(tieScenario.isTied(), is(false));
 		assertThat(tieScenario.size(), is(1));
-		assertThat(tieScenario.get(0), is(candidateB));
+		assertThat(tieScenario.get(0), is(candidateA));
 	}
 
 	@Test
 	public void testWinnerDisordered() {
 		Candidate candidateA = new Candidate("A",100);
 		Candidate candidateB = new Candidate("B",50);
-		TieScenario tieScenario = testTieBreak(maxVotesTieBreaker,candidateA,candidateB);
+		TieScenario tieScenario = testTieBreak(minVotesTieBreaker, candidateA,candidateB);
 		assertThat(tieScenario.isTied(), is(false));
 		assertThat(tieScenario.size(), is(1));
-		assertThat(tieScenario.get(0), is(candidateA));
+		assertThat(tieScenario.get(0), is(candidateB));
 	}
 	
 	@Test
 	public void testTie(){
-		super.testTie(maxVotesTieBreaker);
+		super.testTie(minVotesTieBreaker);
 	}
 }

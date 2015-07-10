@@ -11,13 +11,13 @@
 
 package org.jseats.model.tie;
 
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.jseats.model.Candidate;
 
-public class MaxVotesTieBreaker extends BaseTieBreaker {
+public class MaxVotesTieBreaker extends ByVotesTieBreaker {
 
 	@Override
 	public String getName() {
@@ -25,11 +25,8 @@ public class MaxVotesTieBreaker extends BaseTieBreaker {
 	}
 
 	@Override
-	public TieScenario innerBreakTie(List<Candidate> candidates) {
-		// TODO MMP: Test case when they both contain same votes value
-		final Comparator<Candidate> candidateComparator = (c1, c2) -> Integer.compare(c2.getVotes(), c1.getVotes());
-		Collections.sort(candidates, candidateComparator);
-		return new TieScenario(candidates, TieScenario.SOLVED);
+	public Optional<Candidate> filterFunction(Stream<Candidate> candidatesStream, Comparator<Candidate> candidateComparator) {
+		return candidatesStream.max(candidateComparator);
 	}
 
 }
