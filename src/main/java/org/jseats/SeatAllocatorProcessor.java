@@ -1,8 +1,11 @@
 package org.jseats;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
+import org.jseats.model.Candidate;
 import org.jseats.model.Result;
 import org.jseats.model.Result.ResultType;
 import org.jseats.model.ResultDecorator;
@@ -177,6 +180,12 @@ public class SeatAllocatorProcessor {
 		else if (candidatesWithoutVotes){
 			result = new Result(ResultType.CANDIDATES_NO_VOTES);
 		} else {
+			/** We pre-sort candidates according to votes, as it is the primary criteria for any mechanism. That improves efficiency in some 
+			    iterative algorithms such as Hondt by letting us overpass tying mechanisms after the maximums have been resolved and it does 
+			    not affect input index logic (Stability) after this sieve, according to http://docs.oracle.com/javase/8/docs/api/java/util/Collections.html#sort-java.util.List-java.util.Comparator.
+			    The reverse order cannot be applied over the whole comparator because it would affect those Stable tied elements  **/ 
+			config.getTally().getCandidates().sort(Comparator.comparing(Candidate::getVotes, Comparator.reverseOrder()));
+			
 			result = config.getMethod().process(config.getTally(), config.getProperties(), config.getTieBreaker());
 			log.trace("Processed");
 		}
