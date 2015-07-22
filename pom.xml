@@ -4,7 +4,7 @@
 
 	<groupId>org.jseats</groupId>
 	<artifactId>jseats</artifactId>
-	<version>1.0.1-RC10-SNAPSHOT</version>
+	<version>1.0.1-RC11-SNAPSHOT</version>
 
 	<name>JSeats</name>
 	<description>JSeats is a java implementation of common electoral seat allocation algorithms.</description>
