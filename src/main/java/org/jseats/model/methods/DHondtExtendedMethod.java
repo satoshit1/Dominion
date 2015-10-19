@@ -55,8 +55,6 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 		}
 		// int numberOfSeats = Integer.parseInt(properties.getProperty(
 		// "numberOfSeats", Integer.toString(numberOfCandidates)));
-		double firstDivisor = Double.parseDouble(properties.getProperty("firstDivisor", "-1"));
-		boolean modifiedFirstDivisor = (firstDivisor == -1) ? false : true;
 		boolean groupSeatsPerCandidate = Boolean.parseBoolean(properties.getProperty("groupSeatsPerCandidate", "false"));
 
 		int numberOfUnallocatedSeats = numberOfSeats;
@@ -70,17 +68,7 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 		// Create the averages table
 		for (int round = 0; round < numberOfSeats; round++) {
 
-			double divisor;
-			if (modifiedFirstDivisor) {
-				// Then user has provided an alternative first divisor
-				divisor = firstDivisor;
-				modifiedFirstDivisor = false;
-				nextDivisor(round); // Ignore first methods' first divisor
-			} else
-				divisor = nextDivisor(round);
-
-			// Let's divide every candidate's votes with the current round's
-			// divisor.
+			double divisor = nextDivisor(round);
 
 			StringBuilder averagesForThisRound = new StringBuilder();
 			averagesForThisRound.append(round + " / " + divisor + " : ");
