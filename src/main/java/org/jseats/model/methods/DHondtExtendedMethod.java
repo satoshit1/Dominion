@@ -39,13 +39,11 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 			throw new SeatAllocationException("This tally contains no candidates");
 		}
 
-		// If numberOfSeats is not defined it is set with a default value
-		// to numberOfCandidates
-		int numberOfSeats = 0;
-		String numberOfSeatsString_or_NumberOfCandidates =
-				properties.getProperty(NUMBER_OF_SEATS, Integer.toString(numberOfCandidates));
+		int numberOfSeats;
 		try {
-			numberOfSeats = Integer.parseInt(numberOfSeatsString_or_NumberOfCandidates);
+			// If numberOfSeats is not defined it is set with a default value
+			// to numberOfCandidates
+			numberOfSeats = Integer.parseInt(properties.getProperty(NUMBER_OF_SEATS, Integer.toString(numberOfCandidates)));
 		} catch (NumberFormatException exception) {
 			throw new SeatAllocationException("numberOfSeats property is not a number: '" +
 					properties.getProperty(NUMBER_OF_SEATS) + "'");

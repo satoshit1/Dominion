@@ -27,6 +27,8 @@ import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.Tally;
 import org.jseats.model.methods.DHondtHighestAveragesMethod;
+import org.jseats.model.tie.InteractiveTieBreaker;
+import org.jseats.model.tie.MaxVotesTieBreaker;
 import org.jseats.model.tie.RandomTieBreaker;
 import org.jseats.model.tie.TieBreaker;
 import org.junit.Before;
