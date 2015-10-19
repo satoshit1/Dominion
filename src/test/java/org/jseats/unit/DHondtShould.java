@@ -40,7 +40,7 @@ public class DHondtShould {
 
 	private Properties properties;
 
-	private DHondtHighestAveragesMethod sut;
+	protected DHondtHighestAveragesMethod sut;
 
 	private static final String CANDIDATE_NAME_BOOZE = "Booze";
 
@@ -68,6 +68,10 @@ public class DHondtShould {
 	public void setUp() {
 		tally = new Tally();
 		properties = new Properties();
+		setUpSut();
+	}
+
+	protected void setUpSut() {
 		sut = new DHondtHighestAveragesMethod();
 	}
 
