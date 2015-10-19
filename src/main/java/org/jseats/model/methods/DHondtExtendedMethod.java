@@ -63,10 +63,7 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 				for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
 
 					if (quotientPerRound[candidate][round] == maxVotes) {
-
-						log.debug("Tie between  " + tally.getCandidateAt(maxCandidate) + " and " +
-								tally.getCandidateAt(candidate));
-
+						logTie(tally, maxCandidate, candidate);
 						if (tieBreaker == null) {
 							return tieResult(tally, maxCandidate, candidate);
 						}
@@ -75,7 +72,6 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 						// Inputs Swapped, to natural matrix traversing order so it's coherent with maxVotes
 						TieScenario breakScenario =
 								tieBreaker.breakTie(tally.getCandidateAt(maxCandidate), tally.getCandidateAt(candidate));
-
 						if (breakScenario == null || breakScenario.isTied()) {
 							return tieResult(tally, maxCandidate, candidate);
 						}
@@ -123,6 +119,11 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 		}
 
 		return result;
+	}
+
+	private void logTie(InmutableTally tally, int maxCandidate, int candidate) {
+		log.debug("Tie between  " + tally.getCandidateAt(maxCandidate) + " and " +
+				tally.getCandidateAt(candidate));
 	}
 
 	private Result tieResult(InmutableTally tally, int maxCandidate, int candidate) {
