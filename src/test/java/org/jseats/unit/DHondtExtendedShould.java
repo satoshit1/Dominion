@@ -9,11 +9,7 @@
 
 package org.jseats.unit;
 
-import java.util.Properties;
-
-import org.jseats.model.Tally;
-import org.jseats.model.methods.DHondtHighestAveragesMethod;
-import org.junit.Before;
+import org.jseats.model.methods.DHondtExtendedMethod;
 
 public class DHondtExtendedShould extends DHondtShould {
 
@@ -22,6 +18,5 @@ public class DHondtExtendedShould extends DHondtShould {
 		sut = new DHondtExtendedMethod();
 	}
 
-	private class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
-	}
+
 }
