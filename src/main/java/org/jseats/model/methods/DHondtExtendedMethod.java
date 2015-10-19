@@ -139,15 +139,17 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 
 	private double[][] calculateQuotientsPerRound(InmutableTally tally, int numberOfCandidates, int numberOfSeats) {
 		double[][] result = new double[numberOfCandidates][numberOfSeats];
+		double divisor = 1;
 
 		for (int round = 0; round < numberOfSeats; round++) {
-			double divisor = nextDivisor(round);
+
 			log.debug(round + " / " + divisor + " : ");
 
 			for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
 				result[candidate][round] = (tally.getCandidateAt(candidate).getVotes() / divisor);
 				log.debug(String.format("%.2f", result[candidate][round]) + ",\t");
 			}
+			divisor++;
 		}
 
 		return result;
