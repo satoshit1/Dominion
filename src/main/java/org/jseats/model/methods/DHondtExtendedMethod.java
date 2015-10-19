@@ -72,28 +72,20 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 							log.debug("Using tie breaker: " + tieBreaker.getName());
 
 							// Inputs Swapped, to natural matrix traversing order so it's coherent with maxVotes
-							TieScenario topCandidate =
+							TieScenario breakScenario =
 									tieBreaker.breakTie(tally.getCandidateAt(maxCandidate), tally.getCandidateAt(candidate));
 
-							if (topCandidate == null || topCandidate.isTied()) {
-								Result tieResult = new Result(Result.ResultType.TIE);
-								tieResult.addSeat(tally.getCandidateAt(maxCandidate));
-								tieResult.addSeat(tally.getCandidateAt(candidate));
-
-								return tieResult;
+							if (breakScenario == null || breakScenario.isTied()) {
+								return tieResult(tally, maxCandidate, candidate);
 							} else {
-								maxCandidate = tally.getCandidateIndex(topCandidate.get(0));
+								maxCandidate = tally.getCandidateIndex(breakScenario.get(0));
 								// Bug #1 : that breaks logic? -> maxVotes = averagesPerRound[maxCandidate][round];
 								// Bug #2: maxRound setting is missing (important when clearing cell)
 								maxRound = (maxCandidate == candidate) ? round : maxRound;
 							}
 
 						} else {
-							Result tieResult = new Result(Result.ResultType.TIE);
-							tieResult.addSeat(tally.getCandidateAt(maxCandidate));
-							tieResult.addSeat(tally.getCandidateAt(candidate));
-
-							return tieResult;
+							return tieResult(tally, maxCandidate, candidate);
 						}
 
 					} else if (quotientPerRound[candidate][round] > maxVotes) {
@@ -135,6 +127,14 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 		}
 
 		return result;
+	}
+
+	private Result tieResult(InmutableTally tally, int maxCandidate, int candidate) {
+		Result tieResult = new Result(Result.ResultType.TIE);
+		tieResult.addSeat(tally.getCandidateAt(maxCandidate));
+		tieResult.addSeat(tally.getCandidateAt(candidate));
+
+		return tieResult;
 	}
 
 	private double[][] calculateQuotientsPerRound(InmutableTally tally, int numberOfCandidates, int numberOfSeats) {
