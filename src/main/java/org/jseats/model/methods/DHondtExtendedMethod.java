@@ -67,25 +67,22 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 						log.debug("Tie between  " + tally.getCandidateAt(maxCandidate) + " and " +
 								tally.getCandidateAt(candidate));
 
-						if (tieBreaker != null) {
-
-							log.debug("Using tie breaker: " + tieBreaker.getName());
-
-							// Inputs Swapped, to natural matrix traversing order so it's coherent with maxVotes
-							TieScenario breakScenario =
-									tieBreaker.breakTie(tally.getCandidateAt(maxCandidate), tally.getCandidateAt(candidate));
-
-							if (breakScenario == null || breakScenario.isTied()) {
-								return tieResult(tally, maxCandidate, candidate);
-							} else {
-								maxCandidate = tally.getCandidateIndex(breakScenario.get(0));
-								// Bug #1 : that breaks logic? -> maxVotes = averagesPerRound[maxCandidate][round];
-								// Bug #2: maxRound setting is missing (important when clearing cell)
-								maxRound = (maxCandidate == candidate) ? round : maxRound;
-							}
-
-						} else {
+						if (tieBreaker == null) {
 							return tieResult(tally, maxCandidate, candidate);
+						}
+						log.debug("Using tie breaker: " + tieBreaker.getName());
+
+						// Inputs Swapped, to natural matrix traversing order so it's coherent with maxVotes
+						TieScenario breakScenario =
+								tieBreaker.breakTie(tally.getCandidateAt(maxCandidate), tally.getCandidateAt(candidate));
+
+						if (breakScenario == null || breakScenario.isTied()) {
+							return tieResult(tally, maxCandidate, candidate);
+						} else {
+							maxCandidate = tally.getCandidateIndex(breakScenario.get(0));
+							// Bug #1 : that breaks logic? -> maxVotes = averagesPerRound[maxCandidate][round];
+							// Bug #2: maxRound setting is missing (important when clearing cell)
+							maxRound = (maxCandidate == candidate) ? round : maxRound;
 						}
 
 					} else if (quotientPerRound[candidate][round] > maxVotes) {
