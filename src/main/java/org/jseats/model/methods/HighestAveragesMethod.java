@@ -2,10 +2,8 @@ package org.jseats.model.methods;
 
 import static org.jseats.Properties.NUMBER_OF_SEATS;
 
-import java.util.List;
 import java.util.Properties;
 
-import org.jseats.model.Candidate;
 import org.jseats.model.InmutableTally;
 import org.jseats.model.Result;
 import org.jseats.model.Result.ResultType;
