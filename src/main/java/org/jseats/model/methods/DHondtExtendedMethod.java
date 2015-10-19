@@ -40,37 +40,16 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 		}
 
 		int numberOfSeats = getNumberOfSeats(properties, numberOfCandidates);
-
-		boolean groupSeatsPerCandidate = Boolean.parseBoolean(properties.getProperty("groupSeatsPerCandidate", "false"));
-
-		int numberOfUnallocatedSeats = numberOfSeats;
-
 		int[] seatsPerCandidate = new int[numberOfCandidates];
-		double[][] averagesPerRound = new double[numberOfCandidates][numberOfSeats];
-
-		log.debug("numberOfSeats: " + numberOfSeats);
-		log.debug("groupSeatsPerCandidate: " + groupSeatsPerCandidate);
-
-		// Create the averages table
-		for (int round = 0; round < numberOfSeats; round++) {
-
-			double divisor = nextDivisor(round);
-
-			StringBuilder averagesForThisRound = new StringBuilder();
-			averagesForThisRound.append(round + " / " + divisor + " : ");
-
-			for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
-				averagesPerRound[candidate][round] = (tally.getCandidateAt(candidate).getVotes() / divisor);
-
-				averagesForThisRound.append(String.format("%.2f", averagesPerRound[candidate][round]) + ",\t");
-			}
-
-			// log.debug("Current divisor: " + divisor);
-
-			log.debug(averagesForThisRound.toString());
-		}
+		double[][] averagesPerRound = createAveragesTable(tally, numberOfCandidates, numberOfSeats);
 
 		Result result = new Result(Result.ResultType.MULTIPLE);
+
+		boolean groupSeatsPerCandidate =
+				Boolean.parseBoolean(properties.getProperty("groupSeatsPerCandidate", "false"));
+		log.debug("groupSeatsPerCandidate: " + groupSeatsPerCandidate);
+
+		int numberOfUnallocatedSeats = numberOfSeats;
 
 		// Find max votes of the average table and add a seat to the appropriate
 		// candidate.
@@ -127,8 +106,9 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 
 			seatsPerCandidate[maxCandidate]++;
 
-			if (!groupSeatsPerCandidate)
+			if (!groupSeatsPerCandidate) {
 				result.addSeat(tally.getCandidateAt(maxCandidate));
+			}
 
 			log.debug("Found maximum " + maxVotes + " at: " + tally.getCandidateAt(maxCandidate).getName() + " : " +
 					maxRound);
@@ -157,6 +137,29 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 		return result;
 	}
 
+	private double[][] createAveragesTable(InmutableTally tally, int numberOfCandidates, int numberOfSeats) {
+		double[][] averagesPerRound = new double[numberOfCandidates][numberOfSeats];
+		// Create the averages table
+		for (int round = 0; round < numberOfSeats; round++) {
+
+			double divisor = nextDivisor(round);
+
+			StringBuilder averagesForThisRound = new StringBuilder();
+			averagesForThisRound.append(round + " / " + divisor + " : ");
+
+			for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
+				averagesPerRound[candidate][round] = (tally.getCandidateAt(candidate).getVotes() / divisor);
+
+				averagesForThisRound.append(String.format("%.2f", averagesPerRound[candidate][round]) + ",\t");
+			}
+
+			// log.debug("Current divisor: " + divisor);
+
+			log.debug(averagesForThisRound.toString());
+		}
+		return averagesPerRound;
+	}
+
 	private int getNumberOfSeats(Properties properties, int numberOfCandidates) throws SeatAllocationException {
 		int numberOfSeats;
 		try {
@@ -170,6 +173,8 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 		if (numberOfSeats < 0) {
 			throw new SeatAllocationException("numberOfSeats is negative: " + numberOfSeats);
 		}
+		log.debug("numberOfSeats: " + numberOfSeats);
+
 		return numberOfSeats;
 	}
 }
