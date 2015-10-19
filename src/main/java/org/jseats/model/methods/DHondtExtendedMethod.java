@@ -41,7 +41,7 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 
 		int numberOfSeats = getNumberOfSeats(properties, numberOfCandidates);
 		int[] seatsPerCandidate = new int[numberOfCandidates];
-		double[][] averagesPerRound = createAveragesTable(tally, numberOfCandidates, numberOfSeats);
+		double[][] quotientPerRound = calculateQuotientsPerRound(tally, numberOfCandidates, numberOfSeats);
 
 		Result result = new Result(Result.ResultType.MULTIPLE);
 
@@ -62,7 +62,7 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 			for (int round = 0; round < numberOfSeats; round++) {
 				for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
 
-					if (averagesPerRound[candidate][round] == maxVotes) {
+					if (quotientPerRound[candidate][round] == maxVotes) {
 
 						log.debug("Tie between  " + tally.getCandidateAt(maxCandidate) + " and " +
 								tally.getCandidateAt(candidate));
@@ -96,10 +96,10 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 							return tieResult;
 						}
 
-					} else if (averagesPerRound[candidate][round] > maxVotes) {
+					} else if (quotientPerRound[candidate][round] > maxVotes) {
 						maxCandidate = candidate;
 						maxRound = round;
-						maxVotes = averagesPerRound[candidate][round];
+						maxVotes = quotientPerRound[candidate][round];
 					}
 				}
 			}
@@ -114,7 +114,7 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 					maxRound);
 
 			// Eliminate this maximum coordinates and iterate
-			averagesPerRound[maxCandidate][maxRound] = -2;
+			quotientPerRound[maxCandidate][maxRound] = -2;
 			numberOfUnallocatedSeats--;
 		}
 
@@ -137,25 +137,20 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 		return result;
 	}
 
-	private double[][] createAveragesTable(InmutableTally tally, int numberOfCandidates, int numberOfSeats) {
-		double[][] averagesPerRound = new double[numberOfCandidates][numberOfSeats];
+	private double[][] calculateQuotientsPerRound(InmutableTally tally, int numberOfCandidates, int numberOfSeats) {
+		double[][] result = new double[numberOfCandidates][numberOfSeats];
 
 		for (int round = 0; round < numberOfSeats; round++) {
-
 			double divisor = nextDivisor(round);
-
-			StringBuilder averagesForThisRound = new StringBuilder();
-			averagesForThisRound.append(round + " / " + divisor + " : ");
+			log.debug(round + " / " + divisor + " : ");
 
 			for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
-				averagesPerRound[candidate][round] = (tally.getCandidateAt(candidate).getVotes() / divisor);
-
-				averagesForThisRound.append(String.format("%.2f", averagesPerRound[candidate][round]) + ",\t");
+				result[candidate][round] = (tally.getCandidateAt(candidate).getVotes() / divisor);
+				log.debug(String.format("%.2f", result[candidate][round]) + ",\t");
 			}
-
-			log.debug(averagesForThisRound.toString());
 		}
-		return averagesPerRound;
+
+		return result;
 	}
 
 	private int getNumberOfSeats(Properties properties, int numberOfCandidates) throws SeatAllocationException {
