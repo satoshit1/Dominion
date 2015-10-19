@@ -9,10 +9,6 @@
 
 package org.jseats.model.methods;
 
-import static org.jseats.Properties.NUMBER_OF_SEATS;
-
-import java.util.Properties;
-
 import org.jseats.model.InmutableTally;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
@@ -20,6 +16,10 @@ import org.jseats.model.tie.TieBreaker;
 import org.jseats.model.tie.TieScenario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Properties;
+
+import static org.jseats.Properties.NUMBER_OF_SEATS;
 
 public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 
@@ -39,20 +39,8 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 			throw new SeatAllocationException("This tally contains no candidates");
 		}
 
-		int numberOfSeats;
-		try {
-			// If numberOfSeats is not defined it is set with a default value
-			// to numberOfCandidates
-			numberOfSeats = Integer.parseInt(properties.getProperty(NUMBER_OF_SEATS, Integer.toString(numberOfCandidates)));
-		} catch (NumberFormatException exception) {
-			throw new SeatAllocationException("numberOfSeats property is not a number: '" +
-					properties.getProperty(NUMBER_OF_SEATS) + "'");
-		}
-		if (numberOfSeats < 0) {
-			throw new SeatAllocationException("numberOfSeats is negative: " + numberOfSeats);
-		}
-		// int numberOfSeats = Integer.parseInt(properties.getProperty(
-		// "numberOfSeats", Integer.toString(numberOfCandidates)));
+		int numberOfSeats = getNumberOfSeats(properties, numberOfCandidates);
+
 		boolean groupSeatsPerCandidate = Boolean.parseBoolean(properties.getProperty("groupSeatsPerCandidate", "false"));
 
 		int numberOfUnallocatedSeats = numberOfSeats;
@@ -167,5 +155,21 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 		}
 
 		return result;
+	}
+
+	private int getNumberOfSeats(Properties properties, int numberOfCandidates) throws SeatAllocationException {
+		int numberOfSeats;
+		try {
+			// If numberOfSeats is not defined it is set with a default value
+			// to numberOfCandidates
+			numberOfSeats = Integer.parseInt(properties.getProperty(NUMBER_OF_SEATS, Integer.toString(numberOfCandidates)));
+		} catch (NumberFormatException exception) {
+			throw new SeatAllocationException("numberOfSeats property is not a number: '" +
+					properties.getProperty(NUMBER_OF_SEATS) + "'");
+		}
+		if (numberOfSeats < 0) {
+			throw new SeatAllocationException("numberOfSeats is negative: " + numberOfSeats);
+		}
+		return numberOfSeats;
 	}
 }
