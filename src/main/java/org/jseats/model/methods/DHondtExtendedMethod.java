@@ -139,7 +139,7 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 
 	private double[][] createAveragesTable(InmutableTally tally, int numberOfCandidates, int numberOfSeats) {
 		double[][] averagesPerRound = new double[numberOfCandidates][numberOfSeats];
-		// Create the averages table
+
 		for (int round = 0; round < numberOfSeats; round++) {
 
 			double divisor = nextDivisor(round);
@@ -152,8 +152,6 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 
 				averagesForThisRound.append(String.format("%.2f", averagesPerRound[candidate][round]) + ",\t");
 			}
-
-			// log.debug("Current divisor: " + divisor);
 
 			log.debug(averagesForThisRound.toString());
 		}
