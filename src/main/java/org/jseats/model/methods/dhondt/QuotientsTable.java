@@ -22,7 +22,7 @@ public class QuotientsTable {
 	private final int numberOfSeats;
 	private final List<Candidate> candidates;
 
-	TreeMap<Quotient, List<Candidate>> quotientsTable = new TreeMap<>();
+	private final TreeMap<Quotient, List<Candidate>> quotientsMap = new TreeMap<>();
 
 	private QuotientsTable(int numberOfSeats, InmutableTally tally) {
 		this.numberOfSeats = numberOfSeats;
@@ -31,6 +31,18 @@ public class QuotientsTable {
 		for (int i = 0; i < tally.getNumberOfCandidates(); i++){
 			candidates.add(tally.getCandidateAt(i));
 		}
+	}
+
+	public int getNumberOfSeats() {
+		return this.numberOfSeats;
+	}
+
+	public List<Candidate> getCandidates() {
+		return this.candidates;
+	}
+
+	public TreeMap<Quotient, List<Candidate>> getQuotientsMap() {
+		return this.quotientsMap;
 	}
 
 	public static QuotientsTable from(int numberOfSeats, InmutableTally tally) {
@@ -54,15 +66,15 @@ public class QuotientsTable {
 	}
 
 	public Map.Entry<Quotient, List<Candidate>> getMaxQuotientEntry() {
-		return this.quotientsTable.lastEntry();
+		return this.quotientsMap.lastEntry();
 	}
 
 	public Map.Entry<Quotient, List<Candidate>> removeMaxQuotientEntry() {
-		return this.quotientsTable.pollLastEntry();
+		return this.quotientsMap.pollLastEntry();
 	}
 
 	public boolean removeCandidateFromMaxQuotient(Candidate candidate) {
-		Map.Entry<Quotient, List<Candidate>> maxQuotientEntry = this.quotientsTable.firstEntry();
+		Map.Entry<Quotient, List<Candidate>> maxQuotientEntry = this.quotientsMap.firstEntry();
 		return maxQuotientEntry.getValue().remove(candidate);
 	}
 
@@ -70,13 +82,13 @@ public class QuotientsTable {
 		Quotient quotient = Quotient.from(candidate.getVotes(), divisor);
 		boolean added;
 
-		if (quotientsTable.containsKey(quotient)) {
-			added = quotientsTable.get(quotient).add(candidate);
+		if (quotientsMap.containsKey(quotient)) {
+			added = quotientsMap.get(quotient).add(candidate);
 
 		} else {
 			List<Candidate> candidateSet = new ArrayList<>();
 			candidateSet.add(candidate);
-			quotientsTable.put(quotient, candidateSet);
+			quotientsMap.put(quotient, candidateSet);
 		}
 	}
 
@@ -96,7 +108,7 @@ public class QuotientsTable {
 
 		eBuilder = eBuilder.append(this.numberOfSeats, other.numberOfSeats);
 		eBuilder = eBuilder.append(this.candidates, other.candidates);
-		eBuilder = eBuilder.append(this.quotientsTable, other.quotientsTable);
+		eBuilder = eBuilder.append(this.quotientsMap, other.quotientsMap);
 
 		return eBuilder.isEquals();
 	}
@@ -107,7 +119,7 @@ public class QuotientsTable {
 
 		hcBuilder.append(this.numberOfSeats);
 		hcBuilder.append(this.candidates);
-		hcBuilder.append(this.quotientsTable);
+		hcBuilder.append(this.quotientsMap);
 
 		return hcBuilder.toHashCode();
 	}
@@ -117,7 +129,7 @@ public class QuotientsTable {
 		ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);
 		builder.append("numberOfSeats", this.numberOfSeats);
 		builder.append("candidates", this.candidates);
-		builder.append("quotientsTable", this.quotientsTable);
+		builder.append("quotientsMap", this.quotientsMap);
 		return builder.build();
 	}
 }

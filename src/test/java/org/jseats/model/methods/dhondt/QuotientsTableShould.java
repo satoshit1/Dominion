@@ -6,16 +6,29 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 
 public class QuotientsTableShould {
 
-	private static final String CANDIDATE_NAME_BOOZE = "Booze";
+	protected static final String CANDIDATE_NAME_A = "A";
 
-	private static final String CANDIDATE_NAME_ROYALTY = "Royalty";
+	protected static final String CANDIDATE_NAME_B = "B";
 
-	private static final String CANDIDATE_NAME_ROCK = "Rock";
+	protected static final String CANDIDATE_NAME_C = "C";
 
-	private static final String CANDIDATE_NAME_POLITICS = "Politics";
+	protected static final String CANDIDATE_NAME_D = "D";
+
+	protected static final String CANDIDATE_NAME_E = "E";
+
+	protected static final String CANDIDATE_NAME_F = "F";
+
+	protected static final String CANDIDATE_NAME_G = "G";
 
 	@Test(expected = IllegalArgumentException.class)
 	public void fail_when_invalid_number_of_seats() {
@@ -35,16 +48,11 @@ public class QuotientsTableShould {
 
 	@Test
 	public void be_equal() {
-		Candidate booze = new Candidate(CANDIDATE_NAME_BOOZE, 30);
-		Candidate royalty = new Candidate(CANDIDATE_NAME_ROYALTY, 30);
-		Candidate rock = new Candidate(CANDIDATE_NAME_ROCK, 30);
-		Candidate politics = new Candidate(CANDIDATE_NAME_POLITICS, 30);
-
-		Tally tally = new Tally();
-		tally.addCandidate(booze);
-		tally.addCandidate(royalty);
-		tally.addCandidate(rock);
-		tally.addCandidate(politics);
+		Tally tally = getTallySheetWith(
+				new Candidate(CANDIDATE_NAME_A, 30),
+				new Candidate(CANDIDATE_NAME_B, 30),
+				new Candidate(CANDIDATE_NAME_C, 30),
+				new Candidate(CANDIDATE_NAME_D, 30));
 
 		QuotientsTable firstTable = QuotientsTable.from(5, tally);
 		QuotientsTable secondtable = QuotientsTable.from(5, tally);
@@ -59,12 +67,9 @@ public class QuotientsTableShould {
 
 	@Test
 	public void not_be_equal() {
-		Candidate booze = new Candidate(CANDIDATE_NAME_BOOZE, 40);
-		Candidate royalty = new Candidate(CANDIDATE_NAME_ROYALTY, 30);
-
-		Tally tally = new Tally();
-		tally.addCandidate(booze);
-		tally.addCandidate(royalty);
+		Tally tally = getTallySheetWith(
+				new Candidate(CANDIDATE_NAME_A, 30),
+				new Candidate(CANDIDATE_NAME_B, 30));
 
 		QuotientsTable firstTable = QuotientsTable.from(4, tally);
 		QuotientsTable secondtable = QuotientsTable.from(5, tally);
@@ -77,4 +82,39 @@ public class QuotientsTableShould {
 		Assert.assertNotEquals(firstTable, secondtable);
 	}
 
+	@Test
+	public void get_the_max_quotient() {
+		Candidate candidateA = new Candidate(CANDIDATE_NAME_A, 340_000);
+
+		Tally tally = getTallySheetWith(
+				candidateA,
+				new Candidate(CANDIDATE_NAME_B, 280_000),
+				new Candidate(CANDIDATE_NAME_C, 160_000),
+				new Candidate(CANDIDATE_NAME_D, 60_000),
+				new Candidate(CANDIDATE_NAME_E, 15_000));
+
+		QuotientsTable table = QuotientsTable.from(7, tally);
+		table.calculate();
+
+		Quotient expectedQuotient =  new Quotient(new BigDecimal("340000.00"));
+
+		Map.Entry<Quotient, List<Candidate>> result = table.getMaxQuotientEntry();
+
+		Assert.assertEquals(expectedQuotient, result.getKey());
+		Assert.assertEquals(candidateA, result.getValue().iterator().next());
+	}
+
+	protected Tally getTallySheetWith(Candidate... candidates) {
+		Tally tally = new Tally();
+		Arrays.asList(candidates).stream().forEach(tally::addCandidate);
+		return tally;
+	}
+
+	private TreeMap<Quotient, List<Candidate>> generateGoldenMaster() {
+		TreeMap<Quotient, List<Candidate>> quotientsMap = new TreeMap<>();
+
+		quotientsMap.put(new Quotient(new BigDecimal("1")), new ArrayList<>());
+
+		return quotientsMap;
+	}
 }

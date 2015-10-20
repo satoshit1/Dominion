@@ -17,7 +17,7 @@ public class Quotient implements Comparable<Quotient>{
 
 	private final BigDecimal value;
 
-	private Quotient(BigDecimal value) {
+	public Quotient(BigDecimal value) {
 		this.value = value;
 	}
 

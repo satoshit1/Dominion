@@ -30,10 +30,10 @@ public class DHondtExtendedShould extends DHondtShould {
 		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "5");
 		tally =
 				getTallySheetWith(
-						new Candidate(CANDIDATE_NAME_BOOZE, 400000000),
-						new Candidate(CANDIDATE_NAME_ROYALTY, 700000000),
-						new Candidate(CANDIDATE_NAME_ROCK, 300000000),
-						new Candidate(CANDIDATE_NAME_POLITICS, 200000000));
+						new Candidate(CANDIDATE_NAME_BOOZE, 400_000_000),
+						new Candidate(CANDIDATE_NAME_ROYALTY, 700_000_000),
+						new Candidate(CANDIDATE_NAME_ROCK, 300_000_000),
+						new Candidate(CANDIDATE_NAME_POLITICS, 200_000_000));
 
 		Result result = sut.process(tally, properties, new RandomTieBreaker());
 
