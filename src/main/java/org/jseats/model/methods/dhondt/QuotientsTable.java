@@ -3,15 +3,15 @@ package org.jseats.model.methods.dhondt;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.jseats.model.Candidate;
 import org.jseats.model.InmutableTally;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class QuotientsTable {
 
@@ -22,7 +22,7 @@ public class QuotientsTable {
 	private final int numberOfSeats;
 	private final List<Candidate> candidates;
 
-	Map<Quotient, Set<Candidate>> quotientsTable = new TreeMap<>();
+	Map<Quotient, List<Candidate>> quotientsTable = new TreeMap<>();
 
 	private QuotientsTable(int numberOfSeats, InmutableTally tally) {
 		this.numberOfSeats = numberOfSeats;
@@ -55,12 +55,13 @@ public class QuotientsTable {
 
 	private void addNewQuotient(Candidate candidate, double divisor) {
 		Quotient quotient = Quotient.from(candidate.getVotes(), divisor);
+		boolean added;
 
 		if (quotientsTable.containsKey(quotient)) {
-			quotientsTable.get(quotient).add(candidate);
+			added = quotientsTable.get(quotient).add(candidate);
 
 		} else {
-			Set<Candidate> candidateSet = new TreeSet<>();
+			List<Candidate> candidateSet = new ArrayList<>();
 			candidateSet.add(candidate);
 			quotientsTable.put(quotient, candidateSet);
 		}
@@ -96,5 +97,14 @@ public class QuotientsTable {
 		hcBuilder.append(this.quotientsTable);
 
 		return hcBuilder.toHashCode();
+	}
+
+	@Override
+	public String toString() {
+		ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);
+		builder.append("numberOfSeats", this.numberOfSeats);
+		builder.append("candidates", this.candidates);
+		builder.append("quotientsTable", this.quotientsTable);
+		return builder.build();
 	}
 }

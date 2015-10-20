@@ -1,6 +1,10 @@
 package org.jseats.model.methods.dhondt;
 
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import java.math.BigDecimal;
 
 public class Quotient implements Comparable<Quotient>{
@@ -53,11 +57,20 @@ public class Quotient implements Comparable<Quotient>{
 
 	@Override
 	public int hashCode() {
-		return value != null ? value.hashCode() : 0;
+		HashCodeBuilder hcBuilder = new HashCodeBuilder();
+		hcBuilder.append(this.value.doubleValue());
+		return hcBuilder.toHashCode();
 	}
 
 	@Override
 	public int compareTo(Quotient other) {
 		return this.value.compareTo(other.getValue());
+	}
+
+	@Override
+	public String toString() {
+		ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);
+		builder.append("value", this.value);
+		return builder.build();
 	}
 }

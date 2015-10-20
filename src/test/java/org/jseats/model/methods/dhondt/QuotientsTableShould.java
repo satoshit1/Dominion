@@ -13,6 +13,10 @@ public class QuotientsTableShould {
 
 	private static final String CANDIDATE_NAME_ROYALTY = "Royalty";
 
+	private static final String CANDIDATE_NAME_ROCK = "Rock";
+
+	private static final String CANDIDATE_NAME_POLITICS = "Politics";
+
 	@Test(expected = IllegalArgumentException.class)
 	public void fail_when_invalid_number_of_seats() {
 		Tally mockedTally = Mockito.mock(Tally.class);
@@ -33,10 +37,14 @@ public class QuotientsTableShould {
 	public void be_equal() {
 		Candidate booze = new Candidate(CANDIDATE_NAME_BOOZE, 30);
 		Candidate royalty = new Candidate(CANDIDATE_NAME_ROYALTY, 30);
+		Candidate rock = new Candidate(CANDIDATE_NAME_ROCK, 30);
+		Candidate politics = new Candidate(CANDIDATE_NAME_POLITICS, 30);
 
 		Tally tally = new Tally();
 		tally.addCandidate(booze);
 		tally.addCandidate(royalty);
+		tally.addCandidate(rock);
+		tally.addCandidate(politics);
 
 		QuotientsTable firstTable = QuotientsTable.from(5, tally);
 		QuotientsTable secondtable = QuotientsTable.from(5, tally);
