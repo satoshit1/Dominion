@@ -9,14 +9,19 @@
 
 package org.jseats.model.methods;
 
+import org.jseats.model.Candidate;
 import org.jseats.model.InmutableTally;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
+import org.jseats.model.methods.dhondt.Quotient;
+import org.jseats.model.methods.dhondt.QuotientsTable;
 import org.jseats.model.tie.TieBreaker;
 import org.jseats.model.tie.TieScenario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import static org.jseats.Properties.NUMBER_OF_SEATS;
@@ -39,114 +44,56 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 			throw new SeatAllocationException("This tally contains no candidates");
 		}
 
-		int numberOfSeats = getNumberOfSeats(properties, numberOfCandidates);
-		int[] seatsPerCandidate = new int[numberOfCandidates];
-		double[][] quotientPerRound = calculateQuotientsPerRound(tally, numberOfCandidates, numberOfSeats);
+		int remainingSeats = getNumberOfSeats(properties, numberOfCandidates);
+		QuotientsTable quotientsTable = QuotientsTable.from(remainingSeats, tally);
+		quotientsTable.calculate();
+		log.debug("Quotients table calculated: " + quotientsTable);
 
 		Result result = new Result(Result.ResultType.MULTIPLE);
 
-		boolean groupSeatsPerCandidate =
-				Boolean.parseBoolean(properties.getProperty("groupSeatsPerCandidate", "false"));
-		log.debug("groupSeatsPerCandidate: " + groupSeatsPerCandidate);
+		do  {
+			Map.Entry<Quotient, List<Candidate>> maxQuotientEntry = quotientsTable.getMaxQuotientEntry();
+			List<Candidate> possibleWinners = maxQuotientEntry.getValue();
 
-		int numberOfUnallocatedSeats = numberOfSeats;
+			if (possibleWinners.isEmpty()) {
+				throw new SeatAllocationException("There was a problem generating the quotients table: " + quotientsTable);
 
-		// Find max votes of the average table and add a seat to the appropriate
-		// candidate.
-		while (numberOfUnallocatedSeats > 0) {
-
-			int maxCandidate = -1;
-			int maxRound = -1;
-			double maxVotes = -1;
-
-			for (int round = 0; round < numberOfSeats; round++) {
-				for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
-
-					if (quotientPerRound[candidate][round] == maxVotes) {
-						logTie(tally, maxCandidate, candidate);
-						if (tieBreaker == null) {
-							return tieResult(tally, maxCandidate, candidate);
-						}
-						log.debug("Using tie breaker: " + tieBreaker.getName());
-
-						// Inputs Swapped, to natural matrix traversing order so it's coherent with maxVotes
-						TieScenario breakScenario =
-								tieBreaker.breakTie(tally.getCandidateAt(maxCandidate), tally.getCandidateAt(candidate));
-						if (breakScenario == null || breakScenario.isTied()) {
-							return tieResult(tally, maxCandidate, candidate);
-						}
-						maxCandidate = tally.getCandidateIndex(breakScenario.get(0));
-						// Bug #1 : that breaks logic? -> maxVotes = averagesPerRound[maxCandidate][round];
-						// Bug #2: maxRound setting is missing (important when clearing cell)
-						maxRound = (maxCandidate == candidate) ? round : maxRound;
-
-					} else if (quotientPerRound[candidate][round] > maxVotes) {
-						maxCandidate = candidate;
-						maxRound = round;
-						maxVotes = quotientPerRound[candidate][round];
-					}
+			} else if (possibleWinners.size() <= remainingSeats) {
+				for (Candidate winner: possibleWinners) {
+					result.addSeat(winner);
+					remainingSeats--;
 				}
-			}
+				quotientsTable.removeMaxQuotientEntry();
 
-			seatsPerCandidate[maxCandidate]++;
-
-			if (!groupSeatsPerCandidate) {
-				result.addSeat(tally.getCandidateAt(maxCandidate));
-			}
-
-			log.debug("Found maximum " + maxVotes + " at: " + tally.getCandidateAt(maxCandidate).getName() + " : " +
-					maxRound);
-
-			// Eliminate this maximum coordinates and iterate
-			quotientPerRound[maxCandidate][maxRound] = -2;
-			numberOfUnallocatedSeats--;
-		}
-
-		for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
-			log.trace(tally.getCandidateAt(candidate) + " has ended with " + seatsPerCandidate[candidate] + " seats.");
-		}
-
-		if (groupSeatsPerCandidate) {
-			// Time to spread allocated seats to results
-
-			log.trace("Grouping candidates");
-
-			for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
-				for (int seat = 0; seat < seatsPerCandidate[candidate]; seat++) {
-					result.addSeat(tally.getCandidateAt(candidate));
+			} else {
+				log.debug("Tie between: " + possibleWinners);
+				if (tieBreaker == null) {
+					return tieResult(possibleWinners);
 				}
+
+				log.debug("Using tie breaker: " + tieBreaker.getName());
+				TieScenario breakScenario =
+						tieBreaker.breakTie(possibleWinners.toArray(new Candidate[possibleWinners.size()]));
+
+				if (breakScenario == null || breakScenario.isTied()) {
+					return tieResult(possibleWinners);
+				}
+
+				Candidate winner = breakScenario.get(0);
+				result.addSeat(winner);
+				quotientsTable.removeCandidateFromMaxQuotient(winner);
+				remainingSeats--;
 			}
-		}
+
+		}while(remainingSeats > 0);
 
 		return result;
 	}
 
-	private void logTie(InmutableTally tally, int maxCandidate, int candidate) {
-		log.debug("Tie between  " + tally.getCandidateAt(maxCandidate) + " and " +
-				tally.getCandidateAt(candidate));
-	}
-
-	private Result tieResult(InmutableTally tally, int maxCandidate, int candidate) {
+	private Result tieResult(List<Candidate> tiedCandidates) {
 		Result tieResult = new Result(Result.ResultType.TIE);
-		tieResult.addSeat(tally.getCandidateAt(maxCandidate));
-		tieResult.addSeat(tally.getCandidateAt(candidate));
-
+		tiedCandidates.forEach((tiedCandidate) -> tieResult.addSeat(tiedCandidate));
 		return tieResult;
-	}
-
-	private double[][] calculateQuotientsPerRound(InmutableTally tally, int numberOfCandidates, int numberOfSeats) {
-		double[][] result = new double[numberOfCandidates][numberOfSeats];
-
-		for (int round = 0; round < numberOfSeats; round++){
-			double divisor = round + 1;
-			log.debug(round + " / " + divisor + " : ");
-
-			for (int candidate = 0; candidate < numberOfCandidates; candidate++) {
-				result[candidate][round] = (tally.getCandidateAt(candidate).getVotes() / divisor);
-				log.debug(String.format("%.2f", result[candidate][round]) + ",\t");
-			}
-		}
-		return result;
 	}
 
 	private int getNumberOfSeats(Properties properties, int numberOfCandidates) throws SeatAllocationException {

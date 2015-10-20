@@ -22,7 +22,7 @@ public class QuotientsTable {
 	private final int numberOfSeats;
 	private final List<Candidate> candidates;
 
-	Map<Quotient, List<Candidate>> quotientsTable = new TreeMap<>();
+	TreeMap<Quotient, List<Candidate>> quotientsTable = new TreeMap<>();
 
 	private QuotientsTable(int numberOfSeats, InmutableTally tally) {
 		this.numberOfSeats = numberOfSeats;
@@ -51,6 +51,19 @@ public class QuotientsTable {
 				addNewQuotient(candidate, divisor);
 			}
 		}
+	}
+
+	public Map.Entry<Quotient, List<Candidate>> getMaxQuotientEntry() {
+		return this.quotientsTable.lastEntry();
+	}
+
+	public Map.Entry<Quotient, List<Candidate>> removeMaxQuotientEntry() {
+		return this.quotientsTable.pollLastEntry();
+	}
+
+	public boolean removeCandidateFromMaxQuotient(Candidate candidate) {
+		Map.Entry<Quotient, List<Candidate>> maxQuotientEntry = this.quotientsTable.firstEntry();
+		return maxQuotientEntry.getValue().remove(candidate);
 	}
 
 	private void addNewQuotient(Candidate candidate, double divisor) {

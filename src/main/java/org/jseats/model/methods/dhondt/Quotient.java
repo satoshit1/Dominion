@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 public class Quotient implements Comparable<Quotient>{
 
-	private static final int MIN_DIVIDEND = 1;
+	private static final int MIN_DIVIDEND = 0;
 
 	private static final int MIN_DIVISOR = 1;
 

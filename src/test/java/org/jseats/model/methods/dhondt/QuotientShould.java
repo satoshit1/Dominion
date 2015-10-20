@@ -14,7 +14,7 @@ public class QuotientShould {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void fail_when_invalid_dividend() {
-		Quotient.from(0, 10.00d);
+		Quotient.from(-1, 10.00d);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
