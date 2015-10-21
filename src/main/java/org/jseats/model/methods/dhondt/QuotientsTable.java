@@ -74,7 +74,7 @@ public class QuotientsTable {
 	}
 
 	public boolean removeCandidateFromMaxQuotient(Candidate candidate) {
-		Map.Entry<Quotient, List<Candidate>> maxQuotientEntry = this.quotientsMap.firstEntry();
+		Map.Entry<Quotient, List<Candidate>> maxQuotientEntry = getMaxQuotientEntry();
 		return maxQuotientEntry.getValue().remove(candidate);
 	}
 
@@ -116,11 +116,9 @@ public class QuotientsTable {
 	@Override
 	public int hashCode() {
 		HashCodeBuilder hcBuilder = new HashCodeBuilder();
-
 		hcBuilder.append(this.numberOfSeats);
 		hcBuilder.append(this.candidates);
 		hcBuilder.append(this.quotientsMap);
-
 		return hcBuilder.toHashCode();
 	}
 
