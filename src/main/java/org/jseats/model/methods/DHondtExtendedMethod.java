@@ -72,8 +72,7 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 				}
 
 				log.debug("Using tie breaker: " + tieBreaker.getName());
-				TieScenario breakScenario =
-						tieBreaker.breakTie(possibleWinners.toArray(new Candidate[possibleWinners.size()]));
+				TieScenario breakScenario = tieBreaker.breakTie(possibleWinners);
 
 				if (breakScenario == null || breakScenario.isTied()) {
 					return tieResult(possibleWinners);
