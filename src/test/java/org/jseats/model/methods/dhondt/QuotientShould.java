@@ -34,4 +34,9 @@ public class QuotientShould {
 		Assert.assertFalse(Quotient.from(30, 3.00d).equals(Quotient.from(10, 3.00d)));
 	}
 
+	@Test
+	public void round() {
+		Assert.assertFalse(Quotient.from(8, 3.00d).equals(new Quotient(new BigDecimal("0.63"))));
+	}
+
 }

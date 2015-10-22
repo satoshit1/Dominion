@@ -15,8 +15,13 @@ public class Quotient implements Comparable<Quotient>{
 
 	private static final int NUMBER_OF_DECIMAL_DIGITS = 2;
 
+	private static final int ROUNDING_METHOD = BigDecimal.ROUND_HALF_UP;
+
 	private final BigDecimal value;
 
+	/**
+	 * This method is only used for Testing Purposes.
+	 */
 	public Quotient(BigDecimal value) {
 		this.value = value;
 	}
@@ -36,7 +41,7 @@ public class Quotient implements Comparable<Quotient>{
 
 		BigDecimal dividend = new BigDecimal(Integer.toString(rawDividend));
 		BigDecimal divisor = new BigDecimal(Double.toString(rawDivisor));
-		BigDecimal quotient = dividend.divide(divisor, NUMBER_OF_DECIMAL_DIGITS, BigDecimal.ROUND_HALF_EVEN);
+		BigDecimal quotient = dividend.divide(divisor, NUMBER_OF_DECIMAL_DIGITS, ROUNDING_METHOD);
 		return new Quotient(quotient);
 	}
 
