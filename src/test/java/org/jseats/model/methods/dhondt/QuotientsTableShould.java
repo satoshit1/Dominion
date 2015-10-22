@@ -76,14 +76,14 @@ public class QuotientsTableShould {
 				new Candidate(CANDIDATE_NAME_B, 30));
 
 		QuotientsTable firstTable = QuotientsTable.from(4, tally);
-		QuotientsTable secondtable = QuotientsTable.from(5, tally);
+		QuotientsTable secondTable = QuotientsTable.from(5, tally);
 
-		Assert.assertNotEquals(firstTable, secondtable);
+		Assert.assertNotEquals(firstTable, secondTable);
 
 		firstTable.calculate();
-		secondtable.calculate();
+		secondTable.calculate();
 
-		Assert.assertNotEquals(firstTable, secondtable);
+		Assert.assertNotEquals(firstTable, secondTable);
 	}
 
 	@Test
@@ -152,3 +152,4 @@ public class QuotientsTableShould {
 
 
 }
+
