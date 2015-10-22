@@ -44,7 +44,7 @@ public class Quotient implements Comparable<Quotient>{
 			throw new IllegalArgumentException("rawDivisor can not be less than " + MIN_DIVISOR);
 		}
 
-		BigDecimal dividend = new BigDecimal(Integer.toString(rawDividend));
+		BigDecimal dividend = new BigDecimal(rawDividend);
 		BigDecimal divisor = new BigDecimal(Double.toString(rawDivisor));
 		BigDecimal quotient = dividend.divide(divisor, NUMBER_OF_DECIMAL_DIGITS, ROUNDING_METHOD);
 		return new Quotient(quotient);
