@@ -7,6 +7,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents the quotient of an integer dividend and a double divisor.
+ * The value of the quotient is stored as BigDecimal with a precision of two
+ * decimals and a rounding method 'ROUND_HALF_UP'.
+ */
 public class Quotient implements Comparable<Quotient>{
 
 	private static final int MIN_DIVIDEND = 0;

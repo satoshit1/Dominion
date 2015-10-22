@@ -15,6 +15,11 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+/**
+ * Stores all possible quotients for a specified amount of seats and candidates.
+ * - Quotients are sorted in ascending order
+ * - Each quotient is map to a set of candidates sorted by name.
+ */
 public class QuotientsTable {
 
 	private static final int MIN_NUMBER_OF_SEATS_TO_ALLOCATE = 1;

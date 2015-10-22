@@ -1,12 +1,3 @@
-/**
- * $Id$
- *
- * @author alvgarcia
- * @date 19/10/2015 10:18
- * Copyright (C) 2015 Scytl Secure Electronic Voting SA
- * All rights reserved.
- */
-
 package org.jseats.model.methods;
 
 import org.jseats.model.Candidate;
@@ -28,6 +19,10 @@ import java.util.Set;
 
 import static org.jseats.Properties.NUMBER_OF_SEATS;
 
+/**
+ * Extends the original {@Link DHondtHighestAveragesMethod} method to allow ties of more that two candidates and
+ * only when 'possibleWinners.size() > remainingSeats'.
+ */
 public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 
 	static Logger log = LoggerFactory.getLogger(DHondtExtendedMethod.class);
