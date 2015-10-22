@@ -1,13 +1,12 @@
 package org.jseats;
 
-import java.util.HashMap;
-
 import org.jseats.model.ResultDecorator;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.TallyFilter;
 import org.jseats.model.methods.AbsoluteMajorityMethod;
 import org.jseats.model.methods.ByVotesRankMethod;
+import org.jseats.model.methods.DHondtExtendedMethod;
 import org.jseats.model.methods.DHondtHighestAveragesMethod;
 import org.jseats.model.methods.DanishHighestAveragesMethod;
 import org.jseats.model.methods.DroopLargestRemainderMethod;
@@ -31,6 +30,8 @@ import org.jseats.model.tie.MinorityTieBreaker;
 import org.jseats.model.tie.RandomTieBreaker;
 import org.jseats.model.tie.TieBreaker;
 
+import java.util.HashMap;
+
 public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 
 	HashMap<String, Class<? extends SeatAllocationMethod>> methods = new HashMap<>();
@@ -48,6 +49,7 @@ public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 		methods.put("Droop", DroopLargestRemainderMethod.class);
 		methods.put("Imperiali-lr", ImperialiLargestRemainderMethod.class);
 		methods.put("DHondt", DHondtHighestAveragesMethod.class);
+		methods.put("DHondt-extended", DHondtExtendedMethod.class);
 		methods.put("Sainte-Lague", SainteLagueHighestAveragesMethod.class);
 		methods.put("Imperiali-ha", DHondtHighestAveragesMethod.class);
 		methods.put("EqualProportions", EqualProportionsMethod.class);

@@ -1,14 +1,13 @@
 package org.jseats.model;
 
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.StringTokenizer;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
+import java.util.Iterator;
+import java.util.Objects;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Candidate implements Comparable<Candidate> {
@@ -92,7 +91,7 @@ public class Candidate implements Comparable<Candidate> {
 	}
 
 	public int compareTo(Candidate other) {
-		return other.votes - votes;
+		return name.compareToIgnoreCase(other.name);
 	}
 
 	@Override

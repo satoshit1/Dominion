@@ -1,10 +1,12 @@
 package org.jseats.unit;
 
-import static org.junit.Assert.*;
-
 import org.jseats.model.Candidate;
 import org.jseats.model.SeatAllocationException;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class CandidateModelTest {
 
@@ -64,5 +66,12 @@ public class CandidateModelTest {
 		candidate.setProperty("minority", null);
 		assertEquals("C:300:gender=man", candidate.toString());
 		assertTrue(candidate.propertyIs("gender", "man"));
+	}
+
+	@Test
+	public void compareTo(){
+		assertEquals(new Candidate("Booze", 100).compareTo(new Candidate("Politics", 100)), -14);
+		assertFalse(new Candidate("Booze", 100).equals(new Candidate("Politics", 100)));
+		assertTrue(new Candidate("Booze", 100).equals(new Candidate("Booze", 50)));
 	}
 }

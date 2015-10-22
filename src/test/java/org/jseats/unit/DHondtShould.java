@@ -10,18 +10,6 @@
  */
 package org.jseats.unit;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-
-import java.util.Arrays;
-import java.util.Properties;
-import java.util.Random;
-
 import org.jseats.model.Candidate;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
@@ -34,40 +22,56 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.Arrays;
+import java.util.Properties;
+import java.util.Random;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+
 public class DHondtShould {
 
-	private Tally tally;
+	protected Tally tally;
 
-	private Properties properties;
+	protected Properties properties;
 
-	private DHondtHighestAveragesMethod sut;
+	protected DHondtHighestAveragesMethod sut;
 
-	private static final String CANDIDATE_NAME_BOOZE = "Booze";
+	protected static final String CANDIDATE_NAME_BOOZE = "Booze";
 
-	private static final String CANDIDATE_NAME_ROYALTY = "Royalty";
+	protected static final String CANDIDATE_NAME_ROYALTY = "Royalty";
 
-	private static final String CANDIDATE_NAME_ROCK = "Rock";
+	protected static final String CANDIDATE_NAME_ROCK = "Rock";
 
-	private static final String CANDIDATE_NAME_POLITICS = "Politics";
+	protected static final String CANDIDATE_NAME_POLITICS = "Politics";
 
-	private static final String CANDIDATE_NAME_red = "Red";
+	protected static final String CANDIDATE_NAME_red = "Red";
 
-	private static final String CANDIDATE_NAME_green = "Green";
+	protected static final String CANDIDATE_NAME_green = "Green";
 
-	private static final String CANDIDATE_NAME_blue = "Blue";
+	protected static final String CANDIDATE_NAME_blue = "Blue";
 
-	private static final String CANDIDATE_NAME_purple = "Purple";
+	protected static final String CANDIDATE_NAME_purple = "Purple";
 
-	private static final String CANDIDATE_NAME_black = "Black";
+	protected static final String CANDIDATE_NAME_black = "Black";
 
-	private static final String CANDIDATE_NAME_yellow = "Yellow";
+	protected static final String CANDIDATE_NAME_yellow = "Yellow";
 
-	private static final String CANDIDATE_NAME_brown = "Brown";
+	protected static final String CANDIDATE_NAME_brown = "Brown";
 
 	@Before
 	public void setUp() {
 		tally = new Tally();
 		properties = new Properties();
+		setUpSut();
+	}
+
+	protected void setUpSut() {
 		sut = new DHondtHighestAveragesMethod();
 	}
 
@@ -176,7 +180,7 @@ public class DHondtShould {
 		return tieBreaker;
 	}
 
-	private Tally getTallySheetWith(Candidate... candidates) {
+	protected Tally getTallySheetWith(Candidate... candidates) {
 		Tally tally = new Tally();
 		Arrays.asList(candidates).stream().forEach(tally::addCandidate);
 		return tally;

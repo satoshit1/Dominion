@@ -18,7 +18,7 @@ public abstract class HighestAveragesMethod implements SeatAllocationMethod {
 
 	static Logger log = LoggerFactory.getLogger(HighestAveragesMethod.class);
 
-	public abstract double nextDivisor(int round);
+	protected abstract double nextDivisor(int round);
 
 	@Override
 	public Result process(InmutableTally tally, Properties properties, TieBreaker tieBreaker) throws SeatAllocationException {
