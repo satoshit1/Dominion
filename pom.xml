@@ -2,6 +2,12 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>com.scytl</groupId>
+        <artifactId>maven-generic-conf</artifactId>
+        <version>1.5.5</version>
+    </parent>
+
 	<groupId>org.jseats</groupId>
 	<artifactId>jseats</artifactId>
 	<version>1.0.1-RC12-SNAPSHOT</version>
