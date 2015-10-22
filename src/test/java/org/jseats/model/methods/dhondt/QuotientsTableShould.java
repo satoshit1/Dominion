@@ -1,17 +1,21 @@
 package org.jseats.model.methods.dhondt;
 
+import com.scytl.consolidation.utils.RCCSVParser;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.jseats.model.Candidate;
 import org.jseats.model.Tally;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.Set;
 
 
 public class QuotientsTableShould {
@@ -98,10 +102,46 @@ public class QuotientsTableShould {
 
 		Quotient expectedQuotient =  new Quotient(new BigDecimal("340000.00"));
 
-		Map.Entry<Quotient, List<Candidate>> result = table.getMaxQuotientEntry();
+		Map.Entry<Quotient, Set<Candidate>> result = table.getMaxQuotientEntry();
 
 		Assert.assertEquals(expectedQuotient, result.getKey());
 		Assert.assertEquals(candidateA, result.getValue().iterator().next());
+	}
+
+	@Test
+	public void be_equal_to_golden_master() throws IOException {
+
+		Tally tally = getTallySheetWith(
+				new Candidate("A0", 800),
+				new Candidate("A1", 1000),
+				new Candidate("A2", 500),
+				new Candidate("A3", 300),
+				new Candidate("A4", 30),
+				new Candidate("A5", 20),
+				new Candidate("A6", 5),
+				new Candidate("A7", 700),
+				new Candidate("A8", 400),
+				new Candidate("A9", 600));
+
+		QuotientsTable goldenMasterTable = QuotientsTable.from(10, tally);
+
+		RCCSVParser rccsvParser = new RCCSVParser(',');
+		CSVParser csvParser = rccsvParser.getCSVParser(
+				new File("src/test/resources/quotients-map-golden-master.csv"));
+
+		final Iterator<CSVRecord> iterator = csvParser.iterator();
+
+		while (iterator.hasNext()) {
+			final CSVRecord row = iterator.next();
+			goldenMasterTable.addNewQuotient(
+					new Quotient(new BigDecimal(row.get(2))),
+					new Candidate(row.get(0), Integer.parseInt(row.get(3))));
+		}
+
+		QuotientsTable calculatedTable = QuotientsTable.from(10, tally);
+		calculatedTable.calculate();
+
+		Assert.assertEquals(goldenMasterTable, calculatedTable);
 	}
 
 	protected Tally getTallySheetWith(Candidate... candidates) {
@@ -110,11 +150,5 @@ public class QuotientsTableShould {
 		return tally;
 	}
 
-	private TreeMap<Quotient, List<Candidate>> generateGoldenMaster() {
-		TreeMap<Quotient, List<Candidate>> quotientsMap = new TreeMap<>();
 
-		quotientsMap.put(new Quotient(new BigDecimal("1")), new ArrayList<>());
-
-		return quotientsMap;
-	}
 }

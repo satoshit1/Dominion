@@ -20,9 +20,11 @@ import org.jseats.model.tie.TieScenario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import static org.jseats.Properties.NUMBER_OF_SEATS;
 
@@ -52,8 +54,8 @@ public class DHondtExtendedMethod extends DHondtHighestAveragesMethod {
 		Result result = new Result(Result.ResultType.MULTIPLE);
 
 		do  {
-			Map.Entry<Quotient, List<Candidate>> maxQuotientEntry = quotientsTable.getMaxQuotientEntry();
-			List<Candidate> possibleWinners = maxQuotientEntry.getValue();
+			Map.Entry<Quotient, Set<Candidate>> maxQuotientEntry = quotientsTable.getMaxQuotientEntry();
+			List<Candidate> possibleWinners = new ArrayList<>(maxQuotientEntry.getValue());
 
 			if (possibleWinners.isEmpty()) {
 				throw new SeatAllocationException("There was a problem generating the quotients table: " + quotientsTable);
