@@ -44,10 +44,24 @@ public class Quotient implements Comparable<Quotient>{
 			throw new IllegalArgumentException("rawDivisor can not be less than " + MIN_DIVISOR);
 		}
 
-		BigDecimal dividend = new BigDecimal(Integer.toString(rawDividend));
-		BigDecimal divisor = new BigDecimal(Double.toString(rawDivisor));
+		BigDecimal dividend = new BigDecimal(rawDividend);
+		BigDecimal divisor = createFrom(rawDivisor);
+
 		BigDecimal quotient = dividend.divide(divisor, NUMBER_OF_DECIMAL_DIGITS, ROUNDING_METHOD);
 		return new Quotient(quotient);
+	}
+
+	/** Reliably creates a BigDecimal from a double
+	 *
+	 * The best way of doing it is double->string->bigDecimal.
+	 */
+	private static BigDecimal createFrom(double rawDivisor) {
+		// See this snippet as an example
+		// double i = (double)1/(double)3;
+		// BigDecimal st= new BigDecimal(Double.toString(i));
+		// BigDecimal direct = new BigDecimal(i);
+		// st.equals(direct);
+		return new BigDecimal(Double.toString(rawDivisor));
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package org.jseats.model.methods.dhondt;
 
+import static org.junit.Assert.*;
+
 import com.scytl.consolidation.utils.RCCSVParser;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -61,12 +63,12 @@ public class QuotientsTableShould {
 		QuotientsTable firstTable = QuotientsTable.from(5, tally);
 		QuotientsTable secondtable = QuotientsTable.from(5, tally);
 
-		Assert.assertEquals(firstTable, secondtable);
+		assertEquals(firstTable, secondtable);
 
 		firstTable.calculate();
 		secondtable.calculate();
 
-		Assert.assertEquals(firstTable, secondtable);
+		assertEquals(firstTable, secondtable);
 	}
 
 	@Test
@@ -76,14 +78,14 @@ public class QuotientsTableShould {
 				new Candidate(CANDIDATE_NAME_B, 30));
 
 		QuotientsTable firstTable = QuotientsTable.from(4, tally);
-		QuotientsTable secondtable = QuotientsTable.from(5, tally);
+		QuotientsTable secondTable = QuotientsTable.from(5, tally);
 
-		Assert.assertNotEquals(firstTable, secondtable);
+		assertNotEquals(firstTable, secondTable);
 
 		firstTable.calculate();
-		secondtable.calculate();
+		secondTable.calculate();
 
-		Assert.assertNotEquals(firstTable, secondtable);
+		assertNotEquals(firstTable, secondTable);
 	}
 
 	@Test
@@ -104,8 +106,8 @@ public class QuotientsTableShould {
 
 		Map.Entry<Quotient, Set<Candidate>> result = table.getMaxQuotientEntry();
 
-		Assert.assertEquals(expectedQuotient, result.getKey());
-		Assert.assertEquals(candidateA, result.getValue().iterator().next());
+		assertEquals(expectedQuotient, result.getKey());
+		assertEquals(candidateA, result.getValue().iterator().next());
 	}
 
 	@Test
@@ -141,7 +143,7 @@ public class QuotientsTableShould {
 		QuotientsTable calculatedTable = QuotientsTable.from(10, tally);
 		calculatedTable.calculate();
 
-		Assert.assertEquals(goldenMasterTable, calculatedTable);
+		assertEquals(goldenMasterTable, calculatedTable);
 	}
 
 	protected Tally getTallySheetWith(Candidate... candidates) {
@@ -152,3 +154,4 @@ public class QuotientsTableShould {
 
 
 }
+
