@@ -5,6 +5,7 @@ import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.TallyFilter;
 import org.jseats.model.methods.AbsoluteMajorityMethod;
+import org.jseats.model.methods.ByVotesRankExtendedMethod;
 import org.jseats.model.methods.ByVotesRankMethod;
 import org.jseats.model.methods.DHondtExtendedMethod;
 import org.jseats.model.methods.DHondtHighestAveragesMethod;
@@ -55,6 +56,7 @@ public class SeatAllocatorDefaultResolver implements SeatAllocatorResolver {
 		methods.put("EqualProportions", EqualProportionsMethod.class);
 		methods.put("Danish", DanishHighestAveragesMethod.class);
 		methods.put("RankByVotes", ByVotesRankMethod.class);
+		methods.put("RankByVotes-extended", ByVotesRankExtendedMethod.class);
 
 		filters.put("RemoveCandidatesBelow", RemoveCandidatesBelow.class);
 		filters.put("NullTallyFilter", NullTallyFilter.class);
