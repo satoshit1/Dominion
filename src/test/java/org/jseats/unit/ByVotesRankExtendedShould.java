@@ -18,11 +18,16 @@ import org.jseats.model.methods.by.votes.rank.ByVotesRankExtendedMethod;
 import org.jseats.model.tie.MaxVotesTieBreaker;
 import org.jseats.model.tie.RandomTieBreaker;
 import org.jseats.model.tie.TieBreaker;
+import org.jseats.model.tie.TieScenario;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 
@@ -35,8 +40,32 @@ import static org.mockito.Mockito.mock;
 
 public class ByVotesRankExtendedShould {
 
+	private static final String CANDIDATE_NAME_A = "AAAA";
+
+	private static final String CANDIDATE_NAME_B = "BBBB";
+
+	private static final String CANDIDATE_NAME_C = "CCCC";
+
+	private static final String CANDIDATE_NAME_D = "DDDD";
+
+	private static final String CANDIDATE_NAME_E = "EEEE";
+
+	private static final String CANDIDATE_NAME_F = "FFFF";
+
+	private static final String CANDIDATE_NAME_G = "GGGG";
+
+	private static final String CANDIDATE_NAME_H = "HHHH";
+
+	private static final String CANDIDATE_NAME_I = "IIII";
+
+	private static final String CANDIDATE_NAME_J = "JJJJ";
+
+	private static final String CANDIDATE_NAME_K = "KKKK";
+
 	ByVotesRankExtendedMethod sut = new ByVotesRankExtendedMethod();
+
 	private Tally tally;
+
 	private Properties properties;
 
 	@Before
@@ -166,6 +195,106 @@ public class ByVotesRankExtendedShould {
 		Result result = sut.process(tally, properties, new MaxVotesTieBreaker());
 		assertEquals(tally.getNumberOfCandidates(), result.getNumerOfSeats());
 		assertThat(result.getSeatAt(0), equalTo(candidateA));
+	}
+
+	@Test
+	public void support_ties_of_n_candidates_v1() throws SeatAllocationException {
+		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "1");
+		tally =
+				getTallySheetWith(
+						new Candidate(CANDIDATE_NAME_D, 100),
+						new Candidate(CANDIDATE_NAME_C, 100),
+						new Candidate(CANDIDATE_NAME_A, 100),
+						new Candidate(CANDIDATE_NAME_B, 100));
+
+		Result expectedResult = new Result(Result.ResultType.TIE);
+		expectedResult.addSeat(new Candidate(CANDIDATE_NAME_A, 100));
+		expectedResult.addSeat(new Candidate(CANDIDATE_NAME_B, 100));
+		expectedResult.addSeat(new Candidate(CANDIDATE_NAME_C, 100));
+		expectedResult.addSeat(new Candidate(CANDIDATE_NAME_D, 100));
+
+		Result result = sut.process(tally, properties, null);
+
+		assertEquals(Result.ResultType.TIE, result.getType());
+		assertEquals(expectedResult.getSeats(), result.getSeats());
+	}
+
+	@Test
+	public void support_ties_of_n_candidates_v2() throws SeatAllocationException {
+		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "1");
+		tally =
+				getTallySheetWith(
+						new Candidate(CANDIDATE_NAME_D, 200),
+						new Candidate(CANDIDATE_NAME_C, 100),
+						new Candidate(CANDIDATE_NAME_A, 100),
+						new Candidate(CANDIDATE_NAME_B, 100));
+
+		Result expectedResult = new Result(Result.ResultType.MULTIPLE);
+		expectedResult.addSeat(new Candidate(CANDIDATE_NAME_D, 100));
+
+		Result result = sut.process(tally, properties, null);
+
+		assertEquals(Result.ResultType.MULTIPLE, result.getType());
+		assertEquals(expectedResult.getSeats(), result.getSeats());
+	}
+
+	@Test
+	public void support_ties_of_n_candidates_v3() throws SeatAllocationException {
+		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "2");
+		tally =
+				getTallySheetWith(
+						new Candidate(CANDIDATE_NAME_D, 200),
+						new Candidate(CANDIDATE_NAME_C, 100),
+						new Candidate(CANDIDATE_NAME_A, 100),
+						new Candidate(CANDIDATE_NAME_B, 100));
+
+		Result expectedResult = new Result(Result.ResultType.TIE);
+		expectedResult.addSeat(new Candidate(CANDIDATE_NAME_A, 100));
+		expectedResult.addSeat(new Candidate(CANDIDATE_NAME_B, 100));
+		expectedResult.addSeat(new Candidate(CANDIDATE_NAME_C, 100));
+
+		Result result = sut.process(tally, properties, null);
+
+		assertEquals(Result.ResultType.TIE, result.getType());
+		assertEquals(expectedResult.getSeats(), result.getSeats());
+	}
+
+	@Test
+	public void support_ties_of_n_candidates_v4() throws SeatAllocationException {
+		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "3");
+		tally =
+				getTallySheetWith(
+						new Candidate(CANDIDATE_NAME_D, 150),
+						new Candidate(CANDIDATE_NAME_B, 100),
+						new Candidate(CANDIDATE_NAME_C, 100),
+						new Candidate(CANDIDATE_NAME_A, 100));
+
+		TieBreaker mockedTieBreaker = Mockito.mock(TieBreaker.class);
+		List<Candidate> mockedTiedCandidates = new ArrayList<>();
+		mockedTiedCandidates.add(new Candidate(CANDIDATE_NAME_A, 100));
+		mockedTiedCandidates.add(new Candidate(CANDIDATE_NAME_B, 100));
+		mockedTiedCandidates.add(new Candidate(CANDIDATE_NAME_C, 100));
+
+		List<Candidate> mockedWinners = new ArrayList<>();
+		mockedWinners.add(new Candidate(CANDIDATE_NAME_C, 100));
+
+		doReturn(new TieScenario(mockedWinners, true))
+				.when(mockedTieBreaker).breakTie(mockedTiedCandidates);
+
+		Result expectedResult = new Result(Result.ResultType.TIE);
+		expectedResult.addSeat(new Candidate(CANDIDATE_NAME_A, 100));
+		expectedResult.addSeat(new Candidate(CANDIDATE_NAME_B, 100));
+
+		Result result = sut.process(tally, properties, mockedTieBreaker);
+
+		assertEquals(Result.ResultType.TIE, result.getType());
+		assertEquals(expectedResult.getSeats(), result.getSeats());
+	}
+
+	private Tally getTallySheetWith(Candidate... candidates) {
+		Tally tally = new Tally();
+		Arrays.asList(candidates).stream().forEach(tally::addCandidate);
+		return tally;
 	}
 
 }
