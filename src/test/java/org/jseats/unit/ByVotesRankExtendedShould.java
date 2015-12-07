@@ -14,7 +14,7 @@ import org.jseats.model.Candidate;
 import org.jseats.model.Result;
 import org.jseats.model.SeatAllocationException;
 import org.jseats.model.Tally;
-import org.jseats.model.methods.ByVotesRankExtendedMethod;
+import org.jseats.model.methods.by.votes.rank.ByVotesRankExtendedMethod;
 import org.jseats.model.tie.MaxVotesTieBreaker;
 import org.jseats.model.tie.RandomTieBreaker;
 import org.jseats.model.tie.TieBreaker;
@@ -114,7 +114,7 @@ public class ByVotesRankExtendedShould {
 		Candidate candidateF = new Candidate("candidateF", 10);
 		properties.put(org.jseats.Properties.NUMBER_OF_SEATS, "1");
 		RandomTieBreaker tieBreaker = new RandomTieBreaker();
-		tieBreaker.injectRandom(new Random(1));
+		tieBreaker.injectRandom(new Random(5));
 		tally.addCandidate(new Candidate("candidateA", 10));
 		tally.addCandidate(new Candidate("candidateB", 10));
 		tally.addCandidate(new Candidate("candidateC", 10));

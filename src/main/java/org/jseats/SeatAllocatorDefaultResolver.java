@@ -5,7 +5,7 @@ import org.jseats.model.SeatAllocationException;
 import org.jseats.model.SeatAllocationMethod;
 import org.jseats.model.TallyFilter;
 import org.jseats.model.methods.AbsoluteMajorityMethod;
-import org.jseats.model.methods.ByVotesRankExtendedMethod;
+import org.jseats.model.methods.by.votes.rank.ByVotesRankExtendedMethod;
 import org.jseats.model.methods.ByVotesRankMethod;
 import org.jseats.model.methods.DHondtExtendedMethod;
 import org.jseats.model.methods.DHondtHighestAveragesMethod;
